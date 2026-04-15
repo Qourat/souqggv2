@@ -2,26 +2,31 @@
 set -e
 
 LOGFILE=/var/www/souq_v2/deploy.log
-echo "[$(date)] Deploy started" >> $LOGFILE
-
+BRANCH="master"
 cd /var/www/souq_v2
 
-# Pull latest from GitHub
-echo "[$(date)] Pulling latest..." >> $LOGFILE
-git pull origin master 2>&1 >> $LOGFILE
+echo "[$(date)] ===== Deploy started =====" >> $LOGFILE
 
-# Install dependencies if needed
-if git diff --name-only HEAD@{1} HEAD | grep -q "package.json\|package-lock.json"; then
-    echo "[$(date)] Installing dependencies..." >> $LOGFILE
+# Stash any local changes just in case
+git stash --quiet 2>/dev/null || true
+
+# Pull latest from GitHub
+echo "[$(date)] Pulling latest from origin/$BRANCH..." >> $LOGFILE
+git pull origin $BRANCH 2>&1 >> $LOGFILE
+
+# Check if package.json or package-lock.json changed
+CHANGED=$(git diff --name-only HEAD@{1} HEAD 2>/dev/null | grep -E "package" || true)
+if [ -n "$CHANGED" ]; then
+    echo "[$(date)] Dependencies changed, running npm ci..." >> $LOGFILE
     npm ci 2>&1 >> $LOGFILE
 fi
 
 # Build
-echo "[$(date)] Building..." >> $LOGFILE
+echo "[$(date)] Building Next.js..." >> $LOGFILE
 npm run build 2>&1 >> $LOGFILE
 
 # Restart PM2
-echo "[$(date)] Restarting PM2..." >> $LOGFILE
+echo "[$(date)] Restarting souq-v2..." >> $LOGFILE
 pm2 restart souq-v2 2>&1 >> $LOGFILE
 
-echo "[$(date)] Deploy complete!" >> $LOGFILE
+echo "[$(date)] ===== Deploy complete =====" >> $LOGFILE
