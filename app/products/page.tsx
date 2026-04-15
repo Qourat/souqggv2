@@ -1,7 +1,11 @@
 import Link from 'next/link';
-import postgres from 'postgres';
+import { sql } from '@/lib/db';
 
-const sql = postgres(process.env.DATABASE_URL || 'postgres://souq_user:souq123@localhost:5432/souq');
+const SORT_ORDER: Record<string, string> = {
+  newest: 'p.created_at DESC',
+  popular: 'p.upvotes DESC',
+  price_low: 'p.price_cents ASC',
+};
 
 function timeAgo(date: string | Date) {
   const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
@@ -21,20 +25,13 @@ function formatPrice(cents: number, type: string) {
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: { category?: string; sort?: string; q?: string };
+  searchParams: Promise<{ category?: string; sort?: string; q?: string }>;
 }) {
-  const category = searchParams.category;
-  const sort = searchParams.sort || 'newest';
-  const search = searchParams.q;
+  const { category, sort: sortRaw, q: search } = await searchParams;
+  const sort = sortRaw || 'newest';
+  const orderBy = SORT_ORDER[sort] ?? SORT_ORDER.newest;
 
-  let orderBy = 'p.created_at DESC';
-  if (sort === 'popular') orderBy = 'p.upvotes DESC';
-  if (sort === 'price_low') orderBy = 'p.price_cents ASC';
-
-  const categoryFilter = category ? ` AND c.slug = '${category.replace(/'/g, "''")}'` : '';
-  const searchFilter = search ? ` AND (p.title ILIKE '%${search.replace(/'/g, "''")}%')` : '';
-
-  const products = await sql.unsafe(`
+  const products = await sql`
     SELECT p.id, p.title, p.slug, p.price_cents, p.pricing_type, p.product_type,
            p.upvotes, p.created_at, p.tags,
            c.slug as category_slug, c.name as category_name,
@@ -42,10 +39,12 @@ export default async function ProductsPage({
     FROM products p
     LEFT JOIN categories c ON p.category_id = c.id
     LEFT JOIN profiles pr ON p.seller_id = pr.id
-    WHERE p.status = 'active' ${categoryFilter} ${searchFilter}
-    ORDER BY ${orderBy}
+    WHERE p.status = 'active'
+    ${category ? sql` AND c.slug = ${category}` : sql``}
+    ${search ? sql` AND p.title ILIKE ${'%' + search + '%'}` : sql``}
+    ORDER BY ${sql.unsafe(orderBy)}
     LIMIT 50
-  `);
+  `;
 
   const categories = await sql`SELECT slug, name FROM categories ORDER BY sort_order`;
 
@@ -54,7 +53,7 @@ export default async function ProductsPage({
       {/* Sub navigation */}
       <div className="flex gap-2 py-1 px-1 text-xs border-b border-gray-200 mb-1">
         <Link href="/products" className={!category ? 'font-bold' : 'text-gray-600 hover:underline'}>all</Link>
-        {categories.map((c: any) => (
+        {categories.map((c: { slug: string; name: string }) => (
           <Link key={c.slug} href={`/products?category=${c.slug}`}
             className={category === c.slug ? 'font-bold' : 'text-gray-600 hover:underline'}>
             {c.name}
@@ -65,7 +64,7 @@ export default async function ProductsPage({
       {/* Sort options */}
       <div className="flex gap-2 py-1 px-1 text-xs text-gray-500">
         <span>sort:</span>
-        {['newest', 'popular', 'price_low'].map(s => (
+        {(['newest', 'popular', 'price_low'] as const).map(s => (
           <Link key={s} href={`/products?category=${category || ''}&sort=${s}`}
             className={sort === s ? 'font-bold text-black' : 'hover:underline'}>
             {s === 'price_low' ? 'price' : s}
@@ -76,12 +75,24 @@ export default async function ProductsPage({
       {/* Product feed — HN style */}
       <table className="w-full text-sm">
         <tbody>
-          {products.map((p: any, i: number) => (
+          {products.map((p: {
+            id: string;
+            title: string;
+            slug: string;
+            price_cents: number;
+            pricing_type: string;
+            product_type: string;
+            upvotes: number;
+            created_at: string;
+            tags: string[] | null;
+            category_name: string | null;
+            seller_name: string | null;
+          }, i: number) => (
             <tr key={p.id} className="border-b border-gray-100">
               <td align="right" className="py-1 pr-1 text-gray-400 text-xs w-8">{i + 1}.</td>
               <td className="py-1">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-orange-500 text-xs cursor-pointer">▲</span>
+                  <span className="text-orange-500 text-xs cursor-pointer">{'\u25B2'}</span>
                   <Link href={`/products/${p.slug}`} className="text-black hover:underline font-medium">
                     {p.title}
                   </Link>
@@ -99,7 +110,7 @@ export default async function ProductsPage({
                   <span>{timeAgo(p.created_at)}</span>
                   {p.tags && p.tags.length > 0 && (
                     <span> · {p.tags.map((t: string) => (
-                      <Link key={t} href={`/products?q=${t}`} className="text-blue-500 hover:underline mr-1">
+                      <Link key={t} href={`/products?q=${encodeURIComponent(t)}`} className="text-blue-500 hover:underline mr-1">
                         {t}
                       </Link>
                     ))}</span>

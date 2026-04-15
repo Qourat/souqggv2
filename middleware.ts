@@ -7,24 +7,14 @@ if (!SECRET) {
 }
 const encodedSecret = new TextEncoder().encode(SECRET);
 
-// Paths that don't require authentication
-const PUBLIC_PATHS = [
-  '/',
-  '/login',
-  '/signup',
-  '/categories',
-  '/search',
-  '/product',
-  '/onboarding',
-  '/tos',
-];
+// Unlisted routes default to public (pages) or are gated in the /api/ block below.
 
 // Paths that require authentication but any role
 const AUTH_ONLY_PATHS = [
   '/submit',
   '/seller',
   '/purchases',
-  '/agent-keys',
+  '/agent/keys',
   '/settings',
   '/api/role-upgrade',  // any authenticated user can upgrade to seller
   '/api/agent-keys',    // any authenticated user can manage their own keys
