@@ -127,8 +127,68 @@ a:hover { text-decoration: underline; color: var(--link-hover); }
 }
 .dropdown-menu a:hover { background: #f0f0e8; color: var(--link-hover); text-decoration: none; }
 
+/* product page layout */
+.product-layout {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+  align-items: flex-start;
+}
+.product-main {
+  flex: 1;
+  min-width: 0;
+}
+.product-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+}
+
+/* mobile buy bar - hidden on desktop */
+.mobile-buy-bar { display: none; }
+/* desktop buy buttons - shown on desktop */
+.desktop-buy-bar { display: block; }
+
 /* mobile */
 @media (max-width: 600px) {
   .retro-grid { grid-template-columns: 1fr; }
   body { font-size: 9pt; }
+
+  /* Stack product layout vertically on mobile */
+  .product-layout {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .product-sidebar {
+    width: 100%;
+    order: -1; /* sidebar (price) first on mobile */
+  }
+  /* Hide sidebar price card on mobile (mobile buy bar replaces it) */
+  .product-sidebar .retro-card:first-child {
+    display: none;
+  }
+  /* Show mobile sticky buy bar */
+  .mobile-buy-bar {
+    display: block;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+  /* Hide desktop buy buttons on mobile */
+  .desktop-buy-bar { display: none; }
+
+  /* Better touch targets */
+  .retro-btn {
+    padding: 6px 14px;
+    font-size: 9pt;
+  }
+  .retro-btn-secondary {
+    padding: 5px 14px;
+    font-size: 9pt;
+  }
+  .retro-upvote {
+    font-size: 10pt;
+    padding: 2px 4px;
+  }
 }
