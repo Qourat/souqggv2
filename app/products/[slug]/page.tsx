@@ -53,7 +53,7 @@ export default async function ProductDetailPage({
   return (
     <div className="max-w-4xl mx-auto px-4 py-4">
       {/* Breadcrumb */}
-      <div className="text-xs text-gray-500 mb-3">
+      <div className="text-xs text-souq-muted mb-3">
         <Link href="/" className="hover:underline">SOUQ</Link>
         <span> / </span>
         <Link href="/products" className="hover:underline">Products</Link>
@@ -66,15 +66,15 @@ export default async function ProductDetailPage({
           </>
         )}
         <span> / </span>
-        <span className="text-gray-700">{product.title}</span>
+        <span className="text-souq-text">{product.title}</span>
       </div>
 
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">{product.title}</h1>
-          <div className="flex items-center gap-3 mt-1 text-sm text-gray-500">
-            <span>by <span className="text-orange-600 font-medium">{product.seller_name || 'unknown'}</span></span>
+          <h1 className="text-xl font-bold text-souq-text">{product.title}</h1>
+          <div className="flex items-center gap-3 mt-1 text-sm text-souq-muted">
+            <span>by <span className="text-souq-terra font-medium">{product.seller_name || 'unknown'}</span></span>
             <span>·</span>
             <span>{product.sales_count} sales</span>
             <span>·</span>
@@ -82,9 +82,9 @@ export default async function ProductDetailPage({
           </div>
         </div>
         <div className="text-right">
-          <div className="text-2xl font-bold text-gray-900">{formatPrice(product.price_cents, product.pricing_type)}</div>
+          <div className="text-2xl font-bold text-souq-text">{formatPrice(product.price_cents, product.pricing_type)}</div>
           <form action={`/api/products/${product.id}/checkout`} method="POST">
-            <button type="submit" className="mt-2 px-4 py-1.5 bg-orange-500 text-white text-sm font-medium rounded hover:bg-orange-600">
+            <button type="submit" className="mt-2 px-4 py-1.5 bg-souq-terra text-white text-sm font-medium rounded hover:bg-souq-terra-hover">
               {product.price_cents === 0 ? 'Download Free' : product.pricing_type === 'pwyw' ? 'Get It' : 'Buy Now'}
             </button>
           </form>
@@ -93,7 +93,7 @@ export default async function ProductDetailPage({
 
       {/* Screenshot */}
       {product.screenshot_url && (
-        <div className="mb-4 border border-gray-200 rounded overflow-hidden">
+        <div className="mb-4 border border-souq-line rounded overflow-hidden">
           <img src={product.screenshot_url} alt={product.title} className="w-full" />
         </div>
       )}
@@ -102,27 +102,27 @@ export default async function ProductDetailPage({
       <div className="flex flex-wrap gap-2 mb-4 text-xs">
         {product.tags && product.tags.map((tag: string) => (
           <Link key={tag} href={`/products?q=${tag}`}
-            className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded hover:bg-gray-200">
+            className="px-2 py-0.5 bg-souq-raised text-souq-muted rounded hover:bg-souq-line">
             {tag}
           </Link>
         ))}
         <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded">{product.license_type}</span>
-        <span className="px-2 py-0.5 bg-gray-50 text-gray-500 rounded">v{product.version}</span>
-        <span className="px-2 py-0.5 bg-gray-50 text-gray-500 rounded">{product.product_type}</span>
+        <span className="px-2 py-0.5 bg-souq-raised text-souq-muted rounded">v{product.version}</span>
+        <span className="px-2 py-0.5 bg-souq-raised text-souq-muted rounded">{product.product_type}</span>
       </div>
 
       {/* Upvote */}
       <div className="flex items-center gap-2 mb-4">
         <form action={`/api/products/${product.id}/upvote`} method="POST">
-          <button type="submit" className="flex items-center gap-1 px-3 py-1 border border-gray-300 rounded text-sm hover:bg-orange-50 hover:border-orange-300">
-            <span className="text-orange-500">▲</span>
+          <button type="submit" className="flex items-center gap-1 px-3 py-1 border border-souq-border rounded text-sm hover:bg-souq-raised hover:border-souq-terra">
+            <span className="text-souq-terra">▲</span>
             <span className="font-medium">{product.upvotes}</span>
           </button>
         </form>
       </div>
 
       {/* Description */}
-      <div className="prose prose-sm max-w-none mb-6 text-gray-700 whitespace-pre-wrap">
+      <div className="prose prose-sm max-w-none mb-6 text-souq-text whitespace-pre-wrap">
         {product.description}
       </div>
 
@@ -139,8 +139,8 @@ export default async function ProductDetailPage({
       {/* Changelog */}
       {product.changelog && (
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-1">Changelog</h3>
-          <div className="text-sm text-gray-600 whitespace-pre-wrap bg-gray-50 p-3 rounded">
+          <h3 className="text-sm font-semibold text-souq-text mb-1">Changelog</h3>
+          <div className="text-sm text-souq-muted whitespace-pre-wrap bg-souq-raised p-3 rounded">
             {product.changelog}
           </div>
         </div>
@@ -149,16 +149,16 @@ export default async function ProductDetailPage({
       {/* Files */}
       {files.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-2">Files</h3>
-          <div className="border border-gray-200 rounded divide-y divide-gray-100">
+          <h3 className="text-sm font-semibold text-souq-text mb-2">Files</h3>
+          <div className="border border-souq-line rounded divide-y divide-souq-line">
             {files.map((f: any) => (
               <div key={f.id} className="flex items-center justify-between px-3 py-2 text-sm">
                 <div>
                   <span className="font-medium">v{f.version}</span>
-                  {f.file_size_bytes && <span className="text-gray-400 ml-2">({fileSizeMB(f.file_size_bytes)})</span>}
-                  {f.changelog && <span className="text-gray-500 ml-2">— {f.changelog}</span>}
+                  {f.file_size_bytes && <span className="text-souq-faint ml-2">({fileSizeMB(f.file_size_bytes)})</span>}
+                  {f.changelog && <span className="text-souq-muted ml-2">— {f.changelog}</span>}
                 </div>
-                <span className="text-xs text-gray-400">{timeAgo(f.created_at)}</span>
+                <span className="text-xs text-souq-faint">{timeAgo(f.created_at)}</span>
               </div>
             ))}
           </div>
@@ -166,8 +166,8 @@ export default async function ProductDetailPage({
       )}
 
       {/* Back */}
-      <div className="pt-4 border-t border-gray-200">
-        <Link href="/products" className="text-sm text-gray-500 hover:underline">← Back to products</Link>
+      <div className="pt-4 border-t border-souq-line">
+        <Link href="/products" className="text-sm text-souq-muted hover:underline">← Back to products</Link>
       </div>
     </div>
   );

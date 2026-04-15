@@ -144,14 +144,14 @@ export default function SubmitProductPage() {
     }
   };
 
-  const inputCls = "w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:border-orange-400";
-  const labelCls = "block text-sm font-medium text-gray-700 mb-0.5";
-  const selectCls = "w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:border-orange-400 bg-white";
+  const inputCls = "w-full px-2 py-1.5 border border-souq-border rounded text-sm focus:outline-none focus:border-souq-terra";
+  const labelCls = "block text-sm font-medium text-souq-text mb-0.5";
+  const selectCls = "w-full px-2 py-1.5 border border-souq-border rounded text-sm focus:outline-none focus:border-souq-terra bg-souq-card";
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
       <h1 className="text-lg font-bold mb-1">Submit a Product</h1>
-      <p className="text-xs text-gray-500 mb-4">List your digital product on SOUQ.GG</p>
+      <p className="text-xs text-souq-muted mb-4">List your digital product on SOUQ.GG</p>
 
       {error && <div className="mb-3 p-2 bg-red-50 border border-red-200 text-red-700 text-sm rounded">{error}</div>}
       {success && <div className="mb-3 p-2 bg-green-50 border border-green-200 text-green-700 text-sm rounded">{success}</div>}
@@ -178,7 +178,7 @@ export default function SubmitProductPage() {
             <input type="number" min="0" step="0.01" value={form.price_cents || ''} 
               onChange={e => setForm({...form, price_cents: parseFloat(e.target.value) || 0})}
               className={inputCls} placeholder="0 = free" />
-            <span className="text-xs text-gray-400">0 = free product</span>
+            <span className="text-xs text-souq-faint">0 = free product</span>
           </div>
           <div>
             <label className={labelCls}>Pricing</label>
@@ -233,7 +233,7 @@ export default function SubmitProductPage() {
           <label className={labelCls}>Tags</label>
           <input type="text" value={form.tags} onChange={e => setForm({...form, tags: e.target.value})}
             className={inputCls} placeholder="ai, automation, python" />
-          <span className="text-xs text-gray-400">Comma-separated</span>
+          <span className="text-xs text-souq-faint">Comma-separated</span>
         </div>
 
         {/* FILE UPLOAD */}
@@ -245,26 +245,26 @@ export default function SubmitProductPage() {
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
             className={`border-2 border-dashed rounded p-6 text-center transition-colors ${
-              dragOver ? 'border-orange-400 bg-orange-50' : 'border-gray-300 bg-gray-50 hover:border-gray-400'
+              dragOver ? 'border-souq-terra bg-souq-card' : 'border-souq-border bg-souq-raised hover:border-souq-muted'
             }`}
           >
             <div className="text-2xl mb-1">📦</div>
-            <p className="text-sm text-gray-600 mb-2">Drag & drop your file here, or</p>
-            <label className="inline-block px-3 py-1.5 bg-orange-500 text-white text-sm rounded cursor-pointer hover:bg-orange-600">
+            <p className="text-sm text-souq-muted mb-2">Drag & drop your file here, or</p>
+            <label className="inline-block px-3 py-1.5 bg-souq-terra text-white text-sm rounded cursor-pointer hover:bg-souq-terra-hover">
               Browse Files
               <input type="file" className="hidden" onChange={handleFileInput} 
                 accept=".zip,.tar.gz,.tgz,.pdf,.js,.ts,.py,.md,.json,.png,.jpg,.webp,.svg" />
             </label>
-            <p className="text-xs text-gray-400 mt-1">Max 100MB — zip, pdf, code, images</p>
+            <p className="text-xs text-souq-faint mt-1">Max 100MB — zip, pdf, code, images</p>
           </div>
 
           {/* Upload progress */}
           {uploadProgress > 0 && uploadProgress < 100 && (
             <div className="mt-2">
-              <div className="w-full bg-gray-200 rounded-full h-1.5">
-                <div className="bg-orange-500 rounded-full h-1.5 transition-all" style={{width: `${uploadProgress}%`}} />
+              <div className="w-full bg-souq-line rounded-full h-1.5">
+                <div className="bg-souq-terra rounded-full h-1.5 transition-all" style={{width: `${uploadProgress}%`}} />
               </div>
-              <p className="text-xs text-gray-500 mt-0.5">Uploading... {uploadProgress}%</p>
+              <p className="text-xs text-souq-muted mt-0.5">Uploading... {uploadProgress}%</p>
             </div>
           )}
 
@@ -272,10 +272,10 @@ export default function SubmitProductPage() {
           {uploadedFiles.length > 0 && (
             <div className="mt-3 space-y-1.5">
               {uploadedFiles.map((f, i) => (
-                <div key={i} className="flex items-center justify-between bg-gray-50 border rounded px-3 py-2 text-sm">
+                <div key={i} className="flex items-center justify-between bg-souq-raised border rounded px-3 py-2 text-sm">
                   <div className="flex-1 min-w-0">
-                    <span className="font-medium text-gray-700 truncate block">{f.fileName}</span>
-                    <span className="text-xs text-gray-400">{(f.fileSize / 1024).toFixed(1)} KB · v{f.version}</span>
+                    <span className="font-medium text-souq-text truncate block">{f.fileName}</span>
+                    <span className="text-xs text-souq-faint">{(f.fileSize / 1024).toFixed(1)} KB · v{f.version}</span>
                   </div>
                   <button type="button" onClick={() => removeFile(i)} 
                     className="text-red-400 hover:text-red-600 text-sm ml-2">✕</button>
@@ -287,7 +287,7 @@ export default function SubmitProductPage() {
           {/* Or paste a URL */}
           {uploadedFiles.length === 0 && (
             <div className="mt-2">
-              <label className="text-xs text-gray-500">Or paste a file URL:</label>
+              <label className="text-xs text-souq-muted">Or paste a file URL:</label>
               <input type="url" value={form.file_url} onChange={e => setForm({...form, file_url: e.target.value})}
                 className={inputCls} placeholder="https://..." />
             </div>
@@ -334,7 +334,7 @@ export default function SubmitProductPage() {
         {/* Submit */}
         <div className="pt-2">
           <button type="submit" disabled={loading}
-            className="w-full py-2 bg-orange-500 text-white font-medium rounded hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-sm">
+            className="w-full py-2 bg-souq-terra text-white font-medium rounded hover:bg-souq-terra-hover disabled:opacity-50 disabled:cursor-not-allowed text-sm">
             {loading ? 'Creating...' : 'Submit Product'}
           </button>
         </div>

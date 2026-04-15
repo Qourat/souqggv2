@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { sql } from "@/lib/db";
+import AdminShellBar from "@/app/components/AdminShellBar";
 
 
 export const revalidate = 30;
@@ -16,27 +17,38 @@ export default async function AdminUsersPage() {
   const users = await getUsers();
 
   return (
-    <div className="min-h-screen bg-[#f6f6ef] font-sans text-black">
-      <nav className="bg-[#ff6600] px-3 py-1.5 flex items-center gap-2 text-sm font-bold text-black overflow-x-auto whitespace-nowrap border-b border-[#e55c00]">
-        <Link href="/" className="text-lg mr-2">SOUQ.GG</Link>
-        <div className="ml-auto flex items-center gap-3 text-xs">
-          <Link href="/admin" className="hover:underline">Dashboard</Link>
-          <Link href="/admin/users" className="hover:underline font-bold">Users</Link>
-          <Link href="/admin/products" className="hover:underline">Products</Link>
-          <Link href="/admin/analytics" className="hover:underline">Analytics</Link>
-          <Link href="/admin/config" className="hover:underline">Config</Link>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-souq-base font-sans text-souq-text">
+      <AdminShellBar
+        end={
+          <>
+            <Link href="/admin" className="hover:underline text-xs">
+              Dashboard
+            </Link>
+            <Link href="/admin/users" className="hover:underline font-bold text-xs">
+              Users
+            </Link>
+            <Link href="/admin/products" className="hover:underline text-xs">
+              Products
+            </Link>
+            <Link href="/admin/analytics" className="hover:underline text-xs">
+              Analytics
+            </Link>
+            <Link href="/admin/config" className="hover:underline text-xs">
+              Config
+            </Link>
+          </>
+        }
+      />
 
-      <main className="max-w-6xl mx-auto p-4">
+      <main className="max-w-6xl mx-auto p-4 px-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">User Management</h1>
-          <span className="text-sm text-gray-500">{users.length} total users</span>
+          <span className="text-sm text-souq-muted">{users.length} total users</span>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded overflow-hidden">
+        <div className="bg-souq-card border border-souq-line rounded overflow-hidden">
           <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50 border-b text-xs uppercase tracking-wider text-gray-500">
+            <thead className="bg-souq-raised border-b text-xs uppercase tracking-wider text-souq-muted">
               <tr>
                 <th className="px-3 py-2">Username</th>
                 <th className="px-3 py-2">Display Name</th>
@@ -46,21 +58,21 @@ export default async function AdminUsersPage() {
                 <th className="px-3 py-2 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-souq-line">
               {users.map((u: any) => (
-                <tr key={u.id} className="hover:bg-gray-50">
+                <tr key={u.id} className="hover:bg-souq-raised">
                   <td className="px-3 py-2 font-medium">{u.username}</td>
-                  <td className="px-3 py-2 text-gray-500">{u.display_name || "—"}</td>
+                  <td className="px-3 py-2 text-souq-muted">{u.display_name || "—"}</td>
                   <td className="px-3 py-2">
                     <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${
                       u.role === "admin" ? "bg-red-100 text-red-700" :
                       u.role === "seller" ? "bg-blue-100 text-blue-700" :
                       u.role === "agent" ? "bg-purple-100 text-purple-700" :
-                      "bg-gray-100 text-gray-600"
+                      "bg-souq-raised text-souq-muted"
                     }`}>{u.role}</span>
                   </td>
-                  <td className="px-3 py-2 text-xs text-gray-400 max-w-[200px] truncate">{u.bio || "—"}</td>
-                  <td className="px-3 py-2 text-xs text-gray-400">{new Date(u.created_at).toLocaleDateString()}</td>
+                  <td className="px-3 py-2 text-xs text-souq-faint max-w-[200px] truncate">{u.bio || "—"}</td>
+                  <td className="px-3 py-2 text-xs text-souq-faint">{new Date(u.created_at).toLocaleDateString()}</td>
                   <td className="px-3 py-2 text-right">
                     <div className="flex gap-1 justify-end">
                       <form action="/api/admin/users" method="POST">

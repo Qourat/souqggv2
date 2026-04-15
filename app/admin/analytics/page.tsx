@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { sql } from "@/lib/db";
+import AdminShellBar from "@/app/components/AdminShellBar";
 
 
 export const revalidate = 60;
@@ -44,46 +45,57 @@ export default async function AnalyticsPage() {
   const stats = await getAnalytics();
 
   return (
-    <div className="min-h-screen bg-[#f6f6ef] font-sans text-black">
-      <nav className="bg-[#ff6600] px-3 py-1.5 flex items-center gap-2 text-sm font-bold text-black overflow-x-auto whitespace-nowrap border-b border-[#e55c00]">
-        <Link href="/" className="text-lg mr-2">SOUQ.GG</Link>
-        <div className="ml-auto flex items-center gap-3 text-xs">
-          <Link href="/admin" className="hover:underline">Dashboard</Link>
-          <Link href="/admin/users" className="hover:underline">Users</Link>
-          <Link href="/admin/products" className="hover:underline">Products</Link>
-          <Link href="/admin/analytics" className="hover:underline font-bold">Analytics</Link>
-          <Link href="/admin/config" className="hover:underline">Config</Link>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-souq-base font-sans text-souq-text">
+      <AdminShellBar
+        end={
+          <>
+            <Link href="/admin" className="hover:underline text-xs">
+              Dashboard
+            </Link>
+            <Link href="/admin/users" className="hover:underline text-xs">
+              Users
+            </Link>
+            <Link href="/admin/products" className="hover:underline text-xs">
+              Products
+            </Link>
+            <Link href="/admin/analytics" className="hover:underline font-bold text-xs">
+              Analytics
+            </Link>
+            <Link href="/admin/config" className="hover:underline text-xs">
+              Config
+            </Link>
+          </>
+        }
+      />
 
-      <main className="max-w-6xl mx-auto p-4">
+      <main className="max-w-6xl mx-auto p-4 px-4">
         <h1 className="text-2xl font-bold mb-6">Platform Analytics</h1>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white border border-gray-200 rounded p-4">
-            <div className="text-xs text-gray-500 uppercase tracking-wider font-bold">Total Users</div>
+          <div className="bg-souq-card border border-souq-line rounded p-4">
+            <div className="text-xs text-souq-muted uppercase tracking-wider font-bold">Total Users</div>
             <div className="text-3xl font-bold mt-1">{stats.totalUsers}</div>
           </div>
-          <div className="bg-white border border-gray-200 rounded p-4">
-            <div className="text-xs text-gray-500 uppercase tracking-wider font-bold">Active Products</div>
+          <div className="bg-souq-card border border-souq-line rounded p-4">
+            <div className="text-xs text-souq-muted uppercase tracking-wider font-bold">Active Products</div>
             <div className="text-3xl font-bold mt-1">{stats.totalProducts}</div>
           </div>
-          <div className="bg-white border border-gray-200 rounded p-4">
-            <div className="text-xs text-gray-500 uppercase tracking-wider font-bold">Listed Value</div>
+          <div className="bg-souq-card border border-souq-line rounded p-4">
+            <div className="text-xs text-souq-muted uppercase tracking-wider font-bold">Listed Value</div>
             <div className="text-3xl font-bold mt-1">${(stats.totalListedValue / 100).toFixed(0)}</div>
           </div>
-          <div className="bg-white border border-gray-200 rounded p-4">
-            <div className="text-xs text-gray-500 uppercase tracking-wider font-bold">Free Products</div>
+          <div className="bg-souq-card border border-souq-line rounded p-4">
+            <div className="text-xs text-souq-muted uppercase tracking-wider font-bold">Free Products</div>
             <div className="text-3xl font-bold mt-1">{stats.freeCount}</div>
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">Top Products by Upvotes</h2>
-            <div className="bg-white border border-gray-200 rounded overflow-hidden">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-souq-muted mb-3">Top Products by Upvotes</h2>
+            <div className="bg-souq-card border border-souq-line rounded overflow-hidden">
               <table className="w-full text-left text-sm">
-                <thead className="bg-gray-50 border-b text-xs uppercase tracking-wider text-gray-500">
+                <thead className="bg-souq-raised border-b text-xs uppercase tracking-wider text-souq-muted">
                   <tr>
                     <th className="px-3 py-2">Product</th>
                     <th className="px-3 py-2">Category</th>
@@ -91,11 +103,11 @@ export default async function AnalyticsPage() {
                     <th className="px-3 py-2">Upvotes</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-souq-line">
                   {stats.topProducts.map((p: any) => (
-                    <tr key={p.slug} className="hover:bg-gray-50">
+                    <tr key={p.slug} className="hover:bg-souq-raised">
                       <td className="px-3 py-2 font-medium">{p.title}</td>
-                      <td className="px-3 py-2 text-xs text-gray-500">{p.category || "—"}</td>
+                      <td className="px-3 py-2 text-xs text-souq-muted">{p.category || "—"}</td>
                       <td className="px-3 py-2">{p.price_cents === 0 ? "Free" : `$${(p.price_cents / 100).toFixed(0)}`}</td>
                       <td className="px-3 py-2 text-center">{p.upvotes}</td>
                     </tr>
@@ -106,19 +118,19 @@ export default async function AnalyticsPage() {
           </div>
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">Category Breakdown</h2>
-            <div className="bg-white border border-gray-200 rounded overflow-hidden">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-souq-muted mb-3">Category Breakdown</h2>
+            <div className="bg-souq-card border border-souq-line rounded overflow-hidden">
               <table className="w-full text-left text-sm">
-                <thead className="bg-gray-50 border-b text-xs uppercase tracking-wider text-gray-500">
+                <thead className="bg-souq-raised border-b text-xs uppercase tracking-wider text-souq-muted">
                   <tr>
                     <th className="px-3 py-2">Category</th>
                     <th className="px-3 py-2">Products</th>
                     <th className="px-3 py-2">Total Upvotes</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-souq-line">
                   {stats.categoryBreakdown.map((c: any) => (
-                    <tr key={c.name} className="hover:bg-gray-50">
+                    <tr key={c.name} className="hover:bg-souq-raised">
                       <td className="px-3 py-2 font-medium">{c.name}</td>
                       <td className="px-3 py-2 text-center">{Number(c.product_count)}</td>
                       <td className="px-3 py-2 text-center">{Number(c.total_upvotes)}</td>
@@ -130,8 +142,8 @@ export default async function AnalyticsPage() {
           </div>
         </div>
 
-        <div className="mt-6 bg-white border border-gray-200 rounded p-4">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">User Role Distribution</h2>
+        <div className="mt-6 bg-souq-card border border-souq-line rounded p-4">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-souq-muted mb-2">User Role Distribution</h2>
           <div className="flex gap-6 text-sm">
             <div><span className="font-bold">{stats.totalSellers}</span> Sellers</div>
             <div><span className="font-bold">{stats.totalAdmins}</span> Admins</div>

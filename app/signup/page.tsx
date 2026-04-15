@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import SouqMarketingHeader from "@/app/components/SouqMarketingHeader";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -35,73 +36,101 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f6f6ef] font-sans text-black">
-      <nav className="bg-[#ff6600] px-3 py-1.5 flex items-center gap-2 text-sm font-bold text-black overflow-x-auto whitespace-nowrap border-b border-[#e55c00]">
-        <Link href="/" className="text-lg mr-2">SOUQ.GG</Link>
-        <Link href="/" className="hover:underline">new</Link>
-        <span>|</span>
-        <Link href="/categories" className="hover:underline">categories</Link>
-        <div className="ml-auto">
-          <Link href="/login" className="bg-white px-2 py-0.5 rounded text-xs">Login</Link>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-souq-base font-sans text-souq-text">
+      <SouqMarketingHeader
+        trailing={
+          <Link href="/login" className="souq-badge-pill">
+            Login
+          </Link>
+        }
+      />
 
-      <main className="max-w-sm mx-auto p-4 mt-16">
-        <h1 className="text-2xl font-bold mb-6 text-center">Create Account</h1>
+      <main className="max-w-sm mx-auto p-4 mt-16 px-4">
+        <h1 className="font-display text-2xl font-bold mb-6 text-center tracking-tight">
+          Create account
+        </h1>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded mb-4">{error}</div>
+          <div
+            role="alert"
+            className="bg-souq-error-bg border border-dashed border-souq-border text-souq-error-text text-sm p-3 rounded-sm mb-4"
+          >
+            {error}
+          </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold mb-1 uppercase tracking-wide">Username *</label>
+            <label
+              htmlFor="signup-username"
+              className="block text-xs font-bold mb-1 uppercase tracking-wide text-souq-muted"
+            >
+              Username *
+            </label>
             <input
+              id="signup-username"
               type="text"
               name="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded text-sm focus:border-[#ff6600] focus:outline-none"
+              className="w-full border border-dashed border-souq-border bg-souq-input text-souq-text p-3 rounded-sm text-sm min-h-11 focus:border-souq-terra focus:outline-none"
               placeholder="cooldev"
+              autoComplete="username"
               required
             />
           </div>
           <div>
-            <label className="block text-xs font-bold mb-1 uppercase tracking-wide">Email</label>
+            <label
+              htmlFor="signup-email"
+              className="block text-xs font-bold mb-1 uppercase tracking-wide text-souq-muted"
+            >
+              Email
+            </label>
             <input
+              id="signup-email"
               type="email"
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded text-sm focus:border-[#ff6600] focus:outline-none"
+              className="w-full border border-dashed border-souq-border bg-souq-input text-souq-text p-3 rounded-sm text-sm min-h-11 focus:border-souq-terra focus:outline-none"
               placeholder="you@example.com"
+              autoComplete="email"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold mb-1 uppercase tracking-wide">Password *</label>
+            <label
+              htmlFor="signup-password"
+              className="block text-xs font-bold mb-1 uppercase tracking-wide text-souq-muted"
+            >
+              Password *
+            </label>
             <input
+              id="signup-password"
               type="password"
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded text-sm focus:border-[#ff6600] focus:outline-none"
+              className="w-full border border-dashed border-souq-border bg-souq-input text-souq-text p-3 rounded-sm text-sm min-h-11 focus:border-souq-terra focus:outline-none"
               placeholder="••••••••"
+              autoComplete="new-password"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#ff6600] text-white font-bold py-2.5 rounded hover:bg-[#e55c00] transition-colors disabled:opacity-50"
+            className="w-full retro-btn text-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Creating account..." : "Create Account"}
+            {loading ? "Creating account..." : "Create account"}
           </button>
         </form>
 
         <div className="mt-4 text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-sm text-souq-muted">
             Already have an account?{" "}
-            <Link href="/login" className="text-[#ff6600] hover:underline">Sign in</Link>
+            <Link href="/login" className="text-souq-terra font-semibold hover:underline">
+              Sign in
+            </Link>
           </p>
         </div>
       </main>

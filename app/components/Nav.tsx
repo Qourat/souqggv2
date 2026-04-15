@@ -2,12 +2,13 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 
 interface Category {
   id?: string;
   name?: string;
   slug?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface NavProps {
@@ -34,33 +35,43 @@ export default function Nav({ categories = [], currentUser = null }: NavProps) {
   }, []);
 
   return (
-    <nav style={{ background: "#ff6600", padding: "2px 8px", borderBottom: "1px solid #e65c00" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", alignItems: "center", flexWrap: "wrap", gap: 2 }}>
-        <Link href="/" style={{ fontWeight: 700, color: "#000", fontSize: 13, marginRight: 8, textDecoration: "none" }}>
-          SOUQ<span style={{ color: "#fff" }}>.GG</span>
+    <nav className="souq-nav" aria-label="Primary">
+      <div className="souq-nav-inner">
+        <Link href="/" className="souq-nav-logo">
+          SOUQ<span className="accent">.GG</span>
         </Link>
 
-        <Link href="/" style={navLinkStyle}>home</Link>
-        <Link href="/newest" style={navLinkStyle}>new</Link>
+        <Link href="/" className="souq-nav-link">
+          home
+        </Link>
+        <Link href="/newest" className="souq-nav-link">
+          new
+        </Link>
+        <Link href="/search" className="souq-nav-link">
+          search
+        </Link>
 
-        {/* Categories Dropdown */}
-        <div ref={catRef} style={{ position: "relative" }}>
+        <div ref={catRef} className="dropdown-parent">
           <button
-            onClick={() => { setCatOpen(!catOpen); setUserOpen(false); }}
-            style={{ ...navLinkStyle, cursor: "pointer", background: "none", border: "none", font: "inherit" }}
+            type="button"
+            onClick={() => {
+              setCatOpen(!catOpen);
+              setUserOpen(false);
+            }}
+            className="souq-nav-btn"
+            aria-expanded={catOpen}
+            aria-haspopup="true"
           >
-            categories ▾
+            categories {"\u25BE"}
           </button>
           {catOpen && categories.length > 0 && (
-            <div style={{
-              position: "absolute", top: "100%", left: 0, zIndex: 100,
-              background: "#f6f6ef", border: "1px solid #bbb", borderRadius: 2,
-              boxShadow: "2px 2px 4px rgba(0,0,0,0.15)", minWidth: 180, marginTop: 2,
-            }}>
+            <div className="souq-nav-dropdown" style={{ left: 0 }}>
               {categories.map((c) => (
-                <Link key={c.id} href={`/categories?cat=${c.slug}`}
-                      onClick={() => setCatOpen(false)}
-                      style={{ display: "block", padding: "4px 10px", color: "#828282", fontSize: 12, textDecoration: "none" }}>
+                <Link
+                  key={c.id}
+                  href={`/categories?cat=${c.slug}`}
+                  onClick={() => setCatOpen(false)}
+                >
                   {c.name}
                 </Link>
               ))}
@@ -68,38 +79,51 @@ export default function Nav({ categories = [], currentUser = null }: NavProps) {
           )}
         </div>
 
-        <Link href="/submit" style={navLinkStyle}>submit</Link>
+        <Link href="/submit" className="souq-nav-link">
+          submit
+        </Link>
 
         <div style={{ flex: 1 }} />
 
+        <ThemeToggle />
+
         {currentUser ? (
-          <div ref={userRef} style={{ position: "relative" }}>
+          <div ref={userRef} className="dropdown-parent">
             <button
-              onClick={() => { setUserOpen(!userOpen); setCatOpen(false); }}
-              style={{ ...navLinkStyle, cursor: "pointer", background: "none", border: "none", font: "inherit", display: "flex", alignItems: "center", gap: 4 }}
+              type="button"
+              onClick={() => {
+                setUserOpen(!userOpen);
+                setCatOpen(false);
+              }}
+              className="souq-nav-btn"
+              aria-expanded={userOpen}
+              aria-haspopup="true"
             >
-              <span style={{ width: 14, height: 14, borderRadius: "50%", background: "#ff6600", display: "inline-block", border: "1px solid #e65c00" }} />
-              {currentUser.display_name || currentUser.username} ▾
+              <span
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: "50%",
+                  background: "var(--nav-fg-muted)",
+                  display: "inline-block",
+                  border: "1px solid var(--nav-border)",
+                }}
+                aria-hidden
+              />
+              {currentUser.display_name || currentUser.username} {"\u25BE"}
             </button>
             {userOpen && (
-              <div style={{
-                position: "absolute", top: "100%", right: 0, zIndex: 100,
-                background: "#f6f6ef", border: "1px solid #bbb", borderRadius: 2,
-                boxShadow: "2px 2px 4px rgba(0,0,0,0.15)", minWidth: 150, marginTop: 2,
-              }}>
-                <Link href={`/u/${currentUser.username}`}
-                      onClick={() => setUserOpen(false)}
-                      style={{ display: "block", padding: "4px 10px", color: "#828282", fontSize: 12, textDecoration: "none" }}>
+              <div className="souq-nav-dropdown" style={{ right: 0, left: "auto" }}>
+                <Link href={`/u/${currentUser.username}`} onClick={() => setUserOpen(false)}>
                   my profile
                 </Link>
-                <Link href="/settings"
-                      onClick={() => setUserOpen(false)}
-                      style={{ display: "block", padding: "4px 10px", color: "#828282", fontSize: 12, textDecoration: "none" }}>
+                <Link href="/settings" onClick={() => setUserOpen(false)}>
                   settings
                 </Link>
-                <a href="/api/auth/logout"
-                      onClick={() => setUserOpen(false)}
-                      style={{ display: "block", padding: "4px 10px", color: "#828282", fontSize: 12, textDecoration: "none" }}>
+                <Link href="/agent/keys" onClick={() => setUserOpen(false)}>
+                  agent keys
+                </Link>
+                <a href="/api/auth/logout" onClick={() => setUserOpen(false)}>
                   logout
                 </a>
               </div>
@@ -107,19 +131,15 @@ export default function Nav({ categories = [], currentUser = null }: NavProps) {
           </div>
         ) : (
           <>
-            <Link href="/login" style={navLinkStyle}>login</Link>
-            <Link href="/signup" style={{ ...navLinkStyle, background: "#fff", padding: "1px 6px", borderRadius: 2, color: "#ff6600" }}>sign up</Link>
+            <Link href="/login" className="souq-nav-link">
+              login
+            </Link>
+            <Link href="/signup" className="souq-nav-link souq-nav-link-cta">
+              sign up
+            </Link>
           </>
         )}
       </div>
     </nav>
   );
 }
-
-const navLinkStyle: React.CSSProperties = {
-  color: "#fff",
-  fontSize: 12,
-  textDecoration: "none",
-  padding: "2px 6px",
-  whiteSpace: "nowrap",
-};

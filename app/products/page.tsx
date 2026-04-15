@@ -49,24 +49,24 @@ export default async function ProductsPage({
   const categories = await sql`SELECT slug, name FROM categories ORDER BY sort_order`;
 
   return (
-    <div className="max-w-5xl mx-auto px-2 py-1">
+    <div className="max-w-5xl mx-auto px-2 py-1 bg-souq-base min-h-screen">
       {/* Sub navigation */}
-      <div className="flex gap-2 py-1 px-1 text-xs border-b border-gray-200 mb-1">
-        <Link href="/products" className={!category ? 'font-bold' : 'text-gray-600 hover:underline'}>all</Link>
+      <div className="flex gap-2 py-1 px-1 text-xs border-b border-souq-line mb-1">
+        <Link href="/products" className={!category ? 'font-bold text-souq-text' : 'text-souq-muted hover:underline'}>all</Link>
         {categories.map((c: { slug: string; name: string }) => (
           <Link key={c.slug} href={`/products?category=${c.slug}`}
-            className={category === c.slug ? 'font-bold' : 'text-gray-600 hover:underline'}>
+            className={category === c.slug ? 'font-bold text-souq-text' : 'text-souq-muted hover:underline'}>
             {c.name}
           </Link>
         ))}
       </div>
 
       {/* Sort options */}
-      <div className="flex gap-2 py-1 px-1 text-xs text-gray-500">
+      <div className="flex gap-2 py-1 px-1 text-xs text-souq-muted">
         <span>sort:</span>
         {(['newest', 'popular', 'price_low'] as const).map(s => (
           <Link key={s} href={`/products?category=${category || ''}&sort=${s}`}
-            className={sort === s ? 'font-bold text-black' : 'hover:underline'}>
+            className={sort === s ? 'font-bold text-souq-text' : 'hover:underline'}>
             {s === 'price_low' ? 'price' : s}
           </Link>
         ))}
@@ -88,20 +88,20 @@ export default async function ProductsPage({
             category_name: string | null;
             seller_name: string | null;
           }, i: number) => (
-            <tr key={p.id} className="border-b border-gray-100">
-              <td align="right" className="py-1 pr-1 text-gray-400 text-xs w-8">{i + 1}.</td>
+            <tr key={p.id} className="border-b border-souq-line">
+              <td align="right" className="py-1 pr-1 text-souq-muted text-xs w-8">{i + 1}.</td>
               <td className="py-1">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-orange-500 text-xs cursor-pointer">{'\u25B2'}</span>
-                  <Link href={`/products/${p.slug}`} className="text-black hover:underline font-medium">
+                  <span className="text-souq-terra text-xs cursor-pointer">{'\u25B2'}</span>
+                  <Link href={`/products/${p.slug}`} className="text-souq-text hover:underline font-medium">
                     {p.title}
                   </Link>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-souq-muted">
                     ({formatPrice(p.price_cents, p.pricing_type)})
                   </span>
                 </div>
-                <div className="text-xs text-gray-500 ml-5">
-                  {p.category_name && <span className="text-orange-600">{p.category_name}</span>}
+                <div className="text-xs text-souq-muted ml-5">
+                  {p.category_name && <span className="text-souq-terra">{p.category_name}</span>}
                   <span> · </span>
                   <span>{p.upvotes} points</span>
                   <span> · </span>
@@ -110,7 +110,7 @@ export default async function ProductsPage({
                   <span>{timeAgo(p.created_at)}</span>
                   {p.tags && p.tags.length > 0 && (
                     <span> · {p.tags.map((t: string) => (
-                      <Link key={t} href={`/products?q=${encodeURIComponent(t)}`} className="text-blue-500 hover:underline mr-1">
+                      <Link key={t} href={`/products?q=${encodeURIComponent(t)}`} className="text-souq-sage underline-offset-2 hover:underline mr-1">
                         {t}
                       </Link>
                     ))}</span>
@@ -120,13 +120,13 @@ export default async function ProductsPage({
             </tr>
           ))}
           {products.length === 0 && (
-            <tr><td colSpan={2} className="py-4 text-center text-gray-400 text-sm">No products found</td></tr>
+            <tr><td colSpan={2} className="py-4 text-center text-souq-muted text-sm">No products found</td></tr>
           )}
         </tbody>
       </table>
 
       {/* Submit link */}
-      <div className="py-2 text-xs text-gray-500 border-t border-gray-200 mt-1">
+      <div className="py-2 text-xs text-souq-muted border-t border-souq-line mt-1">
         <Link href="/submit" className="hover:underline">Submit a product</Link>
       </div>
     </div>

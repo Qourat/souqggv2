@@ -61,19 +61,19 @@ export default async function Home() {
       <Nav categories={categories as any[]} />
 
       {/* Tagline */}
-      <div className="retro-container" style={{ padding: "6px 8px", borderBottom: "1px solid #e0e0e0" }}>
-        <span style={{ fontSize: 12, color: "#828282" }}>
+      <div className="retro-container" style={{ padding: "6px 8px", borderBottom: "1px solid var(--border-subtle)" }}>
+        <span className="font-mono text-sm" style={{ color: "var(--text-muted)" }}>
           The market for digital products — {Number(stats.total_products)} products, {Number(stats.total_sellers)} sellers
         </span>
       </div>
 
       {/* Category Bar */}
       {categories.length > 0 && (
-        <div className="retro-container" style={{ padding: "4px 8px", borderBottom: "1px solid #e0e0e0", fontSize: "8pt" }}>
+        <div className="retro-container font-mono" style={{ padding: "4px 8px", borderBottom: "1px solid var(--border-subtle)", fontSize: "0.875rem" }}>
           {categories.map((c: any, i: number) => (
             <span key={c.id}>
-              {i > 0 && <span style={{ color: "#ccc" }}> | </span>}
-              <Link href={`/categories?cat=${c.slug}`} style={{ color: "#828282" }}>{c.name}</Link>
+              {i > 0 && <span style={{ color: "var(--text-faint)" }}> | </span>}
+              <Link href={`/categories?cat=${c.slug}`} style={{ color: "var(--text-muted)" }}>{c.name}</Link>
             </span>
           ))}
         </div>
@@ -88,21 +88,21 @@ export default async function Home() {
               const sellerLink = p.seller_username ? `/u/${p.seller_username}` : "#";
               const isFree = p.price_cents === 0;
               return (
-                <tr key={p.id} style={{ borderBottom: "1px solid #eee" }}>
+                <tr key={p.id} style={{ borderBottom: "1px solid var(--border-subtle)" }}>
                   {/* Rank + Upvote */}
                   <td style={{ verticalAlign: "top", paddingTop: 6, width: 50, textAlign: "right", paddingRight: 6 }}>
-                    <span style={{ color: "#828282", fontSize: "9pt" }}>{i + 1}.</span>
+                    <span className="font-mono" style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>{i + 1}.</span>
                     <span className="retro-upvote" title="upvote">▲</span>
                   </td>
                   {/* Content */}
                   <td style={{ verticalAlign: "top", paddingTop: 6, paddingBottom: 6 }}>
                     <div>
-                      <Link href={`/product/${p.slug}`} className="retro-title" style={{ fontSize: "12pt" }}>
+                      <Link href={`/product/${p.slug}`} className="retro-title">
                         {p.title}
                       </Link>
                       {isFree && <span className="retro-price-free" style={{ marginLeft: 6 }}>FREE</span>}
                       {!isFree && (
-                        <span style={{ marginLeft: 6, fontSize: "9pt", color: "#333", fontWeight: 600 }}>
+                        <span className="font-mono" style={{ marginLeft: 6, fontSize: "0.875rem", color: "var(--text-secondary)", fontWeight: 600 }}>
                           {formatPrice(p.price_cents)}
                         </span>
                       )}
@@ -110,15 +110,15 @@ export default async function Home() {
                         <span className="retro-tag" style={{ marginLeft: 4 }}>{p.product_type}</span>
                       )}
                       {p.screenshot_url && (
-                        <Link href={`/product/${p.slug}`} style={{ marginLeft: 4, fontSize: "7pt", color: "#828282" }}>[img]</Link>
+                        <Link href={`/product/${p.slug}`} className="font-mono" style={{ marginLeft: 4, fontSize: "0.75rem", color: "var(--text-muted)" }}>[img]</Link>
                       )}
                     </div>
                     <div className="retro-meta" style={{ marginTop: 2 }}>
-                      {p.upvotes} points · <Link href={`/categories?cat=${p.category_slug}`} style={{ color: "#ff6600" }}>{p.category_name}</Link> · by <Link href={sellerLink}>{sellerDisplay}</Link> · {timeAgo(p.created_at)} ago
+                      {p.upvotes} points · <Link href={`/categories?cat=${p.category_slug}`} style={{ color: "var(--link-accent)" }}>{p.category_name}</Link> · by <Link href={sellerLink}>{sellerDisplay}</Link> · {timeAgo(p.created_at)} ago
                       {" · "}
-                      <Link href={`/product/${p.slug}#reviews`} style={{ color: "#828282" }}>reviews</Link>
+                      <Link href={`/product/${p.slug}#reviews`} style={{ color: "var(--text-muted)" }}>reviews</Link>
                       {" · "}
-                      <Link href={`/product/${p.slug}#comments`} style={{ color: "#828282" }}>comments</Link>
+                      <Link href={`/product/${p.slug}#comments`} style={{ color: "var(--text-muted)" }}>comments</Link>
                     </div>
                   </td>
                 </tr>
@@ -128,18 +128,18 @@ export default async function Home() {
         </table>
 
         {products.length === 0 && (
-          <div style={{ textAlign: "center", padding: 40, color: "#828282" }}>
-            No products yet. <Link href="/submit" style={{ color: "#ff6600" }}>Submit the first one</Link>.
+          <div style={{ textAlign: "center", padding: 40, color: "var(--text-muted)" }}>
+            No products yet. <Link href="/submit" style={{ color: "var(--link-accent)", fontWeight: 700 }}>Submit the first one</Link>.
           </div>
         )}
 
         {/* Pagination hint */}
-        <div style={{ padding: "8px 0", borderTop: "1px solid #e0e0e0", marginTop: 4, fontSize: "9pt" }}>
-          <Link href="/newest" style={{ color: "#828282" }}>More →</Link>
+        <div className="font-mono" style={{ padding: "8px 0", borderTop: "1px solid var(--border-subtle)", marginTop: 4, fontSize: "0.875rem" }}>
+          <Link href="/newest" style={{ color: "var(--text-muted)" }}>More →</Link>
         </div>
 
         {/* Footer links */}
-        <div style={{ borderTop: "2px solid #ff6600", marginTop: 12, padding: "6px 0", fontSize: "8pt", color: "#828282" }}>
+        <div className="font-mono" style={{ borderTop: "2px dashed var(--accent-terracotta)", marginTop: 12, padding: "6px 0", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
           <Link href="/about">About</Link> |
           <Link href="/faq"> FAQ</Link> |
           <Link href="/api"> API</Link> |
@@ -148,7 +148,7 @@ export default async function Home() {
           <Link href="/login"> Login</Link> |
           <Link href="/signup"> Sign Up</Link>
           <br />
-          <span style={{ fontSize: "7pt" }}>© 2026 SOUQ.GG</span>
+          <span style={{ fontSize: "0.75rem" }}>© 2026 SOUQ.GG</span>
         </div>
       </div>
     </>

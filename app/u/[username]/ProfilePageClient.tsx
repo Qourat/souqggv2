@@ -36,10 +36,10 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
 
       <div className="retro-container">
         {/* Breadcrumb */}
-        <div className="retro-meta" style={{ padding: "4px 0", borderBottom: "1px solid #e0e0e0" }}>
-          <Link href="/" style={{ color: "#828282" }}>home</Link>
+        <div className="retro-meta" style={{ padding: "4px 0", borderBottom: "1px solid var(--border-subtle)" }}>
+          <Link href="/" style={{ color: "var(--text-muted)" }}>home</Link>
           {" / "}
-          <span style={{ color: "#000" }}>{displayName}</span>
+          <span style={{ color: "var(--text-primary)" }}>{displayName}</span>
         </div>
 
         <table style={{ width: "100%", borderSpacing: 0, marginTop: 4 }}>
@@ -50,13 +50,13 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
                 {/* Profile header */}
                 <div className="retro-card" style={{ marginBottom: 4 }}>
                   <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 2, background: "#ff6600", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "16pt", fontWeight: 700, flexShrink: 0, overflow: "hidden" }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 2, background: "var(--link-accent)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--surface-card)", fontSize: "16pt", fontWeight: 700, flexShrink: 0, overflow: "hidden" }}>
                       {profile.avatar_url ? <img src={profile.avatar_url} style={{ width: 40, height: 40, objectFit: "cover" }} /> : displayName.charAt(0).toUpperCase()}
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 700, fontSize: "12pt" }}>{displayName}</div>
-                      <div style={{ color: "#828282", fontSize: "9pt" }}>@{profile.username}</div>
-                      {headline && <div style={{ color: "#555", fontSize: "9pt", marginTop: 2 }}>{headline}</div>}
+                      <div style={{ color: "var(--text-muted)", fontSize: "9pt" }}>@{profile.username}</div>
+                      {headline && <div style={{ color: "var(--text-muted)", fontSize: "9pt", marginTop: 2 }}>{headline}</div>}
                     </div>
                     <span className="retro-tag" style={{ fontSize: "7pt" }}>{profile.role}</span>
                   </div>
@@ -69,32 +69,32 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
                   <div><span style={{ fontWeight: 700 }}>{profile.following_count}</span> <span className="retro-meta">following</span></div>
                   <div><span style={{ fontWeight: 700 }}>{profile.total_sales}</span> <span className="retro-meta">sales</span></div>
                   {Number(reviewStats.avg_rating) > 0 && (
-                    <div><span style={{ color: "#ff6600" }}>{stars(Number(reviewStats.avg_rating))}</span> <span className="retro-meta">({reviewStats.total} reviews)</span></div>
+                    <div><span style={{ color: "var(--link-accent)" }}>{stars(Number(reviewStats.avg_rating))}</span> <span className="retro-meta">({reviewStats.total} reviews)</span></div>
                   )}
                 </div>
 
                 {/* Bio */}
                 {bio && (
                   <div className="retro-card" style={{ marginBottom: 4 }}>
-                    <div style={{ fontSize: "8pt", color: "#828282", fontWeight: 700, borderBottom: "1px solid #e0e0e0", paddingBottom: 2, marginBottom: 4 }}>ABOUT</div>
-                    <div style={{ fontSize: "9pt", color: "#333", whiteSpace: "pre-wrap", lineHeight: 1.6 }}>{bio}</div>
+                    <div style={{ fontSize: "8pt", color: "var(--text-muted)", fontWeight: 700, borderBottom: "1px solid var(--border-subtle)", paddingBottom: 2, marginBottom: 4 }}>ABOUT</div>
+                    <div style={{ fontSize: "9pt", color: "var(--text-secondary)", whiteSpace: "pre-wrap", lineHeight: 1.6 }}>{bio}</div>
                   </div>
                 )}
 
                 {/* Products */}
                 <div className="retro-card" style={{ marginBottom: 4 }}>
-                  <div style={{ fontSize: "8pt", color: "#828282", fontWeight: 700, borderBottom: "1px solid #e0e0e0", paddingBottom: 2, marginBottom: 6 }}>
+                  <div style={{ fontSize: "8pt", color: "var(--text-muted)", fontWeight: 700, borderBottom: "1px solid var(--border-subtle)", paddingBottom: 2, marginBottom: 6 }}>
                     PRODUCTS ({products.length})
                   </div>
                   {products.length === 0 ? (
-                    <div style={{ color: "#828282", fontSize: "9pt" }}>No products yet.</div>
+                    <div style={{ color: "var(--text-muted)", fontSize: "9pt" }}>No products yet.</div>
                   ) : (
                     <table style={{ width: "100%", borderSpacing: 0 }}>
                       <tbody>
                         {products.map((p: any, i: number) => (
-                          <tr key={p.id} style={{ borderBottom: "1px solid #f0f0e8" }}>
+                          <tr key={p.id} style={{ borderBottom: "1px solid var(--border-subtle)" }}>
                             <td style={{ verticalAlign: "top", paddingTop: 4, paddingBottom: 4, width: 24 }}>
-                              <span style={{ color: "#828282", fontSize: "8pt" }}>{i + 1}.</span>
+                              <span style={{ color: "var(--text-muted)", fontSize: "8pt" }}>{i + 1}.</span>
                               <span className="retro-upvote" title="upvote">▲</span>
                             </td>
                             <td style={{ verticalAlign: "top", paddingTop: 4, paddingBottom: 4 }}>
@@ -102,10 +102,10 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
                               {p.price_cents === 0 ? (
                                 <span className="retro-price-free" style={{ marginLeft: 4 }}>FREE</span>
                               ) : (
-                                <span style={{ marginLeft: 4, fontSize: "9pt", color: "#333", fontWeight: 600 }}>{formatPrice(p.price_cents)}</span>
+                                <span style={{ marginLeft: 4, fontSize: "9pt", color: "var(--text-secondary)", fontWeight: 600 }}>{formatPrice(p.price_cents)}</span>
                               )}
                               <div className="retro-meta" style={{ marginTop: 1 }}>
-                                {p.upvotes} points · <Link href={`/categories?cat=${p.category_slug}`} style={{ color: "#ff6600" }}>{p.category_name}</Link> · {timeAgo(p.created_at)}
+                                {p.upvotes} points · <Link href={`/categories?cat=${p.category_slug}`} style={{ color: "var(--link-accent)" }}>{p.category_name}</Link> · {timeAgo(p.created_at)}
                               </div>
                             </td>
                           </tr>
@@ -117,24 +117,24 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
 
                 {/* Activity Feed placeholder */}
                 <div className="retro-card" style={{ marginBottom: 4 }}>
-                  <div style={{ fontSize: "8pt", color: "#828282", fontWeight: 700, borderBottom: "1px solid #e0e0e0", paddingBottom: 2, marginBottom: 6 }}>ACTIVITY</div>
-                  <div style={{ color: "#828282", fontSize: "9pt" }}>
-                    <div style={{ padding: "3px 0", borderBottom: "1px solid #f0f0e8" }}>
-                      <span style={{ color: "#ff6600" }}>●</span> Joined SOUQ.GG · {joined}
+                  <div style={{ fontSize: "8pt", color: "var(--text-muted)", fontWeight: 700, borderBottom: "1px solid var(--border-subtle)", paddingBottom: 2, marginBottom: 6 }}>ACTIVITY</div>
+                  <div style={{ color: "var(--text-muted)", fontSize: "9pt" }}>
+                    <div style={{ padding: "3px 0", borderBottom: "1px solid var(--border-subtle)" }}>
+                      <span style={{ color: "var(--link-accent)" }}>●</span> Joined SOUQ.GG · {joined}
                     </div>
                     {products.length > 0 && (
-                      <div style={{ padding: "3px 0", borderBottom: "1px solid #f0f0e8" }}>
-                        <span style={{ color: "#ff6600" }}>●</span> Listed {products.length} product{products.length > 1 ? "s" : ""}
+                      <div style={{ padding: "3px 0", borderBottom: "1px solid var(--border-subtle)" }}>
+                        <span style={{ color: "var(--link-accent)" }}>●</span> Listed {products.length} product{products.length > 1 ? "s" : ""}
                       </div>
                     )}
                     {Number(profile.total_sales) > 0 && (
-                      <div style={{ padding: "3px 0", borderBottom: "1px solid #f0f0e8" }}>
-                        <span style={{ color: "#ff6600" }}>●</span> Made {profile.total_sales} sale{Number(profile.total_sales) > 1 ? "s" : ""}
+                      <div style={{ padding: "3px 0", borderBottom: "1px solid var(--border-subtle)" }}>
+                        <span style={{ color: "var(--link-accent)" }}>●</span> Made {profile.total_sales} sale{Number(profile.total_sales) > 1 ? "s" : ""}
                       </div>
                     )}
                     {Number(profile.follower_count) > 0 && (
                       <div style={{ padding: "3px 0" }}>
-                        <span style={{ color: "#ff6600" }}>●</span> Reached {profile.follower_count} follower{Number(profile.follower_count) > 1 ? "s" : ""}
+                        <span style={{ color: "var(--link-accent)" }}>●</span> Reached {profile.follower_count} follower{Number(profile.follower_count) > 1 ? "s" : ""}
                       </div>
                     )}
                   </div>
@@ -151,18 +151,18 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
 
                 {/* Links */}
                 <div className="retro-card" style={{ marginBottom: 4, fontSize: "9pt" }}>
-                  <div style={{ fontSize: "8pt", color: "#828282", fontWeight: 700, borderBottom: "1px solid #e0e0e0", paddingBottom: 2, marginBottom: 4 }}>INFO</div>
+                  <div style={{ fontSize: "8pt", color: "var(--text-muted)", fontWeight: 700, borderBottom: "1px solid var(--border-subtle)", paddingBottom: 2, marginBottom: 4 }}>INFO</div>
                   {profile.location && (
                     <div style={{ padding: "2px 0" }}>📍 {profile.location}</div>
                   )}
                   {profile.website && (
-                    <div style={{ padding: "2px 0" }}>🔗 <a href={profile.website.startsWith("http") ? profile.website : `https://${profile.website}`} target="_blank" rel="noopener noreferrer" style={{ color: "#ff6600" }}>{profile.website.replace(/^https?:\/\//, "")}</a></div>
+                    <div style={{ padding: "2px 0" }}>🔗 <a href={profile.website.startsWith("http") ? profile.website : `https://${profile.website}`} target="_blank" rel="noopener noreferrer" style={{ color: "var(--link-accent)" }}>{profile.website.replace(/^https?:\/\//, "")}</a></div>
                   )}
                   {profile.twitter && (
-                    <div style={{ padding: "2px 0" }}>🐦 <a href={`https://twitter.com/${profile.twitter.replace("@", "")}`} target="_blank" rel="noopener noreferrer" style={{ color: "#ff6600" }}>@{profile.twitter.replace("@", "")}</a></div>
+                    <div style={{ padding: "2px 0" }}>🐦 <a href={`https://twitter.com/${profile.twitter.replace("@", "")}`} target="_blank" rel="noopener noreferrer" style={{ color: "var(--link-accent)" }}>@{profile.twitter.replace("@", "")}</a></div>
                   )}
                   {profile.github && (
-                    <div style={{ padding: "2px 0" }}>💻 <a href={`https://github.com/${profile.github}`} target="_blank" rel="noopener noreferrer" style={{ color: "#ff6600" }}>{profile.github}</a></div>
+                    <div style={{ padding: "2px 0" }}>💻 <a href={`https://github.com/${profile.github}`} target="_blank" rel="noopener noreferrer" style={{ color: "var(--link-accent)" }}>{profile.github}</a></div>
                   )}
                   <div style={{ padding: "2px 0" }}>📅 Joined {joined}</div>
                 </div>
@@ -170,9 +170,9 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
                 {/* More from seller */}
                 {products.length > 1 && (
                   <div className="retro-card" style={{ fontSize: "9pt" }}>
-                    <div style={{ fontSize: "8pt", color: "#828282", fontWeight: 700, borderBottom: "1px solid #e0e0e0", paddingBottom: 2, marginBottom: 4 }}>MORE BY {displayName.toUpperCase()}</div>
+                    <div style={{ fontSize: "8pt", color: "var(--text-muted)", fontWeight: 700, borderBottom: "1px solid var(--border-subtle)", paddingBottom: 2, marginBottom: 4 }}>MORE BY {displayName.toUpperCase()}</div>
                     {products.slice(0, 5).map((p: any) => (
-                      <div key={p.id} style={{ padding: "2px 0", borderBottom: "1px solid #f0f0e8" }}>
+                      <div key={p.id} style={{ padding: "2px 0", borderBottom: "1px solid var(--border-subtle)" }}>
                         <Link href={`/product/${p.slug}`} style={{ fontSize: "8pt" }}>{p.title}</Link>
                         <span className="retro-meta"> · {p.upvotes}pts</span>
                       </div>
@@ -185,7 +185,7 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
         </table>
 
         {/* Footer */}
-        <div style={{ borderTop: "2px solid #ff6600", marginTop: 12, padding: "6px 0", fontSize: "8pt", color: "#828282" }}>
+        <div style={{ borderTop: "2px dashed var(--accent-terracotta)", marginTop: 12, padding: "6px 0", fontSize: "8pt", color: "var(--text-muted)" }}>
           <Link href="/">home</Link> |
           <Link href="/categories"> categories</Link> |
           <Link href="/submit"> submit</Link> |

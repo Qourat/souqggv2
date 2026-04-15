@@ -1,29 +1,26 @@
-import Link from "next/link";
+import SouqMarketingHeader from "@/app/components/SouqMarketingHeader";
 
 export default function AgentKeysPage() {
   return (
-    <div className="min-h-screen bg-[#f6f6ef] font-sans text-black">
-      <nav className="bg-[#ff6600] px-3 py-1.5 flex items-center gap-2 text-sm font-bold text-black overflow-x-auto whitespace-nowrap border-b border-[#e55c00]">
-        <Link href="/" className="text-lg mr-2">SOUQ.GG</Link>
-        <div className="ml-auto">
-          <span className="bg-white px-2 py-0.5 rounded text-xs">Agent Management</span>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-souq-base font-sans text-souq-text">
+      <SouqMarketingHeader
+        trailing={<span className="souq-badge-pill">Agent keys</span>}
+      />
 
-      <main className="max-w-2xl mx-auto p-4 mt-12">
+      <main className="max-w-2xl mx-auto p-4 mt-12 px-4">
         <div className="flex justify-between items-end mb-6">
           <div>
             <h1 className="text-2xl font-bold">AI Agent API Keys</h1>
-            <p className="text-sm text-gray-600">Generate and manage keys for your autonomous agents.</p>
+            <p className="text-sm text-souq-muted">Generate and manage keys for your autonomous agents.</p>
           </div>
-          <button className="bg-[#ff6600] text-white text-xs font-bold px-3 py-1.5 rounded hover:bg-[#e55c00] transition-colors">
+          <button className="bg-souq-terra text-white text-xs font-bold px-3 py-1.5 rounded hover:bg-souq-terra-hover transition-colors">
             + New Key
           </button>
         </div>
 
-        <div className="bg-white border border-gray-300 rounded overflow-hidden">
+        <div className="bg-souq-card border border-souq-border rounded overflow-hidden">
           <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 text-xs uppercase tracking-wider">
+            <thead className="bg-souq-raised border-b border-souq-line text-souq-muted text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-4 py-2 font-bold">Key Name</th>
                 <th className="px-4 py-2 font-bold">Scopes</th>
@@ -31,13 +28,13 @@ export default function AgentKeysPage() {
                 <th className="px-4 py-2 font-bold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-souq-line">
               <tr>
                 <td className="px-4 py-3 font-medium">Market-Analyzer-1</td>
                 <td className="px-4 py-3">
-                  <span className="bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded text-[10px] font-bold">read</span>
+                  <span className="bg-souq-raised text-souq-muted px-1.5 py-0.5 rounded text-[10px] font-bold">read</span>
                 </td>
-                <td className="px-4 py-3 text-gray-500">2h ago</td>
+                <td className="px-4 py-3 text-souq-muted">2h ago</td>
                 <td className="px-4 py-3 text-right">
                   <button className="text-xs text-red-500 hover:underline">Revoke</button>
                 </td>
@@ -45,10 +42,10 @@ export default function AgentKeysPage() {
               <tr>
                 <td className="px-4 py-3 font-medium">Product-Uploader-Bot</td>
                 <td className="px-4 py-3">
-                  <span className="bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded text-[10px] font-bold">read</span>
-                  <span className="bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded text-[10px] font-bold ml-1">write</span>
+                  <span className="bg-souq-raised text-souq-muted px-1.5 py-0.5 rounded text-[10px] font-bold">read</span>
+                  <span className="bg-souq-raised text-souq-muted px-1.5 py-0.5 rounded text-[10px] font-bold ml-1">write</span>
                 </td>
-                <td className="px-4 py-3 text-gray-500">1d ago</td>
+                <td className="px-4 py-3 text-souq-muted">1d ago</td>
                 <td className="px-4 py-3 text-right">
                   <button className="text-xs text-red-500 hover:underline">Revoke</button>
                 </td>
@@ -57,7 +54,7 @@ export default function AgentKeysPage() {
           </table>
         </div>
 
-        <div className="mt-8 p-4 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 leading-relaxed">
+        <div className="mt-8 p-4 bg-souq-raised border border-dashed border-souq-border rounded text-xs text-souq-text leading-relaxed">
           <strong>Security Tip:</strong> Store your API keys securely. Never commit them to version control. If a key is compromised, revoke it immediately from this dashboard.
         </div>
       </main>
