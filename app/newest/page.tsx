@@ -28,7 +28,7 @@ async function getData() {
 
   return {
     products,
-    categories: categories.filter((c: { product_count: unknown }) => Number(c.product_count) > 0),
+    categories: categories.filter((c: any) => Number(c.product_count) > 0),
   };
 }
 
@@ -56,7 +56,7 @@ export default async function NewestPage() {
 
       <div className="retro-container" style={{ padding: "6px 8px", borderBottom: "1px solid var(--border-subtle)" }}>
         <span className="font-mono text-sm" style={{ color: "var(--text-muted)" }}>
-          Newest listings — sorted by submission time
+          Newest listings â€” sorted by submission time
         </span>
       </div>
 
@@ -109,15 +109,15 @@ export default async function NewestPage() {
                       )}
                     </div>
                     <div className="retro-meta" style={{ marginTop: 2 }}>
-                      {p.upvotes} points ·{" "}
+                      {p.upvotes} points Â·{" "}
                       <Link href={`/categories?cat=${p.category_slug}`} style={{ color: "var(--link-accent)" }}>
                         {p.category_name}
                       </Link>{" "}
-                      · by <Link href={sellerLink}>{sellerDisplay}</Link> · {timeAgo(p.created_at)} ago ·{" "}
+                      Â· by <Link href={sellerLink}>{sellerDisplay}</Link> Â· {timeAgo(p.created_at)} ago Â·{" "}
                       <Link href={`/product/${p.slug}#reviews`} style={{ color: "var(--text-muted)" }}>
                         reviews
                       </Link>{" "}
-                      ·{" "}
+                      Â·{" "}
                       <Link href={`/product/${p.slug}#comments`} style={{ color: "var(--text-muted)" }}>
                         comments
                       </Link>
@@ -150,7 +150,7 @@ export default async function NewestPage() {
           <Link href="/categories"> Categories</Link> |<Link href="/submit"> Submit</Link> |<Link href="/login"> Login</Link> |
           <Link href="/signup"> Sign Up</Link>
           <br />
-          <span style={{ fontSize: "0.75rem" }}>© 2026 SOUQ.GG</span>
+          <span style={{ fontSize: "0.75rem" }}>Â© 2026 SOUQ.GG</span>
         </div>
       </div>
     </>
