@@ -33,6 +33,13 @@ export async function POST(req: Request) {
     }
 
     const user = users[0];
+    const isOwnerAdmin = String(user.username).toLowerCase() === 'qourat';
+
+    // Ensure owner account is always admin.
+    if (isOwnerAdmin && user.role !== 'admin') {
+      await sql`UPDATE public.profiles SET role = 'admin' WHERE id = ${user.id}`;
+      user.role = 'admin';
+    }
 
     // Check if user has a password hash (legacy accounts might not)
     if (!user.password_hash) {

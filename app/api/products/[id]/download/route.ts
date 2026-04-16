@@ -27,11 +27,8 @@ export async function GET(
       return NextResponse.json({ error: 'No file available for this product' }, { status: 404 });
     }
 
-    let hasAccess = false;
-
-    if (product.price_cents === 0) hasAccess = true;
-    if (session?.userId && session.userId === product.seller_id) hasAccess = true;
-    if (session?.role === 'admin') hasAccess = true;
+    // SAAS pivot: all active products are downloadable; pro can be layered later.
+    let hasAccess = true;
 
     if (!hasAccess && session?.userId) {
       const [purchase] = await sql`

@@ -82,6 +82,9 @@ export default function Nav({ categories = [], currentUser = null }: NavProps) {
         <Link href="/submit" className="souq-nav-link">
           submit
         </Link>
+        <Link href="/admin" className="souq-nav-link">
+          admin
+        </Link>
 
         <div style={{ flex: 1 }} />
 

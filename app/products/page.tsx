@@ -53,7 +53,7 @@ export default async function ProductsPage({
       {/* Sub navigation */}
       <div className="flex gap-2 py-1 px-1 text-xs border-b border-souq-line mb-1">
         <Link href="/products" className={!category ? 'font-bold text-souq-text' : 'text-souq-muted hover:underline'}>all</Link>
-        {categories.map((c: any) => (
+        {categories.map((c: { slug: string; name: string }) => (
           <Link key={c.slug} href={`/products?category=${c.slug}`}
             className={category === c.slug ? 'font-bold text-souq-text' : 'text-souq-muted hover:underline'}>
             {c.name}
@@ -72,10 +72,22 @@ export default async function ProductsPage({
         ))}
       </div>
 
-      {/* Product feed â€” HN style */}
+      {/* Product feed — HN style */}
       <table className="w-full text-sm">
         <tbody>
-          {products.map((p: any, i: number) => (
+          {products.map((p: {
+            id: string;
+            title: string;
+            slug: string;
+            price_cents: number;
+            pricing_type: string;
+            product_type: string;
+            upvotes: number;
+            created_at: string;
+            tags: string[] | null;
+            category_name: string | null;
+            seller_name: string | null;
+          }, i: number) => (
             <tr key={p.id} className="border-b border-souq-line">
               <td align="right" className="py-1 pr-1 text-souq-muted text-xs w-8">{i + 1}.</td>
               <td className="py-1">
@@ -90,14 +102,14 @@ export default async function ProductsPage({
                 </div>
                 <div className="text-xs text-souq-muted ml-5">
                   {p.category_name && <span className="text-souq-terra">{p.category_name}</span>}
-                  <span> Â· </span>
+                  <span> · </span>
                   <span>{p.upvotes} points</span>
-                  <span> Â· </span>
+                  <span> · </span>
                   <span>by {p.seller_name || 'unknown'}</span>
-                  <span> Â· </span>
+                  <span> · </span>
                   <span>{timeAgo(p.created_at)}</span>
                   {p.tags && p.tags.length > 0 && (
-                    <span> Â· {p.tags.map((t: string) => (
+                    <span> · {p.tags.map((t: string) => (
                       <Link key={t} href={`/products?q=${encodeURIComponent(t)}`} className="text-souq-sage underline-offset-2 hover:underline mr-1">
                         {t}
                       </Link>
