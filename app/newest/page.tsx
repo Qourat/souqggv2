@@ -28,7 +28,7 @@ async function getData() {
 
   return {
     products,
-    categories: categories.filter((c: { product_count: unknown }) => Number(c.product_count) > 0),
+    categories: categories.filter((c: any) => Number(c.product_count) > 0),
   };
 }
 

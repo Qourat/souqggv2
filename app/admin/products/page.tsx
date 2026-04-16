@@ -54,8 +54,8 @@ export default async function AdminProductsPage() {
               {products.map((p: any) => (
                 <tr key={p.id} className="hover:bg-souq-raised">
                   <td className="px-3 py-2 font-medium max-w-[200px] truncate">{p.title}</td>
-                  <td className="px-3 py-2 text-souq-muted text-xs">{p.seller_username || "—"}</td>
-                  <td className="px-3 py-2 text-xs text-souq-muted">{p.category_name || "—"}</td>
+                  <td className="px-3 py-2 text-souq-muted text-xs">{p.seller_username || "â€”"}</td>
+                  <td className="px-3 py-2 text-xs text-souq-muted">{p.category_name || "â€”"}</td>
                   <td className="px-3 py-2">{p.price_cents === 0 ? "Free" : `$${(p.price_cents / 100).toFixed(0)}`}</td>
                   <td className="px-3 py-2">
                     <span className={`text-xs px-1.5 py-0.5 rounded ${
