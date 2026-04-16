@@ -2,7 +2,6 @@ import Link from "next/link";
 import { sql } from "@/lib/db";
 import AdminShellBar from "@/app/components/AdminShellBar";
 
-
 export const revalidate = 30;
 
 async function getProducts() {
@@ -23,21 +22,11 @@ export default async function AdminProductsPage() {
       <AdminShellBar
         end={
           <>
-            <Link href="/admin" className="hover:underline text-xs">
-              Dashboard
-            </Link>
-            <Link href="/admin/users" className="hover:underline text-xs">
-              Users
-            </Link>
-            <Link href="/admin/products" className="hover:underline font-bold text-xs">
-              Products
-            </Link>
-            <Link href="/admin/analytics" className="hover:underline text-xs">
-              Analytics
-            </Link>
-            <Link href="/admin/config" className="hover:underline text-xs">
-              Config
-            </Link>
+            <Link href="/admin" className="hover:underline text-xs">Dashboard</Link>
+            <Link href="/admin/users" className="hover:underline text-xs">Users</Link>
+            <Link href="/admin/products" className="hover:underline font-bold text-xs">Products</Link>
+            <Link href="/admin/analytics" className="hover:underline text-xs">Analytics</Link>
+            <Link href="/admin/config" className="hover:underline text-xs">Config</Link>
           </>
         }
       />
@@ -65,13 +54,13 @@ export default async function AdminProductsPage() {
               {products.map((p: any) => (
                 <tr key={p.id} className="hover:bg-souq-raised">
                   <td className="px-3 py-2 font-medium max-w-[200px] truncate">{p.title}</td>
-                  <td className="px-3 py-2 text-souq-muted text-xs">{p.seller_username || "â€”"}</td>
-                  <td className="px-3 py-2 text-xs text-souq-muted">{p.category_name || "â€”"}</td>
+                  <td className="px-3 py-2 text-souq-muted text-xs">{p.seller_username || "—"}</td>
+                  <td className="px-3 py-2 text-xs text-souq-muted">{p.category_name || "—"}</td>
                   <td className="px-3 py-2">{p.price_cents === 0 ? "Free" : `$${(p.price_cents / 100).toFixed(0)}`}</td>
                   <td className="px-3 py-2">
                     <span className={`text-xs px-1.5 py-0.5 rounded ${
-                      p.status === "active" ? "bg-green-100 text-green-700" :
-                      p.status === "draft" ? "bg-yellow-100 text-yellow-700" :
+                      p.status === "active" ? "bg-souq-sage/20 text-souq-sage" :
+                      p.status === "draft" ? "bg-souq-gold/20 text-souq-gold" :
                       "bg-souq-raised text-souq-muted"
                     }`}>{p.status}</span>
                   </td>
@@ -81,7 +70,7 @@ export default async function AdminProductsPage() {
                       <form action="/api/admin/products" method="POST">
                         <input type="hidden" name="productId" value={p.id} />
                         <input type="hidden" name="action" value={p.status === "active" ? "archive" : "publish"} />
-                        <button type="submit" className="text-[10px] px-2 py-0.5 rounded bg-souq-raised hover:bg-souq-raised">
+                        <button type="submit" className="text-[10px] px-2 py-0.5 rounded bg-souq-raised hover:bg-souq-line">
                           {p.status === "active" ? "Archive" : "Publish"}
                         </button>
                       </form>

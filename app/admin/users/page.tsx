@@ -65,9 +65,9 @@ export default async function AdminUsersPage() {
                   <td className="px-3 py-2 text-souq-muted">{u.display_name || "—"}</td>
                   <td className="px-3 py-2">
                     <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${
-                      u.role === "admin" ? "bg-red-100 text-red-700" :
-                      u.role === "seller" ? "bg-blue-100 text-blue-700" :
-                      u.role === "agent" ? "bg-purple-100 text-purple-700" :
+                      u.role === "admin" ? "bg-souq-terra/20 text-souq-terra" :
+                      u.role === "seller" ? "bg-souq-sage/20 text-souq-sage" :
+                      u.role === "agent" ? "bg-souq-gold/20 text-souq-gold" :
                       "bg-souq-raised text-souq-muted"
                     }`}>{u.role}</span>
                   </td>
@@ -78,12 +78,12 @@ export default async function AdminUsersPage() {
                       <form action="/api/admin/users" method="POST">
                         <input type="hidden" name="userId" value={u.id} />
                         <input type="hidden" name="action" value="promote_seller" />
-                        <button type="submit" className="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded hover:bg-blue-100" title="Make Seller">→ Seller</button>
+                        <button type="submit" className="text-[10px] bg-souq-sage/10 text-souq-sage px-2 py-0.5 rounded hover:bg-souq-sage/20" title="Make Seller">→ Seller</button>
                       </form>
                       <form action="/api/admin/users" method="POST">
                         <input type="hidden" name="userId" value={u.id} />
                         <input type="hidden" name="action" value="promote_admin" />
-                        <button type="submit" className="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded hover:bg-red-100" title="Make Admin">→ Admin</button>
+                        <button type="submit" className="text-[10px] bg-souq-terra/10 text-souq-terra px-2 py-0.5 rounded hover:bg-souq-terra/20" title="Make Admin">→ Admin</button>
                       </form>
                     </div>
                   </td>

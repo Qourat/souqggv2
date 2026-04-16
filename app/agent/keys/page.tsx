@@ -36,7 +36,7 @@ export default function AgentKeysPage() {
                 </td>
                 <td className="px-4 py-3 text-souq-muted">2h ago</td>
                 <td className="px-4 py-3 text-right">
-                  <button className="text-xs text-red-500 hover:underline">Revoke</button>
+                  <button className="text-xs text-souq-terra hover:underline">Revoke</button>
                 </td>
               </tr>
               <tr>
@@ -47,7 +47,7 @@ export default function AgentKeysPage() {
                 </td>
                 <td className="px-4 py-3 text-souq-muted">1d ago</td>
                 <td className="px-4 py-3 text-right">
-                  <button className="text-xs text-red-500 hover:underline">Revoke</button>
+                  <button className="text-xs text-souq-terra hover:underline">Revoke</button>
                 </td>
               </tr>
             </tbody>

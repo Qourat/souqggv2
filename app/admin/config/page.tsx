@@ -51,23 +51,23 @@ export default async function ConfigPage() {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between items-center py-1 border-b border-souq-line">
                 <span>Database</span>
-                <span className="text-green-600 font-bold">Connected</span>
+                <span className="text-souq-sage font-bold">Connected</span>
               </div>
               <div className="flex justify-between items-center py-1 border-b border-souq-line">
                 <span>Auth Mode</span>
-                <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded font-bold">Local JWT</span>
+                <span className="bg-souq-sage/20 text-souq-sage text-xs px-2 py-0.5 rounded font-bold">Local JWT</span>
               </div>
               <div className="flex justify-between items-center py-1 border-b border-souq-line">
                 <span>Stripe</span>
-                <span className="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded font-bold">Mock Mode</span>
+                <span className="bg-souq-gold/20 text-souq-gold text-xs px-2 py-0.5 rounded font-bold">Mock Mode</span>
               </div>
               <div className="flex justify-between items-center py-1 border-b border-souq-line">
                 <span>File Storage (R2)</span>
-                <span className="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded font-bold">Not Configured</span>
+                <span className="bg-souq-gold/20 text-souq-gold text-xs px-2 py-0.5 rounded font-bold">Not Configured</span>
               </div>
               <div className="flex justify-between items-center py-1 border-b border-souq-line">
                 <span>Search (Typesense)</span>
-                <span className="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded font-bold">Not Configured</span>
+                <span className="bg-souq-gold/20 text-souq-gold text-xs px-2 py-0.5 rounded font-bold">Not Configured</span>
               </div>
             </div>
           </div>

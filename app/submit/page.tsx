@@ -153,7 +153,7 @@ export default function SubmitProductPage() {
       <h1 className="text-lg font-bold mb-1">Submit a Product</h1>
       <p className="text-xs text-souq-muted mb-4">List your digital product on SOUQ.GG</p>
 
-      {error && <div className="mb-3 p-2 bg-red-50 border border-red-200 text-red-700 text-sm rounded">{error}</div>}
+      {error && <div className="mb-3 p-2 bg-souq-error-bg border border-dashed border-souq-border text-souq-error-text text-sm rounded">{error}</div>}
       {success && <div className="mb-3 p-2 bg-green-50 border border-green-200 text-green-700 text-sm rounded">{success}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-3">
@@ -278,7 +278,7 @@ export default function SubmitProductPage() {
                     <span className="text-xs text-souq-faint">{(f.fileSize / 1024).toFixed(1)} KB · v{f.version}</span>
                   </div>
                   <button type="button" onClick={() => removeFile(i)} 
-                    className="text-red-400 hover:text-red-600 text-sm ml-2">✕</button>
+                    className="text-souq-terra hover:text-souq-terra-hover text-sm ml-2">✕</button>
                 </div>
               ))}
             </div>

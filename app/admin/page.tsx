@@ -151,7 +151,7 @@ export default async function AdminDashboard() {
                   <tr key={u.username} className="hover:bg-souq-raised">
                     <td className="px-3 py-2 font-medium">{u.username}</td>
                     <td className="px-3 py-2 text-souq-muted">{u.display_name || "—"}</td>
-                    <td className="px-3 py-2"><span className={`text-xs px-1.5 py-0.5 rounded ${u.role === "admin" ? "bg-red-100 text-red-700" : u.role === "seller" ? "bg-blue-100 text-blue-700" : "bg-souq-raised text-souq-muted"}`}>{u.role}</span></td>
+                    <td className="px-3 py-2"><span className={`text-xs px-1.5 py-0.5 rounded ${u.role === "admin" ? "bg-souq-terra/20 text-souq-terra" : u.role === "seller" ? "bg-souq-sage/20 text-souq-sage" : "bg-souq-raised text-souq-muted"}`}>{u.role}</span></td>
                     <td className="px-3 py-2 text-xs text-souq-faint">{new Date(u.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}

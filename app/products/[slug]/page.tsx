@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import postgres from 'postgres';
 import { notFound } from 'next/navigation';
+import Nav from '@/app/components/Nav';
 
 const sql = postgres(process.env.DATABASE_URL || 'postgres://souq_user:souq123@localhost:5432/souq');
 
@@ -45,13 +46,21 @@ export default async function ProductDetailPage({
     ORDER BY created_at DESC
   `;
 
+  const categories = await sql`
+    SELECT id, name, slug FROM categories
+    ORDER BY name
+    LIMIT 12
+  `;
+
   const fileSizeMB = (bytes: number | null) => {
     if (!bytes) return '';
     return `${(bytes / 1048576).toFixed(1)} MB`;
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-4">
+    <div className="min-h-screen bg-souq-base font-sans text-souq-text">
+      <Nav categories={categories as any[]} />
+      <div className="max-w-4xl mx-auto px-4 py-4">
       {/* Breadcrumb */}
       <div className="text-xs text-souq-muted mb-3">
         <Link href="/" className="hover:underline">SOUQ</Link>
@@ -106,7 +115,7 @@ export default async function ProductDetailPage({
             {tag}
           </Link>
         ))}
-        <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded">{product.license_type}</span>
+        <span className="px-2 py-0.5 bg-souq-terra/10 text-souq-terra rounded border border-dashed border-souq-terra/30">{product.license_type}</span>
         <span className="px-2 py-0.5 bg-souq-raised text-souq-muted rounded">v{product.version}</span>
         <span className="px-2 py-0.5 bg-souq-raised text-souq-muted rounded">{product.product_type}</span>
       </div>
@@ -130,7 +139,7 @@ export default async function ProductDetailPage({
       {product.demo_url && (
         <div className="mb-4">
           <a href={product.demo_url} target="_blank" rel="noopener noreferrer"
-            className="text-blue-500 text-sm hover:underline">
+            className="text-souq-terra text-sm hover:underline">
             Try Demo →
           </a>
         </div>
@@ -169,6 +178,7 @@ export default async function ProductDetailPage({
       <div className="pt-4 border-t border-souq-line">
         <Link href="/products" className="text-sm text-souq-muted hover:underline">← Back to products</Link>
       </div>
+    </div>
     </div>
   );
 }
