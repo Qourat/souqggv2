@@ -92,7 +92,7 @@ export default async function ProductDetailPage({
         </div>
         <div className="text-right">
           <div className="text-2xl font-bold text-souq-text">{formatPrice(product.price_cents, product.pricing_type)}</div>
-          <form action={`/api/products/${product.id}/checkout`} method="POST">
+          <form action={`/api/products/${product.slug}/checkout`} method="POST">
             <button type="submit" className="mt-2 px-4 py-1.5 bg-souq-terra text-white text-sm font-medium rounded hover:bg-souq-terra-hover">
               {product.price_cents === 0 ? 'Download Free' : product.pricing_type === 'pwyw' ? 'Get It' : 'Buy Now'}
             </button>
@@ -115,7 +115,7 @@ export default async function ProductDetailPage({
             {tag}
           </Link>
         ))}
-        <span className="px-2 py-0.5 bg-souq-terra/10 text-souq-terra rounded border border-dashed border-souq-terra/30">{product.license_type}</span>
+        <span className="px-2 py-0.5 bg-souq-terra-muted text-souq-terra rounded border border-dashed border-souq-terra">{product.license_type}</span>
         <span className="px-2 py-0.5 bg-souq-raised text-souq-muted rounded">v{product.version}</span>
         <span className="px-2 py-0.5 bg-souq-raised text-souq-muted rounded">{product.product_type}</span>
       </div>

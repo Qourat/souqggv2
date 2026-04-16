@@ -59,8 +59,8 @@ export default async function AdminProductsPage() {
                   <td className="px-3 py-2">{p.price_cents === 0 ? "Free" : `$${(p.price_cents / 100).toFixed(0)}`}</td>
                   <td className="px-3 py-2">
                     <span className={`text-xs px-1.5 py-0.5 rounded ${
-                      p.status === "active" ? "bg-souq-sage/20 text-souq-sage" :
-                      p.status === "draft" ? "bg-souq-gold/20 text-souq-gold" :
+                      p.status === "active" ? "bg-souq-sage-muted text-souq-sage" :
+                      p.status === "draft" ? "bg-souq-gold-muted text-souq-gold" :
                       "bg-souq-raised text-souq-muted"
                     }`}>{p.status}</span>
                   </td>

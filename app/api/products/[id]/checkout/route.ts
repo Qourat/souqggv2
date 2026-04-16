@@ -34,8 +34,7 @@ export async function POST(
     `;
 
     if (!existingPurchase) {
-      // For paid non-pwyw products, allow download anyway (SaaS pivot: instant access)
-      // Stripe can be layered on later
+      // SaaS pivot: instant access for all products. Stripe can be layered on later.
       const amountCents = (product.price_cents > 0 && product.pricing_type !== 'pwyw')
         ? product.price_cents
         : 0;
@@ -46,19 +45,29 @@ export async function POST(
       `;
     }
 
-    // If product has a file, redirect to download
+    // Always redirect to the success page with product info
+    const successUrl = new URL('/checkout/success', request.url);
+    successUrl.searchParams.set('product', product.slug);
+
     if (product.file_url) {
-      const downloadUrl = new URL(`/api/products/${product.id}/download`, request.url);
-      return NextResponse.redirect(downloadUrl);
+      // Has a file — mark as downloadable on success page
+      successUrl.searchParams.set('download', product.id);
+      if (product.price_cents > 0 && product.pricing_type !== 'pwyw') {
+        successUrl.searchParams.set('pending', '1');
+      } else {
+        successUrl.searchParams.set('free', '1');
+      }
+    } else {
+      // No file — digital access / SaaS product
+      successUrl.searchParams.set('free', '1');
+      successUrl.searchParams.set('nodownload', '1');
     }
 
-    // No file — redirect to success page
-    const successUrl = new URL('/checkout/success', request.url);
-    successUrl.searchParams.set('free', '1');
-    successUrl.searchParams.set('product', product.slug);
     return NextResponse.redirect(successUrl);
   } catch (error: any) {
     console.error('Checkout error:', error);
-    return NextResponse.json({ error: 'Checkout failed' }, { status: 500 });
+    const errorUrl = new URL('/checkout/success', request.url);
+    errorUrl.searchParams.set('error', '1');
+    return NextResponse.redirect(errorUrl);
   }
 }

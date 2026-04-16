@@ -99,7 +99,7 @@ export default async function AdminDashboard() {
             <Link href="/admin/config" className="bg-souq-card border border-souq-border text-xs font-bold px-3 py-1.5 rounded hover:bg-souq-raised">Site Config</Link>
             <form action="/api/auth/login" method="POST" className="inline">
               <input type="hidden" name="username" value="admin" />
-              <button type="submit" className="bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded hover:bg-green-700">Login as Admin</button>
+              <button type="submit" className="bg-souq-sage text-souq-base text-xs font-bold px-3 py-1.5 rounded hover:bg-souq-sage-muted">Login as Admin</button>
             </form>
           </div>
         </div>
@@ -124,7 +124,7 @@ export default async function AdminDashboard() {
                     <td className="px-3 py-2 font-medium">{p.title}</td>
                     <td className="px-3 py-2 text-souq-muted">{p.seller || "—"}</td>
                     <td className="px-3 py-2">{p.price_cents === 0 ? "Free" : `$${(p.price_cents / 100).toFixed(0)}`}</td>
-                    <td className="px-3 py-2"><span className={`text-xs px-1.5 py-0.5 rounded ${p.status === "active" ? "bg-green-100 text-green-700" : "bg-souq-raised text-souq-muted"}`}>{p.status}</span></td>
+                    <td className="px-3 py-2"><span className={`text-xs px-1.5 py-0.5 rounded ${p.status === "active" ? "bg-souq-sage-muted text-souq-sage" : "bg-souq-raised text-souq-muted"}`}>{p.status}</span></td>
                     <td className="px-3 py-2 text-xs text-souq-faint">{new Date(p.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
@@ -151,7 +151,7 @@ export default async function AdminDashboard() {
                   <tr key={u.username} className="hover:bg-souq-raised">
                     <td className="px-3 py-2 font-medium">{u.username}</td>
                     <td className="px-3 py-2 text-souq-muted">{u.display_name || "—"}</td>
-                    <td className="px-3 py-2"><span className={`text-xs px-1.5 py-0.5 rounded ${u.role === "admin" ? "bg-souq-terra/20 text-souq-terra" : u.role === "seller" ? "bg-souq-sage/20 text-souq-sage" : "bg-souq-raised text-souq-muted"}`}>{u.role}</span></td>
+                    <td className="px-3 py-2"><span className={`text-xs px-1.5 py-0.5 rounded ${u.role === "admin" ? "bg-souq-terra-muted text-souq-terra" : u.role === "seller" ? "bg-souq-sage-muted text-souq-sage" : "bg-souq-raised text-souq-muted"}`}>{u.role}</span></td>
                     <td className="px-3 py-2 text-xs text-souq-faint">{new Date(u.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
