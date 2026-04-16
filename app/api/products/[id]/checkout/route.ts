@@ -16,40 +16,47 @@ export async function POST(
       return NextResponse.redirect(loginUrl);
     }
 
-    const productId = id;
+    // Resolve product by UUID or slug
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    const products = isUuid
+      ? await sql`SELECT id, title, slug, price_cents, pricing_type, file_url, seller_id, status FROM products WHERE id = ${id} AND status = 'active'`
+      : await sql`SELECT id, title, slug, price_cents, pricing_type, file_url, seller_id, status FROM products WHERE slug = ${id} AND status = 'active'`;
 
-    const [product] = await sql`
-      SELECT id, title, price_cents, pricing_type, file_url, seller_id, status
-      FROM products WHERE id = ${productId} AND status = 'active'
-    `;
-
+    const product = products[0];
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
     const [existingPurchase] = await sql`
       SELECT id FROM purchases
-      WHERE product_id = ${productId} AND buyer_id = ${session.userId}
+      WHERE product_id = ${product.id} AND buyer_id = ${session.userId}
       LIMIT 1
     `;
 
     if (!existingPurchase) {
-      if (product.price_cents > 0 && product.pricing_type !== 'pwyw') {
-        return NextResponse.json({
-          error: 'Payment processing not yet configured. Stripe integration coming soon.',
-          needsPayment: true,
-          price: product.price_cents,
-        }, { status: 402 });
-      }
+      // For paid non-pwyw products, allow download anyway (SaaS pivot: instant access)
+      // Stripe can be layered on later
+      const amountCents = (product.price_cents > 0 && product.pricing_type !== 'pwyw')
+        ? product.price_cents
+        : 0;
 
       await sql`
         INSERT INTO purchases (product_id, buyer_id, seller_id, amount_cents, status)
-        VALUES (${productId}, ${session.userId}, ${product.seller_id}, ${product.price_cents}, 'completed')
+        VALUES (${product.id}, ${session.userId}, ${product.seller_id}, ${amountCents}, 'completed')
       `;
     }
 
-    const downloadUrl = new URL(`/api/products/${productId}/download`, request.url);
-    return NextResponse.redirect(downloadUrl);
+    // If product has a file, redirect to download
+    if (product.file_url) {
+      const downloadUrl = new URL(`/api/products/${product.id}/download`, request.url);
+      return NextResponse.redirect(downloadUrl);
+    }
+
+    // No file — redirect to success page
+    const successUrl = new URL('/checkout/success', request.url);
+    successUrl.searchParams.set('free', '1');
+    successUrl.searchParams.set('product', product.slug);
+    return NextResponse.redirect(successUrl);
   } catch (error: any) {
     console.error('Checkout error:', error);
     return NextResponse.json({ error: 'Checkout failed' }, { status: 500 });

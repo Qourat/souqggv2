@@ -29,7 +29,7 @@ export default async function SettingsPage() {
 
   return (
     <>
-      <Nav categories={categories as any[]} currentUser={{ username: currentUser.username, display_name: currentUser.display_name }} />
+      <Nav categories={categories as any[]} />
       <SettingsPageClient profile={currentUser as any} />
     </>
   );

@@ -120,21 +120,21 @@ export default function ProfilePageClient({ data }: { data: ProfileData }) {
                   <div style={{ fontSize: "8pt", color: "var(--text-muted)", fontWeight: 700, borderBottom: "1px solid var(--border-subtle)", paddingBottom: 2, marginBottom: 6 }}>ACTIVITY</div>
                   <div style={{ color: "var(--text-muted)", fontSize: "9pt" }}>
                     <div style={{ padding: "3px 0", borderBottom: "1px solid var(--border-subtle)" }}>
-                      <span style={{ color: "var(--link-accent)" }}>●</span> Joined SOUQ.GG · {joined}
+                      <span style={{ color: "var(--link-accent)" }}>✓</span> Joined SOUQ.GG · {joined}
                     </div>
                     {products.length > 0 && (
                       <div style={{ padding: "3px 0", borderBottom: "1px solid var(--border-subtle)" }}>
-                        <span style={{ color: "var(--link-accent)" }}>●</span> Listed {products.length} product{products.length > 1 ? "s" : ""}
+                        <span style={{ color: "var(--link-accent)" }}>✓</span> Listed {products.length} product{products.length > 1 ? "s" : ""}
                       </div>
                     )}
                     {Number(profile.total_sales) > 0 && (
                       <div style={{ padding: "3px 0", borderBottom: "1px solid var(--border-subtle)" }}>
-                        <span style={{ color: "var(--link-accent)" }}>●</span> Made {profile.total_sales} sale{Number(profile.total_sales) > 1 ? "s" : ""}
+                        <span style={{ color: "var(--link-accent)" }}>✓</span> Made {profile.total_sales} sale{Number(profile.total_sales) > 1 ? "s" : ""}
                       </div>
                     )}
                     {Number(profile.follower_count) > 0 && (
                       <div style={{ padding: "3px 0" }}>
-                        <span style={{ color: "var(--link-accent)" }}>●</span> Reached {profile.follower_count} follower{Number(profile.follower_count) > 1 ? "s" : ""}
+                        <span style={{ color: "var(--link-accent)" }}>✓</span> Reached {profile.follower_count} follower{Number(profile.follower_count) > 1 ? "s" : ""}
                       </div>
                     )}
                   </div>

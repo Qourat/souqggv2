@@ -13,17 +13,39 @@ interface Category {
 
 interface NavProps {
   categories?: Category[];
-  currentUser?: {
-    username: string;
-    display_name?: string;
-  } | null;
 }
 
-export default function Nav({ categories = [], currentUser = null }: NavProps) {
+interface CurrentUser {
+  username: string;
+  display_name?: string;
+  role?: string;
+}
+
+export default function Nav({ categories = [] }: NavProps) {
   const [catOpen, setCatOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const catRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
+
+  // Fetch session to determine logged-in state
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/session");
+        if (res.ok) {
+          const data = await res.json();
+          setCurrentUser({
+            username: data.username,
+            display_name: data.display_name,
+            role: data.role,
+          });
+        }
+      } catch {
+        // Not logged in
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -33,6 +55,8 @@ export default function Nav({ categories = [], currentUser = null }: NavProps) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const isAdmin = currentUser?.role === "admin" || (currentUser?.username && String(currentUser.username).toLowerCase() === "qourat");
 
   return (
     <nav className="souq-nav" aria-label="Primary">
@@ -66,7 +90,7 @@ export default function Nav({ categories = [], currentUser = null }: NavProps) {
           </button>
           {catOpen && categories.length > 0 && (
             <div className="souq-nav-dropdown" style={{ left: 0 }}>
-              {categories.map((c) => (
+              {categories.map((c: any) => (
                 <Link
                   key={c.id}
                   href={`/categories?cat=${c.slug}`}
@@ -81,9 +105,6 @@ export default function Nav({ categories = [], currentUser = null }: NavProps) {
 
         <Link href="/submit" className="souq-nav-link">
           submit
-        </Link>
-        <Link href="/admin" className="souq-nav-link">
-          admin
         </Link>
 
         <div style={{ flex: 1 }} />
@@ -126,6 +147,11 @@ export default function Nav({ categories = [], currentUser = null }: NavProps) {
                 <Link href="/agent/keys" onClick={() => setUserOpen(false)}>
                   agent keys
                 </Link>
+                {isAdmin && (
+                  <Link href="/admin" onClick={() => setUserOpen(false)}>
+                    admin panel
+                  </Link>
+                )}
                 <a href="/api/auth/logout" onClick={() => setUserOpen(false)}>
                   logout
                 </a>

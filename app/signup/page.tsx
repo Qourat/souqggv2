@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import SouqMarketingHeader from "@/app/components/SouqMarketingHeader";
 
@@ -10,6 +10,20 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // If already logged in, redirect away
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/session");
+        if (res.ok) {
+          window.location.href = "/";
+        }
+      } catch {
+        // Not logged in — show form
+      }
+    })();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,13 +51,7 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen bg-souq-base font-sans text-souq-text">
-      <SouqMarketingHeader
-        trailing={
-          <Link href="/login" className="souq-badge-pill">
-            Login
-          </Link>
-        }
-      />
+      <SouqMarketingHeader />
 
       <main className="max-w-sm mx-auto p-4 mt-16 px-4">
         <h1 className="font-display text-2xl font-bold mb-6 text-center tracking-tight">

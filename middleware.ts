@@ -77,11 +77,15 @@ export async function middleware(request: NextRequest) {
 
   // ─── Admin-only routes ───
   if (ADMIN_ONLY_PATHS.some(p => pathname.startsWith(p))) {
+    // Allow admin login page without auth
+    if (pathname === '/admin/login') {
+      return NextResponse.next();
+    }
     if (!session) {
       if (pathname.startsWith('/api/')) {
         return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
       }
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/admin/login', request.url));
     }
     const isOwnerAdmin = String(session.username).toLowerCase() === 'qourat';
     if (session.role !== 'admin' && !isOwnerAdmin) {

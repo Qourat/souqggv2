@@ -11,14 +11,14 @@ export async function GET(
   try {
     const { id } = await params;
     const session = await getSession();
-    const productId = id;
 
-    const [product] = await sql`
-      SELECT p.id, p.title, p.price_cents, p.file_url, p.version, p.seller_id, p.status
-      FROM products p
-      WHERE p.id = ${productId} AND p.status = 'active'
-    `;
+    // Resolve product by UUID or slug
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    const products = isUuid
+      ? await sql`SELECT p.id, p.title, p.slug, p.price_cents, p.file_url, p.version, p.seller_id, p.status FROM products p WHERE p.id = ${id} AND p.status = 'active'`
+      : await sql`SELECT p.id, p.title, p.slug, p.price_cents, p.file_url, p.version, p.seller_id, p.status FROM products p WHERE p.slug = ${id} AND p.status = 'active'`;
 
+    const product = products[0];
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
@@ -27,13 +27,13 @@ export async function GET(
       return NextResponse.json({ error: 'No file available for this product' }, { status: 404 });
     }
 
-    // SAAS pivot: all active products are downloadable; pro can be layered later.
+    // SaaS pivot: all active products are downloadable; access control can be layered later
     let hasAccess = true;
 
     if (!hasAccess && session?.userId) {
       const [purchase] = await sql`
         SELECT id FROM purchases
-        WHERE product_id = ${productId} AND buyer_id = ${session.userId}
+        WHERE product_id = ${product.id} AND buyer_id = ${session.userId}
         LIMIT 1
       `;
       if (purchase) hasAccess = true;
@@ -46,6 +46,7 @@ export async function GET(
       return NextResponse.json({ error: 'Purchase required to download' }, { status: 403 });
     }
 
+    // R2 presigned URL
     if (isR2Configured() && product.file_url.includes('r2.cloudflarestorage.com')) {
       const key = product.file_url.split('.com/')[1];
       if (key) {
@@ -59,9 +60,15 @@ export async function GET(
       }
     }
 
+    // Local file — redirect directly to the file URL
+    if (product.file_url.startsWith('/uploads/')) {
+      return NextResponse.redirect(new URL(product.file_url, request.url));
+    }
+
+    // External URL — return as JSON with download token
     const downloadToken = Buffer.from(
       JSON.stringify({
-        productId,
+        productId: product.id,
         userId: session?.userId || 'anonymous',
         exp: Date.now() + 3600000,
       })
@@ -72,7 +79,7 @@ export async function GET(
       downloadUrl: `${product.file_url}?token=${downloadToken}`,
       expiresIn: 3600,
       fileName: `${product.title.replace(/[^a-zA-Z0-9]/g, '-')}-v${product.version}`,
-    });
+    }, { status: 200 });
   } catch (error: any) {
     console.error('Download error:', error);
     return NextResponse.json({ error: 'Download failed' }, { status: 500 });
