@@ -14,7 +14,7 @@ import {
   PRODUCT_TYPE_VALUES,
   PRODUCT_STATUS_VALUES,
   LICENSE_TYPE_VALUES,
-} from "@/modules/products";
+} from "@/modules/products/products.schema";
 
 const initial: ProductActionState = { ok: false };
 

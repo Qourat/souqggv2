@@ -166,6 +166,22 @@
     "trust.secure": "محمي بـ Stripe",
     "trust.refund": "30 يوماً للاسترداد"
   },
+  "thankYou": {
+    "title": "شكراً لك",
+    "body": "طلبك قيد المعالجة. الإيصال في طريقه إليك.",
+    "orderId": "رقم الطلب",
+    "status": "الحالة",
+    "fulfilNote": "تظهر التنزيلات في مكتبتك فور تأكيد الدفع.",
+    "openLibrary": "افتح المكتبة"
+  },
+  "order": {
+    "status.pending": "قيد الانتظار",
+    "status.paid": "مدفوع",
+    "status.fulfilled": "مُسلَّم",
+    "status.refunded": "مُسترَد",
+    "status.failed": "فشل",
+    "status.cancelled": "مُلغى"
+  },
   "library": {
     "title": "مكتبتك",
     "subtitle": "كل ملف اشتريته.",

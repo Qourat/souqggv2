@@ -26,31 +26,51 @@ Delivered:
   is empty
 - All MVP routes stubbed with `<SprintStub />` so navigation works end-to-end
 
-## Sprint 2 — Products
+## Sprint 2 — Products ✅
 
-- Admin categories CRUD (RHF + Zod, server actions)
-- Admin products CRUD with file upload (Supabase Storage)
-- Product images: gallery upload, sort, alt text
-- Public products listing: search, filters (category, type, language),
-  sort (price, date, popularity), pagination
-- Public product detail page (the most important sales page):
-  - Hero, gallery, tabs (Overview / What's Included / Who It's For / How To Use / FAQ)
-  - License terms (can/cannot do bullets)
-  - Sticky purchase bar
-  - Related products
-  - JSON-LD `Product` structured data + per-page meta
-- Slug generation (Arabic-safe via `slugify()`)
+Delivered:
+- Admin categories CRUD (server actions, Zod schema, localized inputs).
+- Admin products CRUD with localized title/description/short, status,
+  type, license, content languages, price/compare-at, currency, etc.
+- Public products listing: search (FTS via tsvector), filters
+  (category, type, language, price, rating, featured), sort, pagination.
+- Public product detail page:
+  - Gallery (hero + thumbs, deterministic placeholder fallback).
+  - Tabs: Overview / What's Included / Who It's For / How To Use / FAQ.
+  - License terms in specs sidebar.
+  - Sticky buy bar with cart integration.
+  - Related products (by category or type).
+  - JSON-LD Product schema + per-product `generateMetadata`.
+- `/categories` index → `/categories/[slug]` filtered shop view.
+- Cart page (line items, qty, summary) + live header counter.
+- Demo data source so the storefront browses fully without Supabase.
 
-## Sprint 3 — Checkout
+Deferred to Sprint 4 (downloads):
+- Image upload helper (Supabase Storage signed uploads) — admin can
+  paste thumbnail URL today, gallery upload UI lands with the file
+  pipeline.
+- Slugify helper for Arabic-aware auto-slug generation.
 
-- Cart store (Zustand, persisted to localStorage)
-- Cart page with line items, coupon input, totals
-- Checkout page: email capture for guest, redirect to provider
-- `/api/checkout` — creates Stripe session, persists `pending` order
-- `/api/webhooks/stripe` — verify signature, idempotent, mark order `paid`,
-  create `downloads` rows, enqueue email
-- `/thank-you?orderId=...` — friendly receipt with first download link
-- Resend confirmation email (Arabic + English)
+## Sprint 3 — Checkout (in progress)
+
+Delivered:
+- Cart store (Zustand, localStorage-persisted) with summary selectors.
+- Cart page with line items, qty editing, summary, sticky checkout CTA.
+- Orders module (`controller / service / repository / resource / schema`).
+- `POST /api/checkout` — validates payload, re-prices server-side from DB,
+  inserts `pending` order + items, creates Stripe Checkout session, returns
+  hosted-checkout URL. Demo mode (no Supabase) returns a friendly error.
+- `POST /api/webhooks/stripe` — verifies signature, dispatches to
+  `ordersService.fulfilCheckoutCompleted` (marks order `paid`, links the
+  payment intent) on `checkout.session.completed`, and to `failOrder` on
+  `payment_intent.payment_failed`.
+- `/checkout` page with email capture + summary; submits to API.
+- `/thank-you?orderId=...` receipt page with order summary and library CTA.
+
+Deferred to Sprint 4:
+- `downloads` rows + signed URL minting.
+- Resend confirmation email templates (en + ar).
+- Coupon input on cart and discount calc.
 
 ## Sprint 4 — Downloads
 

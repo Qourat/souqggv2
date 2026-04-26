@@ -692,6 +692,11 @@ export const demoSource = {
   categorySlugs(): string[] {
     return CATEGORIES.map((c) => c.slug);
   },
+
+  productsByIds(ids: string[]): ProductRow[] {
+    const set = new Set(ids);
+    return PRODUCTS.filter((p) => set.has(p.id));
+  },
 };
 
 function sortProducts(

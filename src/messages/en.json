@@ -166,6 +166,22 @@
     "trust.secure": "Secured by Stripe",
     "trust.refund": "30-day refund window"
   },
+  "thankYou": {
+    "title": "Thank you",
+    "body": "Your order is being processed. A receipt is on its way.",
+    "orderId": "Order",
+    "status": "Status",
+    "fulfilNote": "Downloads appear in your library as soon as the payment clears.",
+    "openLibrary": "Open library"
+  },
+  "order": {
+    "status.pending": "pending",
+    "status.paid": "paid",
+    "status.fulfilled": "fulfilled",
+    "status.refunded": "refunded",
+    "status.failed": "failed",
+    "status.cancelled": "cancelled"
+  },
   "library": {
     "title": "Your library",
     "subtitle": "Every file you've purchased.",

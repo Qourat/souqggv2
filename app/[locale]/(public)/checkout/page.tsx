@@ -1,6 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 
-import { SprintStub } from "@/components/layout/sprint-stub";
+import { CheckoutView } from "@/components/checkout/checkout-view";
 
 export default async function CheckoutPage({
   params,
@@ -9,11 +9,5 @@ export default async function CheckoutPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return (
-    <SprintStub
-      title="Checkout"
-      sprint="Sprint 2 — Checkout & Payments"
-      body="Stripe checkout session + MENA fallback land here."
-    />
-  );
+  return <CheckoutView />;
 }

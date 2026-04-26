@@ -186,6 +186,20 @@ export const productsRepository = {
     return (data ?? []) as unknown as Product[];
   },
 
+  async findManyByIds(ids: string[]): Promise<Product[]> {
+    if (ids.length === 0) return [];
+    if (!hasSupabase()) {
+      return demoSource.productsByIds(ids) as Product[];
+    }
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select(SELECT)
+      .in("id", ids);
+    if (error) throw error;
+    return (data ?? []) as unknown as Product[];
+  },
+
   async findById(id: string): Promise<Product | null> {
     if (!hasSupabase()) {
       return (
