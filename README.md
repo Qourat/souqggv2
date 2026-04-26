@@ -674,24 +674,19 @@ Last commit on `main` after this README lands: see `git log -1`.
 The **MVP backbone is shippable**. The remaining gates are content and
 operational, not architectural. Suggested ordering:
 
-1. **Per-event audit hooks** — extend `auditService.log()` calls to
-   product publish/unpublish, coupon create/edit, and admin
-   product-file delete. Audit module is in place; just sprinkle
-   `auditService.log({ ... })` at the call sites. Reviews already
-   self-audit — see `reviews.service.ts` for the pattern.
-2. **Email on review approval** *(optional)* — `notifications` module
+1. **Email on review approval** *(optional)* — `notifications` module
    is wired for transactional sends; add a `review.approved` template
    and call from `reviewsService.moderate` when crossing into
    `approved`.
-3. **25-product launch catalogue** — content sprint. Use the `listing`,
+2. **25-product launch catalogue** — content sprint. Use the `listing`,
    `seo`, `marketing` AI agents we just shipped. Run `compliance` on every
    product before publish.
-4. **Stripe live keys + Resend live domain + R2 migration** — see
+3. **Stripe live keys + Resend live domain + R2 migration** — see
    `docs/ops/server-setup.md`.
-5. **Legal copy review** — replace placeholder content under
+4. **Legal copy review** — replace placeholder content under
    `/[locale]/(public)/legal/*` with finalised terms / privacy / refund /
    downloads / acceptable-use / DMCA.
-6. **End-to-end pre-launch test plan** — happy path (browse → add → cart
+5. **End-to-end pre-launch test plan** — happy path (browse → add → cart
    → checkout → Stripe test → webhook → library → re-download), edge
    cases (failed payment, expired signed URL, coupon limits hit, etc.).
 

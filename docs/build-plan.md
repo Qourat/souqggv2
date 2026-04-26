@@ -164,6 +164,21 @@ Delivered:
 - Sidebar entry under `admin.nav.reviews` (MessageSquare icon),
   `review` chip added to the audit-log filter row, full EN + AR
   translation parity.
+- **Per-event audit hooks** wired into the remaining admin actions:
+  - `products.actions.upsertProductAction` →
+    `product.create` / `product.create.published` / `product.update`
+    / `product.publish` (status-aware).
+  - `products.actions.deleteProductAction` → `product.delete`.
+  - `product-files.actions.upload/delete` →
+    `product_file.upload` / `product_file.delete` with productId,
+    filename, size in the diff.
+  - `coupons.actions.upsert/delete` → `coupon.create` /
+    `coupon.update` / `coupon.delete` with code + discount in the
+    diff.
+  - `categories.actions.upsert/delete` → `category.create` /
+    `category.update` / `category.delete`.
+  - Audit-log filter chips extended with `product_file` and
+    `category` so all of the above are reachable from the UI.
 - **Audit module** (`src/modules/audit/`) — service + repository + controller
   on the existing `audit_log` table. `auditService.log()` is best-effort
   (failure NEVER rolls back the calling action; logged to app logger).

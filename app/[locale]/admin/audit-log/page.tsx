@@ -70,7 +70,17 @@ export default async function AdminAuditLogPage({
         >
           {t("admin.audit.filter.all")}
         </Link>
-        {(["product", "order", "coupon", "review", "ai_job"] as const).map((e) => (
+        {(
+          [
+            "product",
+            "product_file",
+            "order",
+            "coupon",
+            "category",
+            "review",
+            "ai_job",
+          ] as const
+        ).map((e) => (
           <Link
             key={e}
             href={`/admin/audit-log?entity=${e}`}

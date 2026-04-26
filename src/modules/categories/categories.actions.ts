@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { requireAdmin } from "@/shared/auth/session";
+import { auditService } from "@/modules/audit";
 
 import { categoriesService } from "./categories.service";
 
@@ -24,10 +25,12 @@ export async function upsertCategoryAction(
   _prev: CategoryActionState,
   formData: FormData,
 ): Promise<CategoryActionState> {
-  await requireAdmin();
+  const actor = await requireAdmin();
 
+  const idValue = formData.get("id");
+  const isUpdate = Boolean(idValue);
   const raw: Record<string, unknown> = {
-    id: formData.get("id") || undefined,
+    id: idValue || undefined,
     slug: formData.get("slug"),
     sortOrder: formData.get("sortOrder") || 0,
     icon: formData.get("icon") || null,
@@ -46,13 +49,27 @@ export async function upsertCategoryAction(
     };
   }
 
+  await auditService.log({
+    actorId: actor.id,
+    action: isUpdate ? "category.update" : "category.create",
+    entityType: "category",
+    entityId: String((result.value as { id?: string }).id ?? idValue ?? ""),
+    diff: { slug: raw.slug, sortOrder: raw.sortOrder },
+  });
+
   revalidatePath("/", "layout");
   return { ok: true, message: "Saved" };
 }
 
 export async function deleteCategoryAction(id: string): Promise<void> {
-  await requireAdmin();
+  const actor = await requireAdmin();
   await categoriesService.remove(id);
+  await auditService.log({
+    actorId: actor.id,
+    action: "category.delete",
+    entityType: "category",
+    entityId: id,
+  });
   revalidatePath("/", "layout");
 }
 

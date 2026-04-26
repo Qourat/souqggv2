@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { requireAdmin } from "@/shared/auth/session";
+import { auditService } from "@/modules/audit";
 
 import { productsService } from "./products.service";
 
@@ -16,10 +17,12 @@ export async function upsertProductAction(
   _prev: ProductActionState,
   formData: FormData,
 ): Promise<ProductActionState> {
-  await requireAdmin();
+  const actor = await requireAdmin();
 
+  const id = formData.get("id");
+  const isUpdate = Boolean(id);
   const raw: Record<string, unknown> = {
-    id: formData.get("id") || undefined,
+    id: id || undefined,
     slug: formData.get("slug"),
     type: formData.get("type"),
     status: formData.get("status") || "draft",
@@ -48,13 +51,41 @@ export async function upsertProductAction(
     };
   }
 
+  const status = String(raw.status ?? "draft");
+  await auditService.log({
+    actorId: actor.id,
+    action:
+      status === "published"
+        ? isUpdate
+          ? "product.publish"
+          : "product.create.published"
+        : isUpdate
+          ? "product.update"
+          : "product.create",
+    entityType: "product",
+    entityId: String((result.value as { id?: string }).id ?? id ?? ""),
+    diff: {
+      slug: raw.slug,
+      status,
+      type: raw.type,
+      priceCents: Number(raw.priceCents ?? 0),
+      isFeatured: Boolean(raw.isFeatured),
+    },
+  });
+
   revalidatePath("/", "layout");
   return { ok: true, message: "Saved" };
 }
 
 export async function deleteProductAction(id: string): Promise<void> {
-  await requireAdmin();
+  const actor = await requireAdmin();
   await productsService.remove(id);
+  await auditService.log({
+    actorId: actor.id,
+    action: "product.delete",
+    entityType: "product",
+    entityId: id,
+  });
   revalidatePath("/", "layout");
 }
 
