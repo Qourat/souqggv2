@@ -95,7 +95,7 @@ Deferred:
 - Coupon support and `max_downloads_per_purchase` overrides (Sprint 5).
 - Admin file upload UI (lands here in Sprint 5 once admin orders are in).
 
-## Sprint 5 — Admin & analytics (in progress)
+## Sprint 5 — Admin & analytics ✅
 
 Delivered:
 - `/admin/orders` — paginated table with status filters (all / pending / paid
@@ -113,23 +113,58 @@ Delivered:
   blobs are best-effort cleaned if the DB insert fails.
 - "Manage files" link on the product edit page.
 - AdminPageHeader now accepts ReactNode for title/subtitle.
+- Coupons module (`controller / service / repository / schema / actions`).
+  Admin CRUD at `/admin/coupons`, `/admin/coupons/new`,
+  `/admin/coupons/[id]/edit`. Cart coupon input with previewCouponAction.
+  Discount math centralized in `couponsService.applyToCart` and re-used
+  by `ordersService.createCheckout`. `usedCount` is incremented on
+  fulfilment. Cart store persists the applied coupon (v2 storage) and
+  clears it whenever cart contents change.
+- Analytics module (`controller / service / repository`). Live admin
+  dashboard with 6 KPI cards (revenue MTD, orders MTD, pending,
+  failed MTD, published products, drafts), recent-orders table, and
+  top-product card (last 30d). Each KPI links into the matching admin
+  filter for one-click drill-down.
+- Mailer adapter under `@/shared/email` (Resend + noop fallback). New
+  `notifications` module sends a "your downloads are ready" email
+  (en + ar HTML + text) on `ordersService.fulfilCheckoutCompleted`,
+  with one-click `/api/downloads/[id]` URLs. All failures degrade
+  gracefully — paid orders are never rolled back because of email.
 
-Pending:
-- Dashboard cards backed by real queries (revenue MTD, orders, top
-  products, failed payments, draft products, coupon usage).
-- Coupon CRUD with validation server action.
-- Coupons UI in the cart + discount math in the orders service.
-- Resend "your download is ready" email on fulfilment.
+Deferred to a later mini-sprint:
 - Audit log viewer.
 - CSV export for orders.
+- `/library/[orderId]` per-order detail page.
 
-## Sprint 6 — Internal AI tools
+## Sprint 6 — Internal AI tools — DONE
 
-- `/admin/ai-tools` page with one card per agent
-- Agents: product description, SEO metadata, compliance check, marketing
-  posts, QA checklist
-- AI calls go through `/api/ai/[task]` with rate limiting (10/min admin only)
-- All outputs persisted to `ai_jobs` table for review
+- `@/shared/ai` LLM adapter family: OpenAI (`gpt-4o-mini` default),
+  Anthropic (`claude-3-5-haiku-latest` default), and a deterministic
+  noop adapter that returns placeholder text when no API key is set.
+  Each adapter normalizes message shape, surfaces token usage, and
+  computes `costUsd` so `ai_jobs` always has accountable cost data.
+- `ai_jobs` repository under `@/modules/ai` with `running` →
+  `succeeded` / `failed` lifecycle, capturing `cost_usd`, `duration_ms`,
+  parsed output, raw text, model, and provider for traceability.
+- In-memory token-bucket rate limiter (10 req/min per admin × agent).
+  Returns `AppError.tooManyRequests` (429) when exceeded. A Redis-
+  backed implementation is the obvious next step for multi-instance
+  deploys but is not needed for the MVP single-region admin team.
+- Five agents shipped, each with its own descriptor, Zod input/output
+  schema, and prompt builder under `@/modules/ai/agents/`:
+  - `listing` — bilingual product title/short/long/tags/price
+  - `seo` — meta title, description, keywords
+  - `marketing` — launch posts, short ad copy
+  - `qa` — drafts review for clarity/accuracy/tone
+  - `compliance` — flags grey-market or rights-unclear listings before
+    publish (enforces the "never grey market" policy at AI level)
+- `/api/ai/[task]` POST endpoint, admin-only (`requireAdmin`), drives
+  the same `aiService.run()` pipeline as the server actions: validate
+  → rate-limit → log → call LLM → parse JSON → persist.
+- `/admin/ai-tools` retro page: one card per agent with auto-generated
+  form (text / textarea / select), live cost + latency + model display,
+  copy-to-clipboard for output, and a recent-runs history table backed
+  by `ai_jobs`. Buyer-facing surfaces never touch this module.
 
 ---
 

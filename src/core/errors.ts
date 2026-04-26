@@ -74,6 +74,10 @@ export class AppError extends Error {
     return new AppError("DEPENDENCY_DOWN", message, 503);
   }
 
+  static tooManyRequests(message = "Too many requests") {
+    return new AppError("RATE_LIMITED", message, 429);
+  }
+
   static fromUnknown(e: unknown): AppError {
     if (e instanceof AppError) return e;
     if (e instanceof Error) return new AppError("UNKNOWN", e.message, 500);
