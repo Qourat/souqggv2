@@ -147,6 +147,19 @@ export const downloadsService = {
     });
   },
 
+  async listForOrder(
+    orderId: string,
+    locale: string,
+  ): Promise<Result<LibraryItemDto[]>> {
+    if (!hasSupabase()) return ok([]);
+    const r = await tryAsync(
+      () => downloadsRepository.listForOrder(orderId),
+      AppError.fromUnknown,
+    );
+    if (!r.ok) return r;
+    return ok(r.value.map((e) => toLibraryItemDto(e, locale)));
+  },
+
   async listForUser(
     userId: string,
     locale: string,

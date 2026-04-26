@@ -184,6 +184,52 @@ export const downloadsRepository = {
     if (updErr) throw updErr;
   },
 
+  async listForOrder(orderId: string): Promise<LibraryEntry[]> {
+    const supabase = createSupabaseAdminClient();
+    const { data, error } = await supabase
+      .from("downloads")
+      .select(
+        `
+        *,
+        product_files:file_id (*),
+        order_items:order_item_id!inner (
+          id, order_id, product_id, unit_price_cents, title_snapshot,
+          orders:order_id ( currency, paid_at ),
+          products:product_id ( slug )
+        )
+        `,
+      )
+      .eq("order_items.order_id", orderId)
+      .order("created_at", { ascending: true });
+    if (error) throw error;
+
+    return ((data ?? []) as unknown as Array<
+      RawDownload & {
+        product_files: RawProductFile;
+        order_items: {
+          id: string;
+          order_id: string;
+          product_id: string;
+          unit_price_cents: number;
+          title_snapshot: Record<string, string>;
+          orders: { currency: string; paid_at: string | null } | null;
+          products: { slug: string } | null;
+        };
+      }
+    >).map((row) => ({
+      download: toDownload(row),
+      file: toFile(row.product_files),
+      productId: row.order_items.product_id,
+      productSlug: row.order_items.products?.slug ?? "",
+      productTitle: row.order_items.title_snapshot,
+      orderId: row.order_items.order_id,
+      orderItemId: row.order_items.id,
+      unitPriceCents: row.order_items.unit_price_cents,
+      currency: row.order_items.orders?.currency ?? "USD",
+      paidAt: row.order_items.orders?.paid_at ?? null,
+    }));
+  },
+
   async listForUser(userId: string): Promise<LibraryEntry[]> {
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase

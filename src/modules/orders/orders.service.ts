@@ -10,6 +10,7 @@ import { tField, type LocalizedField } from "@/shared/i18n/localized-field";
 import { couponsService } from "@/modules/coupons/coupons.service";
 import { couponsRepository } from "@/modules/coupons/coupons.repository";
 import { downloadsService } from "@/modules/downloads/downloads.service";
+import { notificationsService } from "@/modules/notifications/notifications.service";
 import { productsRepository } from "@/modules/products/products.repository";
 
 import { createCheckoutSchema } from "./orders.schema";
@@ -269,6 +270,45 @@ export const ordersService = {
         code: fulfilment.error.code,
         message: fulfilment.error.message,
       });
+    }
+
+    // Best-effort "your downloads are ready" email. Failures here MUST
+    // never roll back the paid status — the buyer can always re-fetch
+    // from /library.
+    const recipient =
+      full.value.order.email ??
+      (typeof full.value.order.metadata === "object" &&
+      full.value.order.metadata &&
+      "email" in full.value.order.metadata
+        ? (full.value.order.metadata as { email?: string }).email
+        : null) ??
+      null;
+    if (recipient) {
+      const meta =
+        (full.value.order.metadata as { locale?: string } | null) ?? null;
+      const locale = meta?.locale ?? "en";
+      const items = await downloadsService.listForOrder(orderId, locale);
+      if (items.ok && items.value.length > 0) {
+        await notificationsService.sendDownloadReady({
+          to: recipient,
+          locale,
+          orderId,
+          totalCents: full.value.order.totalCents,
+          currency: full.value.order.currency,
+          items: items.value.map((it) => ({
+            productTitle: it.productTitle,
+            filename: it.filename,
+            downloadUrl: `${publicEnv.appUrl}/api/downloads/${it.downloadId}`,
+          })),
+        });
+      } else if (!items.ok) {
+        log.warn("download-ready email skipped: cannot list downloads", {
+          orderId,
+          error: items.error.message,
+        });
+      }
+    } else {
+      log.info("download-ready email skipped: no recipient", { orderId });
     }
     return ok(true);
   },
