@@ -13,6 +13,7 @@ import { productsRepository } from "@/modules/products/products.repository";
 import { createCheckoutSchema } from "./orders.schema";
 import { ordersRepository } from "./orders.repository";
 import { toOrderDto, type OrderDto } from "./orders.resource";
+import type { Order } from "./orders.types";
 
 const log = logger("orders.service");
 
@@ -178,6 +179,26 @@ export const ordersService = {
     if (!r.ok) return r;
     if (!r.value) return err(AppError.notFound("Order"));
     return ok(toOrderDto(r.value, locale));
+  },
+
+  async listAllForAdmin(
+    options: {
+      status?: Order["status"];
+      limit?: number;
+      offset?: number;
+    },
+    locale: string,
+  ): Promise<Result<{ rows: OrderDto[]; total: number }>> {
+    if (!hasSupabase()) return ok({ rows: [], total: 0 });
+    const r = await tryAsync(
+      () => ordersRepository.listAllForAdmin(options),
+      AppError.fromUnknown,
+    );
+    if (!r.ok) return r;
+    return ok({
+      rows: r.value.rows.map((row) => toOrderDto(row, locale)),
+      total: r.value.total,
+    });
   },
 
   async fulfilCheckoutCompleted(

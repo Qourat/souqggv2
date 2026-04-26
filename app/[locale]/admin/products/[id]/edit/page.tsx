@@ -4,8 +4,10 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { AdminBanner } from "@/components/layout/admin-banner";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { ProductForm } from "@/components/admin/product-form";
+import { Button } from "@/components/ui/button";
 import { categoriesService } from "@/modules/categories";
 import { productsService } from "@/modules/products";
+import { Link } from "@/shared/i18n/navigation";
 import { tField } from "@/shared/i18n/localized-field";
 import { hasSupabase } from "@/shared/db/has-supabase";
 
@@ -36,6 +38,13 @@ export default async function EditProductPage({
       <AdminPageHeader
         title={t("admin.products.editTitle")}
         subtitle={p.slug}
+        actions={
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/admin/products/${p.id}/files`}>
+              {t("admin.files.manage")}
+            </Link>
+          </Button>
+        }
       />
       {!supabaseReady ? (
         <AdminBanner

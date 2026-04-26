@@ -95,14 +95,33 @@ Deferred:
 - Coupon support and `max_downloads_per_purchase` overrides (Sprint 5).
 - Admin file upload UI (lands here in Sprint 5 once admin orders are in).
 
-## Sprint 5 — Admin & analytics
+## Sprint 5 — Admin & analytics (in progress)
 
-- Dashboard cards backed by real queries (revenue MTD, orders, top products,
-  failed payments, draft products, coupon usage)
-- Orders table with filters
-- Coupon CRUD with validation server action
-- Audit log viewer
-- CSV export for orders
+Delivered:
+- `/admin/orders` — paginated table with status filters (all / pending / paid
+  / failed / refunded), live total count, status badges (gold / sage /
+  terracotta / danger), 25-per-page pagination.
+- `/admin/orders/[id]` — order detail page showing line items + summary
+  (subtotal, discount, total, currency, paid_at, status badge).
+- Orders repository refactored to normalize Supabase snake_case columns
+  to camelCase at the boundary (latent bug fix). Added `listAllForAdmin`
+  with status + pagination.
+- `/admin/products/[id]/files` — product files manager. Uploads via the
+  storage adapter to the `product-files` bucket under `{productId}/{ts}-
+  {safe-name}`, persists a `product_files` row, and lists existing files
+  with delete + size + mime + version columns. 500 MB cap. Orphaned
+  blobs are best-effort cleaned if the DB insert fails.
+- "Manage files" link on the product edit page.
+- AdminPageHeader now accepts ReactNode for title/subtitle.
+
+Pending:
+- Dashboard cards backed by real queries (revenue MTD, orders, top
+  products, failed payments, draft products, coupon usage).
+- Coupon CRUD with validation server action.
+- Coupons UI in the cart + discount math in the orders service.
+- Resend "your download is ready" email on fulfilment.
+- Audit log viewer.
+- CSV export for orders.
 
 ## Sprint 6 — Internal AI tools
 

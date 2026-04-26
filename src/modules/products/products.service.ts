@@ -105,6 +105,15 @@ export const productsService = {
     );
   },
 
+  async getById(
+    id: string,
+    locale: string,
+  ): Promise<Result<ProductDto | null>> {
+    const raw = await this.getByIdRaw(id);
+    if (!raw.ok) return raw;
+    return ok(raw.value ? toProductDto(raw.value, locale) : null);
+  },
+
   async upsert(rawInput: unknown): Promise<Result<Product>> {
     const parsed = upsertProductSchema.safeParse(rawInput);
     if (!parsed.success) {
