@@ -8,6 +8,7 @@ import {
   BarChart3,
   Sparkles,
   ScrollText,
+  MessageSquare,
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -20,6 +21,7 @@ const ITEMS = [
   { href: "/admin/users", icon: Users, key: "users" },
   { href: "/admin/categories", icon: FolderTree, key: "categories" },
   { href: "/admin/coupons", icon: TicketPercent, key: "coupons" },
+  { href: "/admin/reviews", icon: MessageSquare, key: "reviews" },
   { href: "/admin/analytics", icon: BarChart3, key: "analytics" },
   { href: "/admin/ai-tools", icon: Sparkles, key: "aiTools" },
   { href: "/admin/audit-log", icon: ScrollText, key: "auditLog" },

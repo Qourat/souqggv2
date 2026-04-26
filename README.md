@@ -656,7 +656,14 @@ Detailed history: [`docs/build-plan.md`](./docs/build-plan.md). Highlights:
   `GET /api/admin/orders/export` CSV streaming with audit entry per
   export, `/library/[orderId]` per-order buyer page (ownership-checked
   via `ordersController.getByIdForUser`), `/library` rows deep-link to
-  per-order view, thank-you CTA opens it directly.
+  per-order view, thank-you CTA opens it directly. Reviews surface:
+  full `reviews` module (replaces the Sprint-1 stub) with
+  buyer submit (purchase-gated, one-per-(product,user), editing
+  resets to pending), `/admin/reviews` moderation queue
+  (approve/hide/repend/delete), `<ProductReviews />` on every product
+  page, automatic `products.rating_avg/count` recompute on
+  approval-boundary crossings, audit entries for every review
+  submit/moderate/delete.
 
 Last commit on `main` after this README lands: see `git log -1`.
 
@@ -667,14 +674,15 @@ Last commit on `main` after this README lands: see `git log -1`.
 The **MVP backbone is shippable**. The remaining gates are content and
 operational, not architectural. Suggested ordering:
 
-1. **Reviews surface** — table + RLS exist; build the buyer-facing
-   submit form (post-purchase only), the moderation queue at
-   `/admin/reviews`, and the average-rating display already wired in
-   `products.ratingAvg`.
-2. **Per-event audit hooks** — extend `auditService.log()` calls to
+1. **Per-event audit hooks** — extend `auditService.log()` calls to
    product publish/unpublish, coupon create/edit, and admin
    product-file delete. Audit module is in place; just sprinkle
-   `auditService.log({ ... })` at the call sites.
+   `auditService.log({ ... })` at the call sites. Reviews already
+   self-audit — see `reviews.service.ts` for the pattern.
+2. **Email on review approval** *(optional)* — `notifications` module
+   is wired for transactional sends; add a `review.approved` template
+   and call from `reviewsService.moderate` when crossing into
+   `approved`.
 3. **25-product launch catalogue** — content sprint. Use the `listing`,
    `seo`, `marketing` AI agents we just shipped. Run `compliance` on every
    product before publish.

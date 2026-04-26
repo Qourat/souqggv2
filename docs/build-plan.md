@@ -139,6 +139,31 @@ Deferred items from Sprint 5 — all delivered in Sprint 7 (see above):
 ## Sprint 7 — Polish & launch prep ✅ (in progress)
 
 Delivered:
+- **Reviews module** (`src/modules/reviews/`) — full
+  controller/service/repository/actions/schema/types, replaces the
+  Sprint-1 stub. Buyer flow: `submit()` is gated by
+  `userHasPurchased()` (any paid OR fulfilled order containing the
+  product) and is one-row-per-(product,user) — editing resets to
+  `pending`. Admin flow: `listForAdmin({ status, locale })` returns
+  reviews enriched with product + reviewer profile, `moderate()`
+  flips status, `remove()` hard-deletes. Crossing the
+  approved/not-approved boundary recomputes
+  `products.rating_avg` + `products.rating_count` (best-effort —
+  failure is logged, not raised). Every submit/moderate/remove writes
+  an audit entry (`review.submit` / `review.{status}` /
+  `review.delete`).
+- **`/admin/reviews`** — moderation queue with status chips
+  (pending/approved/hidden), 50/page pagination, locale-aware product
+  titles, per-row Approve / Hide / Re-pend / Delete actions
+  (`<ReviewRowActions />`), retro table.
+- **Buyer review surface** on `/products/[slug]` — server component
+  `<ProductReviews />` lists approved reviews (5/page), then renders
+  one of: a sign-in prompt (no session), a "purchase required" note
+  (signed in but didn't buy), or the `<ReviewForm />` (signed in +
+  purchased, prefilled if they already reviewed).
+- Sidebar entry under `admin.nav.reviews` (MessageSquare icon),
+  `review` chip added to the audit-log filter row, full EN + AR
+  translation parity.
 - **Audit module** (`src/modules/audit/`) — service + repository + controller
   on the existing `audit_log` table. `auditService.log()` is best-effort
   (failure NEVER rolls back the calling action; logged to app logger).

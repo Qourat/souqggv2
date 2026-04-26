@@ -11,6 +11,7 @@ import { ProductGallery } from "@/components/products/product-gallery";
 import { ProductTabs, type ProductTab } from "@/components/products/product-tabs";
 import { Rating } from "@/components/products/rating";
 import { RelatedProducts } from "@/components/products/related-products";
+import { ProductReviews } from "@/components/reviews/product-reviews";
 import { productsController, productsService } from "@/modules/products";
 import { Link } from "@/shared/i18n/navigation";
 import { publicEnv } from "@/shared/env";
@@ -246,6 +247,12 @@ export default async function ProductDetailPage({
           </Card>
         </aside>
       </div>
+
+      <ProductReviews
+        productId={p.id}
+        productSlug={p.slug}
+        locale={locale}
+      />
 
       <RelatedProducts slug={p.slug} />
 
