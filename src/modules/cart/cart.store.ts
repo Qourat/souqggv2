@@ -1,0 +1,113 @@
+"use client";
+
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+import type { ProductDto } from "@/modules/products";
+
+/**
+ * Cart store — Zustand + localStorage persistence.
+ *
+ * Psychology applied:
+ *   - Endowment effect: items persist across sessions so the user feels
+ *     they already "own" them and is more likely to complete purchase.
+ *   - Sunk-cost / anchoring: subtotal + compare-at total are exposed so
+ *     the UI can show savings on every render.
+ *   - Loss aversion: explicit `clear()` requires a confirmation in the UI,
+ *     never accidentally fires.
+ */
+
+export interface CartLine {
+  productId: string;
+  slug: string;
+  title: string;
+  thumbnailUrl: string | null;
+  unitPriceCents: number;
+  compareAtCents: number | null;
+  currency: string;
+  quantity: number;
+}
+
+interface CartState {
+  lines: CartLine[];
+  add: (product: ProductDto) => void;
+  setQuantity: (productId: string, quantity: number) => void;
+  remove: (productId: string) => void;
+  clear: () => void;
+}
+
+interface CartSelectors {
+  itemCount: number;
+  subtotalCents: number;
+  compareAtTotalCents: number;
+  savingsCents: number;
+}
+
+export const useCartStore = create<CartState>()(
+  persist(
+    (set) => ({
+      lines: [],
+
+      add: (p) =>
+        set((state) => {
+          const existing = state.lines.find((l) => l.productId === p.id);
+          if (existing) {
+            return {
+              lines: state.lines.map((l) =>
+                l.productId === p.id ? { ...l, quantity: l.quantity + 1 } : l,
+              ),
+            };
+          }
+          return {
+            lines: [
+              ...state.lines,
+              {
+                productId: p.id,
+                slug: p.slug,
+                title: p.title,
+                thumbnailUrl: p.thumbnailUrl,
+                unitPriceCents: p.priceCents,
+                compareAtCents: p.compareAtCents,
+                currency: p.currency,
+                quantity: 1,
+              },
+            ],
+          };
+        }),
+
+      setQuantity: (productId, quantity) =>
+        set((state) => ({
+          lines: state.lines
+            .map((l) =>
+              l.productId === productId ? { ...l, quantity: Math.max(1, quantity) } : l,
+            )
+            .filter((l) => l.quantity > 0),
+        })),
+
+      remove: (productId) =>
+        set((state) => ({
+          lines: state.lines.filter((l) => l.productId !== productId),
+        })),
+
+      clear: () => set({ lines: [] }),
+    }),
+    { name: "souq.cart.v1" },
+  ),
+);
+
+export function selectCart(state: CartState): CartSelectors {
+  const subtotalCents = state.lines.reduce(
+    (s, l) => s + l.unitPriceCents * l.quantity,
+    0,
+  );
+  const compareAtTotalCents = state.lines.reduce(
+    (s, l) => s + (l.compareAtCents ?? l.unitPriceCents) * l.quantity,
+    0,
+  );
+  return {
+    itemCount: state.lines.reduce((s, l) => s + l.quantity, 0),
+    subtotalCents,
+    compareAtTotalCents,
+    savingsCents: Math.max(0, compareAtTotalCents - subtotalCents),
+  };
+}

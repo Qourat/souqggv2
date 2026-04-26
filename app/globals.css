@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Retro compact palette — psychology rationale:
+  - Dark background (low cognitive load, terminal mental model = "fast tool")
+  - Single accent (terracotta) → Von Restorff isolation effect for CTAs
+  - 1px borders + flat surfaces → high information density (Tufte data-ink)
+  - Monospace headings/metadata → reads as "machine truth" (trust signal)
+*/
+
+@layer base {
+  :root {
+    --background: 220 16% 8%;
+    --foreground: 30 12% 92%;
+    --surface: 220 14% 11%;
+    --surface-raised: 220 14% 13%;
+    --muted: 220 10% 18%;
+    --muted-foreground: 30 8% 65%;
+    --border: 220 8% 22%;
+    --input: 220 10% 16%;
+    --ring: 14 70% 55%;
+
+    --terracotta: 14 70% 55%;
+    --terracotta-foreground: 30 14% 96%;
+    --sage: 140 22% 48%;
+    --sage-foreground: 140 16% 96%;
+    --gold: 38 70% 55%;
+    --gold-foreground: 38 14% 12%;
+    --danger: 0 70% 55%;
+    --danger-foreground: 30 14% 96%;
+  }
+
+  .light {
+    --background: 30 22% 96%;
+    --foreground: 220 16% 12%;
+    --surface: 30 22% 98%;
+    --surface-raised: 30 22% 100%;
+    --muted: 30 12% 90%;
+    --muted-foreground: 220 8% 38%;
+    --border: 30 8% 82%;
+    --input: 30 12% 96%;
+    --ring: 14 70% 50%;
+
+    --terracotta: 14 65% 48%;
+    --terracotta-foreground: 30 14% 96%;
+    --sage: 140 22% 38%;
+    --gold: 38 70% 45%;
+    --danger: 0 65% 50%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  html[lang="ar"] body {
+    font-family: var(--font-arabic), var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-mono;
+    letter-spacing: -0.01em;
+  }
+
+  /* Scrollbar — thin, retro */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--muted)); }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--border)); }
+
+  /* Focus — accessible + on-brand */
+  :focus-visible {
+    outline: 1px solid hsl(var(--ring));
+    outline-offset: 1px;
+  }
+
+  /* Selection */
+  ::selection {
+    background: hsl(var(--terracotta) / 0.4);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  /*
+    Hairline border — used everywhere for the "wireframe" look. Avoids
+    visual noise from heavier borders so the eye can scan tabular data fast.
+  */
+  .border-hairline {
+    border-width: 1px;
+    border-color: hsl(var(--border));
+  }
+
+  /* Monospace label — for table headers, badges, metadata */
+  .label-mono {
+    @apply font-mono uppercase tracking-wider text-2xs text-muted-foreground;
+  }
+
+  /* Tabular numerals — keeps prices/counts column-aligned */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Hover row — used in product tables */
+  .row-hover {
+    @apply transition-colors duration-75 hover:bg-surface-raised;
+  }
+}
