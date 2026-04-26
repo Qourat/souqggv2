@@ -16,6 +16,19 @@ export const ordersController = {
     return r.value;
   },
 
+  async getByIdForUser(
+    id: string,
+    userId: string,
+  ): Promise<OrderDto | null> {
+    const locale = await getLocale();
+    const r = await ordersService.getByIdForUser(id, userId, locale);
+    if (!r.ok) {
+      if (r.error.code === "NOT_FOUND") return null;
+      throw r.error;
+    }
+    return r.value;
+  },
+
   async listAllForAdmin(options: {
     status?:
       | "pending"

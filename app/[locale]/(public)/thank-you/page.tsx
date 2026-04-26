@@ -74,7 +74,9 @@ export default async function ThankYouPage({
 
       <div className="flex items-center justify-center gap-2">
         <Button asChild variant="primary" size="md">
-          <Link href="/library">{t("thankYou.openLibrary")}</Link>
+          <Link href={order ? `/library/${order.id}` : "/library"}>
+            {t("thankYou.openLibrary")}
+          </Link>
         </Button>
         <Button asChild variant="outline" size="md">
           <Link href="/products">{t("cart.empty.cta")}</Link>

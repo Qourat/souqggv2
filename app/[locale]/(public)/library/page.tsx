@@ -112,6 +112,13 @@ export default async function LibraryPage({
                     {it.paidAt
                       ? new Date(it.paidAt).toLocaleDateString(locale)
                       : "—"}
+                    {" · "}
+                    <Link
+                      href={`/library/${it.orderId}`}
+                      className="hover:text-terracotta"
+                    >
+                      {it.orderId.slice(0, 8)}
+                    </Link>
                   </div>
                 </td>
                 <td className="px-2 py-2">

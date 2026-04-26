@@ -12,4 +12,11 @@ export const downloadsController = {
     if (!r.ok) throw r.error;
     return r.value;
   },
+
+  async listForOrder(orderId: string): Promise<LibraryItemDto[]> {
+    const locale = await getLocale();
+    const r = await downloadsService.listForOrder(orderId, locale);
+    if (!r.ok) throw r.error;
+    return r.value;
+  },
 };

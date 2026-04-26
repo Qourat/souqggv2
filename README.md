@@ -650,6 +650,13 @@ Detailed history: [`docs/build-plan.md`](./docs/build-plan.md). Highlights:
   five agents (listing/seo/marketing/qa/compliance), `/api/ai/[task]`
   POST endpoint, `/admin/ai-tools` retro page with auto-generated forms +
   cost+latency display + history.
+- **Sprint 7** — Polish & launch prep: `audit` module (best-effort
+  service + repo) wired into `order.paid` and `ai.run` events,
+  `/admin/audit-log` viewer with entity quick-filters,
+  `GET /api/admin/orders/export` CSV streaming with audit entry per
+  export, `/library/[orderId]` per-order buyer page (ownership-checked
+  via `ordersController.getByIdForUser`), `/library` rows deep-link to
+  per-order view, thank-you CTA opens it directly.
 
 Last commit on `main` after this README lands: see `git log -1`.
 
@@ -660,20 +667,23 @@ Last commit on `main` after this README lands: see `git log -1`.
 The **MVP backbone is shippable**. The remaining gates are content and
 operational, not architectural. Suggested ordering:
 
-1. **Polish + launch-prep mini-sprint** *(in this branch)*
-   - Audit log viewer at `/admin/audit-log` (table exists, no UI yet).
-   - CSV export for orders.
-   - `/library/[orderId]` per-order detail page.
-   - Reviews surface (table + RLS exist).
-2. **25-product launch catalogue** — content sprint. Use the `listing`,
+1. **Reviews surface** — table + RLS exist; build the buyer-facing
+   submit form (post-purchase only), the moderation queue at
+   `/admin/reviews`, and the average-rating display already wired in
+   `products.ratingAvg`.
+2. **Per-event audit hooks** — extend `auditService.log()` calls to
+   product publish/unpublish, coupon create/edit, and admin
+   product-file delete. Audit module is in place; just sprinkle
+   `auditService.log({ ... })` at the call sites.
+3. **25-product launch catalogue** — content sprint. Use the `listing`,
    `seo`, `marketing` AI agents we just shipped. Run `compliance` on every
    product before publish.
-3. **Stripe live keys + Resend live domain + R2 migration** — see
+4. **Stripe live keys + Resend live domain + R2 migration** — see
    `docs/ops/server-setup.md`.
-4. **Legal copy review** — replace placeholder content under
+5. **Legal copy review** — replace placeholder content under
    `/[locale]/(public)/legal/*` with finalised terms / privacy / refund /
    downloads / acceptable-use / DMCA.
-5. **End-to-end pre-launch test plan** — happy path (browse → add → cart
+6. **End-to-end pre-launch test plan** — happy path (browse → add → cart
    → checkout → Stripe test → webhook → library → re-download), edge
    cases (failed payment, expired signed URL, coupon limits hit, etc.).
 

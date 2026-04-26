@@ -199,7 +199,14 @@
     "col.file": "File",
     "col.size": "Size",
     "col.uses": "Uses",
-    "col.price": "Paid"
+    "col.price": "Paid",
+    "order.title": "Order {id}",
+    "order.subtitle": "All files included in this purchase.",
+    "order.summary": "Order summary",
+    "order.back": "Back to library",
+    "order.notFound.title": "Order not found",
+    "order.notFound.body": "We couldn't find this order under your account.",
+    "order.empty": "No downloadable files for this order yet."
   },
   "admin": {
     "nav.dashboard": "Dashboard",
@@ -210,6 +217,7 @@
     "nav.coupons": "Coupons",
     "nav.analytics": "Analytics",
     "nav.aiTools": "AI tools",
+    "nav.auditLog": "Audit log",
     "stat.revenueMtd": "Revenue (MTD)",
     "stat.orders": "Orders",
     "stat.products": "Products",
@@ -375,7 +383,20 @@
     "ai.agent.qa": "Listing QA",
     "ai.agent.qa.desc": "Reviews drafts for clarity, accuracy and tone.",
     "ai.agent.compliance": "Compliance check",
-    "ai.agent.compliance.desc": "Flags grey-market or rights-unclear listings before publish."
+    "ai.agent.compliance.desc": "Flags grey-market or rights-unclear listings before publish.",
+    "audit.subtitle": "Every admin and system action recorded for traceability.",
+    "audit.totalCount": "{count} entries",
+    "audit.page": "Page {page}/{total}",
+    "audit.empty": "No audit entries yet.",
+    "audit.filter.all": "All",
+    "audit.col.when": "When",
+    "audit.col.action": "Action",
+    "audit.col.entity": "Entity",
+    "audit.col.entityId": "Entity ID",
+    "audit.col.actor": "Actor",
+    "audit.col.diff": "Diff",
+    "orders.exportCsv": "Export CSV",
+    "orders.exportHint": "Filtered export of the current view."
   },
   "errors": {
     "notFound.title": "Page not found",

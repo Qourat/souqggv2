@@ -13,6 +13,7 @@ export interface OrderItemDto {
 
 export interface OrderDto {
   id: string;
+  userId: string | null;
   status: Order["status"];
   subtotalCents: number;
   discountCents: number;
@@ -38,6 +39,7 @@ export function toOrderItemDto(item: OrderItem, locale: string): OrderItemDto {
 export function toOrderDto(row: OrderWithItems, locale: string): OrderDto {
   return {
     id: row.order.id,
+    userId: row.order.userId,
     status: row.order.status,
     subtotalCents: row.order.subtotalCents,
     discountCents: row.order.discountCents,

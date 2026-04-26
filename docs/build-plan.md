@@ -131,10 +131,42 @@ Delivered:
   with one-click `/api/downloads/[id]` URLs. All failures degrade
   gracefully — paid orders are never rolled back because of email.
 
-Deferred to a later mini-sprint:
-- Audit log viewer.
-- CSV export for orders.
-- `/library/[orderId]` per-order detail page.
+Deferred items from Sprint 5 — all delivered in Sprint 7 (see above):
+- ~~Audit log viewer.~~ ✅
+- ~~CSV export for orders.~~ ✅
+- ~~`/library/[orderId]` per-order detail page.~~ ✅
+
+## Sprint 7 — Polish & launch prep ✅ (in progress)
+
+Delivered:
+- **Audit module** (`src/modules/audit/`) — service + repository + controller
+  on the existing `audit_log` table. `auditService.log()` is best-effort
+  (failure NEVER rolls back the calling action; logged to app logger).
+  Wired into two natural events to seed the trail:
+  - `ordersService.fulfilCheckoutCompleted` writes one `order.paid` entry
+    per fulfilled order, with totalCents, currency, items count, and
+    downloads created.
+  - `aiService.run` writes one `ai.run` entry per successful agent run,
+    with agent, model, provider, costUsd, and durationMs.
+- **`/admin/audit-log`** — paginated viewer (50/page) with entity
+  quick-filter chips (`product`, `order`, `coupon`, `ai_job`), retro
+  table layout, JSON-pretty diff column, sidebar entry under
+  `admin.nav.auditLog`.
+- **Orders CSV export** — `GET /api/admin/orders/export?status=...`
+  streams the full filtered set in pages of 500. Fields: id, created_at,
+  status, email, currency, subtotal/discount/total cents, items count,
+  one-line items summary, payment provider + intent id, paid_at. Strict
+  CSV escaping (RFC 4180), proper `Content-Disposition` filename, audit
+  entry per export. "Export CSV" button in the `/admin/orders` toolbar
+  reuses the active status filter.
+- **`/library/[orderId]`** — buyer-only per-order page. Loads the order
+  via `ordersController.getByIdForUser` (ownership check at the service
+  level — `OrderDto.userId` mismatch returns NOT_FOUND so we don't leak
+  existence), then `downloadsController.listForOrder`. Same retro table
+  + summary panel as the admin order detail. `OrderDto` gained a
+  `userId` field; `/library` rows now deep-link to their order page; the
+  thank-you page CTA opens the per-order view directly when an `orderId`
+  is present.
 
 ## Sprint 6 — Internal AI tools — DONE
 

@@ -7,6 +7,7 @@ import { publicEnv } from "@/shared/env";
 import { payments } from "@/shared/payments";
 import { tField, type LocalizedField } from "@/shared/i18n/localized-field";
 
+import { auditService } from "@/modules/audit";
 import { couponsService } from "@/modules/coupons/coupons.service";
 import { couponsRepository } from "@/modules/coupons/coupons.repository";
 import { downloadsService } from "@/modules/downloads/downloads.service";
@@ -201,6 +202,19 @@ export const ordersService = {
     return ok(toOrderDto(r.value, locale));
   },
 
+  async getByIdForUser(
+    id: string,
+    userId: string,
+    locale: string,
+  ): Promise<Result<OrderDto>> {
+    const r = await this.getById(id, locale);
+    if (!r.ok) return r;
+    if (r.value.userId !== userId) {
+      return err(AppError.notFound("Order"));
+    }
+    return r;
+  },
+
   async listAllForAdmin(
     options: {
       status?: Order["status"];
@@ -271,6 +285,20 @@ export const ordersService = {
         message: fulfilment.error.message,
       });
     }
+
+    await auditService.log({
+      actorId: full.value.order.userId,
+      action: "order.paid",
+      entityType: "order",
+      entityId: orderId,
+      diff: {
+        totalCents: full.value.order.totalCents,
+        currency: full.value.order.currency,
+        items: full.value.items.length,
+        downloadsCreated: fulfilment.ok ? fulfilment.value.created : 0,
+        paymentIntentId: paymentIntentId ?? null,
+      },
+    });
 
     // Best-effort "your downloads are ready" email. Failures here MUST
     // never roll back the paid status — the buyer can always re-fetch

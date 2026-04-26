@@ -6,6 +6,7 @@ import { AppError, ok, err, tryAsync, type Result } from "@/core";
 import { logger } from "@/core/logger";
 import { hasSupabase } from "@/shared/db/has-supabase";
 import { llm, isLlmConfigured } from "@/shared/ai";
+import { auditService } from "@/modules/audit";
 
 import { aiJobsRepository } from "./ai.repository";
 import { checkRate } from "./ai.rate-limit";
@@ -170,6 +171,19 @@ export const aiService = {
           }),
         AppError.fromUnknown,
       );
+      await auditService.log({
+        actorId: actor.id,
+        action: "ai.run",
+        entityType: "ai_job",
+        entityId: job.value.id,
+        diff: {
+          agent: agentId,
+          model: completion.value.model,
+          provider: completion.value.provider,
+          costUsd: completion.value.usage.costUsd,
+          durationMs,
+        },
+      });
     }
 
     return ok({

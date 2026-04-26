@@ -199,7 +199,14 @@
     "col.file": "الملف",
     "col.size": "الحجم",
     "col.uses": "مرات",
-    "col.price": "المدفوع"
+    "col.price": "المدفوع",
+    "order.title": "الطلب {id}",
+    "order.subtitle": "كل الملفات المشمولة بهذا الطلب.",
+    "order.summary": "ملخص الطلب",
+    "order.back": "عودة للمكتبة",
+    "order.notFound.title": "الطلب غير موجود",
+    "order.notFound.body": "لم نعثر على هذا الطلب ضمن حسابك.",
+    "order.empty": "لا توجد ملفات قابلة للتنزيل لهذا الطلب بعد."
   },
   "admin": {
     "nav.dashboard": "اللوحة",
@@ -210,6 +217,7 @@
     "nav.coupons": "الكوبونات",
     "nav.analytics": "التحليلات",
     "nav.aiTools": "أدوات الذكاء",
+    "nav.auditLog": "سجل التدقيق",
     "stat.revenueMtd": "إيرادات الشهر",
     "stat.orders": "الطلبات",
     "stat.products": "المنتجات",
@@ -375,7 +383,20 @@
     "ai.agent.qa": "مراجعة الوصف",
     "ai.agent.qa.desc": "يراجع المسودات للوضوح والدقة والنبرة.",
     "ai.agent.compliance": "فحص الامتثال",
-    "ai.agent.compliance.desc": "يرصد المنتجات الرمادية أو غير الموثّقة قبل النشر."
+    "ai.agent.compliance.desc": "يرصد المنتجات الرمادية أو غير الموثّقة قبل النشر.",
+    "audit.subtitle": "كل إجراء إداري ونظامي مسجّل لأغراض التتبّع.",
+    "audit.totalCount": "{count} سجل",
+    "audit.page": "صفحة {page}/{total}",
+    "audit.empty": "لا توجد سجلات تدقيق بعد.",
+    "audit.filter.all": "الكل",
+    "audit.col.when": "متى",
+    "audit.col.action": "الإجراء",
+    "audit.col.entity": "الكيان",
+    "audit.col.entityId": "معرّف الكيان",
+    "audit.col.actor": "الفاعل",
+    "audit.col.diff": "الفرق",
+    "orders.exportCsv": "تصدير CSV",
+    "orders.exportHint": "تصدير المعروض حسب الفلتر."
   },
   "errors": {
     "notFound.title": "الصفحة غير موجودة",

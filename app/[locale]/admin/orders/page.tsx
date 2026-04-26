@@ -106,6 +106,13 @@ export default async function AdminOrdersPage({
         <span className="ml-auto label-mono">
           {t("admin.orders.totalCount", { count: total })}
         </span>
+        <Button asChild variant="outline" size="sm" title={t("admin.orders.exportHint")}>
+          <a
+            href={`/api/admin/orders/export${activeStatus ? `?status=${activeStatus}` : ""}`}
+          >
+            {t("admin.orders.exportCsv")}
+          </a>
+        </Button>
       </div>
 
       <div className="border-hairline rounded-sm bg-surface overflow-hidden">
