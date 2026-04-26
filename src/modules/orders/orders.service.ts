@@ -1,16 +1,20 @@
 import "server-only";
 
 import { AppError, ok, err, tryAsync, type Result } from "@/core";
+import { logger } from "@/core/logger";
 import { hasSupabase } from "@/shared/db/has-supabase";
 import { publicEnv } from "@/shared/env";
 import { payments } from "@/shared/payments";
 import { tField, type LocalizedField } from "@/shared/i18n/localized-field";
 
+import { downloadsService } from "@/modules/downloads/downloads.service";
 import { productsRepository } from "@/modules/products/products.repository";
 
 import { createCheckoutSchema } from "./orders.schema";
 import { ordersRepository } from "./orders.repository";
 import { toOrderDto, type OrderDto } from "./orders.resource";
+
+const log = logger("orders.service");
 
 /**
  * Orders / checkout service.
@@ -193,7 +197,32 @@ export const ordersService = {
       AppError.fromUnknown,
     );
     if (!paid.ok) return paid;
-    // TODO(sprint-4): create downloads rows and send fulfilment email.
+
+    const full = await tryAsync(
+      () => ordersRepository.findById(orderId),
+      AppError.fromUnknown,
+    );
+    if (!full.ok || !full.value) {
+      log.warn("order vanished after mark-paid", { orderId });
+      return ok(true);
+    }
+
+    const fulfilment = await downloadsService.fulfilOrder({
+      orderId,
+      userId: full.value.order.userId ?? null,
+      items: full.value.items.map((it) => ({
+        orderItemId: it.id,
+        productId: it.productId,
+      })),
+    });
+    if (!fulfilment.ok) {
+      // Don't fail the webhook; downloads can be re-fulfilled. Just log.
+      log.error("download fulfilment failed", {
+        orderId,
+        code: fulfilment.error.code,
+        message: fulfilment.error.message,
+      });
+    }
     return ok(true);
   },
 

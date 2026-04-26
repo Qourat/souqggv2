@@ -1,7 +1,18 @@
 /**
- * Downloads module — to be implemented in Sprint 3 (Library & Delivery).
+ * Downloads module — Sprint 4 (Library & Delivery).
  *
- * Will own the signed-URL flow, download counting, expiry, and the buyer's
- * library page. Calls into the storage adapter and the orders module.
+ * Layout mirrors orders/ and products/:
+ *   downloads.controller.ts  — server-side glue used by pages
+ *   downloads.service.ts     — fulfil orders, mint signed URLs, list library
+ *   downloads.repository.ts  — Supabase queries (admin client for writes,
+ *                              user-scoped client for the library)
+ *   downloads.resource.ts    — locale-aware LibraryItemDto for the UI
  */
-export const downloadsModule = { ready: false as const };
+
+export { downloadsController } from "./downloads.controller";
+export {
+  downloadsService,
+  FILES_BUCKET,
+  DOWNLOAD_TTL_SECONDS,
+} from "./downloads.service";
+export type { LibraryItemDto } from "./downloads.resource";

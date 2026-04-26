@@ -72,14 +72,28 @@ Deferred to Sprint 4:
 - Resend confirmation email templates (en + ar).
 - Coupon input on cart and discount calc.
 
-## Sprint 4 — Downloads
+## Sprint 4 — Downloads (in progress)
 
-- `/api/downloads/[id]` — server-only signed URL minting (15-min expiry),
-  validates ownership, increments `download_count`
-- `/library` — buyer's purchased products
-- `/library/[orderId]` — order detail with re-download buttons
-- Optional: `max_downloads_per_purchase`, `expires_at` enforcement
-- Resend "your download is ready" template
+Delivered:
+- Downloads module (`controller / service / repository / resource / types`),
+  same shape as orders/ and products/.
+- `downloadsService.fulfilOrder` — called from `ordersService` after
+  `markPaidByOrderId` succeeds. Idempotent (short-circuits if any
+  `downloads` row already exists for the order). Joins paid `order_items`
+  to `product_files` and inserts one `downloads` row per file. Failures
+  are logged but don't fail the webhook so it can be re-tried safely.
+- `GET /api/downloads/[id]` — requires `getSessionUser`, mints a 15-minute
+  Supabase Storage signed URL via the storage adapter, increments
+  `download_count`, and 302-redirects to the URL.
+- `/library` — buyer-only list of purchased files, with one-click download
+  buttons hitting `/api/downloads/[id]`. Empty/unauth/no-DB states all
+  rendered in the same retro shell.
+
+Deferred:
+- `/library/[orderId]` per-order detail page (Sprint 5 with admin orders).
+- Resend "your download is ready" template (Sprint 5 with email infra).
+- Coupon support and `max_downloads_per_purchase` overrides (Sprint 5).
+- Admin file upload UI (lands here in Sprint 5 once admin orders are in).
 
 ## Sprint 5 — Admin & analytics
 

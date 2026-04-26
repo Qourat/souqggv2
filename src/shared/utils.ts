@@ -49,6 +49,21 @@ export function truncate(text: string, max = 60): string {
   return text.slice(0, max - 1).trimEnd() + "…";
 }
 
+export function formatBytes(bytes: number, locale = "en"): string {
+  const tag = getLocaleConfig(locale).intlTag;
+  if (!Number.isFinite(bytes) || bytes <= 0) return "—";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let i = 0;
+  let value = bytes;
+  while (value >= 1024 && i < units.length - 1) {
+    value /= 1024;
+    i += 1;
+  }
+  return `${new Intl.NumberFormat(tag, {
+    maximumFractionDigits: i === 0 ? 0 : 1,
+  }).format(value)} ${units[i]}`;
+}
+
 export function buildQueryString(
   params: Record<string, string | number | boolean | undefined | null>,
 ): string {
