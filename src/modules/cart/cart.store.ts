@@ -28,11 +28,21 @@ export interface CartLine {
   quantity: number;
 }
 
+export interface CartCoupon {
+  code: string;
+  discountCents: number;
+  totalCents: number;
+  discountLabel: string;
+  appliedAt: string;
+}
+
 interface CartState {
   lines: CartLine[];
+  coupon: CartCoupon | null;
   add: (product: ProductDto) => void;
   setQuantity: (productId: string, quantity: number) => void;
   remove: (productId: string) => void;
+  setCoupon: (coupon: CartCoupon | null) => void;
   clear: () => void;
 }
 
@@ -47,6 +57,7 @@ export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
       lines: [],
+      coupon: null,
 
       add: (p) =>
         set((state) => {
@@ -56,6 +67,7 @@ export const useCartStore = create<CartState>()(
               lines: state.lines.map((l) =>
                 l.productId === p.id ? { ...l, quantity: l.quantity + 1 } : l,
               ),
+              coupon: null,
             };
           }
           return {
@@ -72,6 +84,7 @@ export const useCartStore = create<CartState>()(
                 quantity: 1,
               },
             ],
+            coupon: null,
           };
         }),
 
@@ -82,16 +95,20 @@ export const useCartStore = create<CartState>()(
               l.productId === productId ? { ...l, quantity: Math.max(1, quantity) } : l,
             )
             .filter((l) => l.quantity > 0),
+          coupon: null,
         })),
 
       remove: (productId) =>
         set((state) => ({
           lines: state.lines.filter((l) => l.productId !== productId),
+          coupon: null,
         })),
 
-      clear: () => set({ lines: [] }),
+      setCoupon: (coupon) => set({ coupon }),
+
+      clear: () => set({ lines: [], coupon: null }),
     }),
-    { name: "souq.cart.v1" },
+    { name: "souq.cart.v2" },
   ),
 );
 

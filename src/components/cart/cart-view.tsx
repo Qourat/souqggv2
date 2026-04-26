@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { CartCouponInput } from "@/components/cart/cart-coupon-input";
 import { Link } from "@/shared/i18n/navigation";
 import { selectCart, useCartStore, type CartLine } from "@/modules/cart/cart.store";
 import { formatPrice } from "@/shared/utils";
@@ -30,6 +31,7 @@ export function CartView() {
   const setQuantity = useCartStore((s) => s.setQuantity);
   const remove = useCartStore((s) => s.remove);
   const clear = useCartStore((s) => s.clear);
+  const coupon = useCartStore((s) => s.coupon);
   const summary = useCartStore(selectCart);
 
   const [mounted, setMounted] = useState(false);
@@ -58,6 +60,9 @@ export function CartView() {
   }
 
   const currency = lines[0]?.currency ?? "USD";
+  const couponDiscount =
+    coupon && coupon.discountCents > 0 ? coupon.discountCents : 0;
+  const finalTotal = Math.max(0, summary.subtotalCents - couponDiscount);
 
   return (
     <div className="container py-3 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-3 items-start">
@@ -117,10 +122,21 @@ export function CartView() {
                 accent
               />
             ) : null}
+            <CartCouponInput
+              subtotalCents={summary.subtotalCents}
+              currency={currency}
+            />
+            {couponDiscount > 0 ? (
+              <SummaryRow
+                label={t("cart.summary.coupon")}
+                value={`− ${formatPrice(couponDiscount, currency, locale)}`}
+                accent
+              />
+            ) : null}
             <Separator />
             <SummaryRow
               label={t("cart.summary.total")}
-              value={formatPrice(summary.subtotalCents, currency, locale)}
+              value={formatPrice(finalTotal, currency, locale)}
               strong
             />
             <Button asChild variant="primary" size="lg" className="w-full mt-2">

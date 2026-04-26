@@ -16,6 +16,7 @@ export function CheckoutView() {
   const locale = useLocale();
 
   const lines = useCartStore((s) => s.lines);
+  const coupon = useCartStore((s) => s.coupon);
   const summary = useCartStore(selectCart);
 
   const [email, setEmail] = useState("");
@@ -23,6 +24,8 @@ export function CheckoutView() {
   const [error, setError] = useState<string | null>(null);
 
   const currency = lines[0]?.currency ?? "USD";
+  const couponDiscount =
+    coupon && coupon.discountCents > 0 ? coupon.discountCents : 0;
 
   if (lines.length === 0) {
     return (
@@ -49,6 +52,7 @@ export function CheckoutView() {
         body: JSON.stringify({
           email,
           locale,
+          couponCode: coupon?.code,
           lines: lines.map((l) => ({
             productId: l.productId,
             quantity: l.quantity,
@@ -68,7 +72,7 @@ export function CheckoutView() {
     }
   }
 
-  const totalCents = summary.subtotalCents;
+  const totalCents = Math.max(0, summary.subtotalCents - couponDiscount);
 
   return (
     <div className="container py-3 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-3 items-start">
@@ -154,6 +158,16 @@ export function CheckoutView() {
                 <span className="label-mono">{t("cart.summary.discount")}</span>
                 <span className="tnum text-sm text-terracotta">
                   − {formatPrice(summary.savingsCents, currency, locale)}
+                </span>
+              </div>
+            ) : null}
+            {coupon && couponDiscount > 0 ? (
+              <div className="flex items-baseline justify-between">
+                <span className="label-mono">
+                  {t("cart.summary.coupon")} · {coupon.code}
+                </span>
+                <span className="tnum text-sm text-terracotta">
+                  − {formatPrice(couponDiscount, currency, locale)}
                 </span>
               </div>
             ) : null}

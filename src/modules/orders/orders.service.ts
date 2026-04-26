@@ -7,6 +7,8 @@ import { publicEnv } from "@/shared/env";
 import { payments } from "@/shared/payments";
 import { tField, type LocalizedField } from "@/shared/i18n/localized-field";
 
+import { couponsService } from "@/modules/coupons/coupons.service";
+import { couponsRepository } from "@/modules/coupons/coupons.repository";
 import { downloadsService } from "@/modules/downloads/downloads.service";
 import { productsRepository } from "@/modules/products/products.repository";
 
@@ -99,12 +101,25 @@ export const ordersService = {
       });
     }
 
-    const discountCents = 0;
-    const totalCents = Math.max(0, subtotalCents - discountCents);
-
     if (!currency) {
       return err(AppError.validation("Empty cart"));
     }
+
+    let discountCents = 0;
+    let couponId: string | null = null;
+    let couponCode: string | null = null;
+    if (input.couponCode) {
+      const applied = await couponsService.applyToCart({
+        code: input.couponCode,
+        subtotalCents,
+        currency,
+      });
+      if (!applied.ok) return applied;
+      discountCents = applied.value.discountCents;
+      couponId = applied.value.coupon.id;
+      couponCode = applied.value.coupon.code;
+    }
+    const totalCents = Math.max(0, subtotalCents - discountCents);
 
     const created = await tryAsync(
       () =>
@@ -117,7 +132,11 @@ export const ordersService = {
           totalCents,
           currency,
           paymentProvider: "stripe",
-          metadata: { locale: input.locale },
+          couponId,
+          metadata: {
+            locale: input.locale,
+            ...(couponCode ? { couponCode } : {}),
+          },
           items,
         }),
       AppError.fromUnknown,
@@ -226,6 +245,13 @@ export const ordersService = {
     if (!full.ok || !full.value) {
       log.warn("order vanished after mark-paid", { orderId });
       return ok(true);
+    }
+
+    if (full.value.order.couponId) {
+      await tryAsync(
+        () => couponsRepository.incrementUsed(full.value!.order.couponId!),
+        AppError.fromUnknown,
+      );
     }
 
     const fulfilment = await downloadsService.fulfilOrder({

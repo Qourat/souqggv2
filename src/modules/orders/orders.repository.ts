@@ -14,6 +14,7 @@ export interface CreateOrderInput {
   totalCents: number;
   currency: string;
   paymentProvider: Order["paymentProvider"];
+  couponId?: string | null;
   metadata?: Record<string, unknown>;
   items: Array<{
     productId: string;
@@ -97,6 +98,7 @@ export const ordersRepository = {
         total_cents: input.totalCents,
         currency: input.currency,
         payment_provider: input.paymentProvider,
+        coupon_id: input.couponId ?? null,
         metadata: input.metadata ?? {},
       })
       .select("*")
