@@ -36,4 +36,17 @@ export const productsController = {
     if (!result.ok) throw result.error;
     return result.value;
   },
+
+  async related(slug: string, limit = 6): Promise<ProductDto[]> {
+    const locale = await getLocale();
+    const result = await productsService.listRelated(slug, locale, limit);
+    if (!result.ok) throw result.error;
+    return result.value;
+  },
+
+  async allSlugs(): Promise<string[]> {
+    const result = await productsService.listAllSlugs();
+    if (!result.ok) throw result.error;
+    return result.value;
+  },
 };

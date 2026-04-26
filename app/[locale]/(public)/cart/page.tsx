@@ -1,6 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 
-import { SprintStub } from "@/components/layout/sprint-stub";
+import { CartView } from "@/components/cart/cart-view";
 
 export default async function CartPage({
   params,
@@ -9,11 +9,5 @@ export default async function CartPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return (
-    <SprintStub
-      title="Cart"
-      sprint="Sprint 2 — Checkout & Payments"
-      body="Cart UI lands with the checkout flow."
-    />
-  );
+  return <CartView />;
 }

@@ -27,7 +27,7 @@ export async function CategoryStrip({
         {categories.map((c) => (
           <Chip
             key={c.id}
-            href={`/products?category=${encodeURIComponent(c.slug)}`}
+            href={`/categories/${c.slug}`}
             active={activeSlug === c.slug}
             label={c.name}
           />

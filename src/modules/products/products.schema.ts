@@ -48,36 +48,73 @@ export const productListQuerySchema = z.object({
   perPage: z.coerce.number().int().min(1).max(100).default(24),
 });
 
-export const createProductSchema = z.object({
-  slug: z.string().min(2).max(120),
-  categoryId: z.string().uuid().nullable().optional(),
-  type: z.enum([
-    "pdf",
-    "excel",
-    "word",
-    "notion",
-    "prompt_pack",
-    "template",
-    "course",
-    "code",
-    "dataset",
-    "bundle",
-    "mixed",
-  ]),
+const PRODUCT_TYPES = [
+  "pdf",
+  "excel",
+  "word",
+  "notion",
+  "prompt_pack",
+  "template",
+  "course",
+  "code",
+  "dataset",
+  "bundle",
+  "mixed",
+] as const;
+
+const PRODUCT_STATUSES = ["draft", "review", "published", "archived"] as const;
+
+const LICENSE_TYPES = [
+  "personal_use",
+  "business_use",
+  "commercial_use",
+  "resale_rights",
+] as const;
+
+const localizedFieldOptional = z
+  .object(
+    Object.fromEntries(LOCALE_CODES.map((c) => [c, z.string().optional()])),
+  )
+  .partial()
+  .optional();
+
+export const upsertProductSchema = z.object({
+  id: z.string().uuid().optional(),
+  slug: z
+    .string()
+    .min(2)
+    .max(120)
+    .regex(/^[a-z0-9-]+$/, "Lowercase letters, digits, and dashes only"),
+  categoryId: z
+    .string()
+    .uuid()
+    .nullable()
+    .optional()
+    .or(z.literal("").transform(() => null)),
+  type: z.enum(PRODUCT_TYPES),
+  status: z.enum(PRODUCT_STATUSES).default("draft"),
   title: localizedField,
-  descriptionShort: localizedField.optional(),
-  descriptionLong: localizedField.optional(),
-  priceCents: z.number().int().nonnegative(),
-  compareAtCents: z.number().int().nonnegative().nullable().optional(),
+  descriptionShort: localizedFieldOptional,
+  descriptionLong: localizedFieldOptional,
+  priceCents: z.coerce.number().int().nonnegative(),
+  compareAtCents: z.coerce
+    .number()
+    .int()
+    .nonnegative()
+    .nullable()
+    .optional()
+    .or(z.literal("").transform(() => null)),
   currency: z.string().length(3).default("USD"),
   contentLanguages: z.array(z.string()).default([]),
-  licenseType: z
-    .enum(["personal_use", "business_use", "commercial_use", "resale_rights"])
-    .default("personal_use"),
-  downloadLimit: z.number().int().min(1).max(100).default(5),
-  thumbnailUrl: z.string().url().nullable().optional(),
-  isFeatured: z.boolean().default(false),
+  licenseType: z.enum(LICENSE_TYPES).default("personal_use"),
+  downloadLimit: z.coerce.number().int().min(1).max(100).default(5),
+  thumbnailUrl: z.string().url().nullable().optional().or(z.literal("")),
+  isFeatured: z.coerce.boolean().default(false),
 });
 
+export const PRODUCT_TYPE_VALUES = PRODUCT_TYPES;
+export const PRODUCT_STATUS_VALUES = PRODUCT_STATUSES;
+export const LICENSE_TYPE_VALUES = LICENSE_TYPES;
+
 export type ProductListQuery = z.infer<typeof productListQuerySchema>;
-export type CreateProductInput = z.infer<typeof createProductSchema>;
+export type UpsertProductInput = z.infer<typeof upsertProductSchema>;

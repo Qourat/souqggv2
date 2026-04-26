@@ -16,7 +16,9 @@ export interface ProductDto {
   title: string;
   descriptionShort: string;
   descriptionLong: string;
+  bullets: string[];
   thumbnailUrl: string | null;
+  galleryUrls: string[];
   priceCents: number;
   compareAtCents: number | null;
   currency: string;
@@ -25,9 +27,11 @@ export interface ProductDto {
   isFeatured: boolean;
   contentLanguages: string[];
   licenseType: Product["licenseType"];
+  downloadLimit: number;
   salesCount: number;
   ratingAvg: number;
   ratingCount: number;
+  publishedAt: string | null;
 }
 
 export function toProductDto(p: Product, locale: string): ProductDto {
@@ -38,6 +42,11 @@ export function toProductDto(p: Product, locale: string): ProductDto {
     ? Math.round(((compare - p.priceCents) / compare) * 100)
     : null;
 
+  const bulletsRaw = (p.bullets ?? []) as LocalizedField[] | null;
+  const bullets = (bulletsRaw ?? [])
+    .map((b) => tField(b, locale))
+    .filter((s): s is string => Boolean(s));
+
   return {
     id: p.id,
     slug: p.slug,
@@ -45,7 +54,9 @@ export function toProductDto(p: Product, locale: string): ProductDto {
     title: tField(p.title as LocalizedField | null, locale),
     descriptionShort: tField(p.descriptionShort as LocalizedField | null, locale),
     descriptionLong: tField(p.descriptionLong as LocalizedField | null, locale),
+    bullets,
     thumbnailUrl: p.thumbnailUrl ?? null,
+    galleryUrls: (p.galleryUrls as string[] | null) ?? [],
     priceCents: p.priceCents,
     compareAtCents: compare,
     currency: p.currency,
@@ -54,9 +65,11 @@ export function toProductDto(p: Product, locale: string): ProductDto {
     isFeatured: p.isFeatured,
     contentLanguages: (p.contentLanguages as string[] | null) ?? [],
     licenseType: p.licenseType,
+    downloadLimit: p.downloadLimit,
     salesCount: p.salesCount,
     ratingAvg: Number(p.ratingAvg ?? 0),
     ratingCount: p.ratingCount,
+    publishedAt: p.publishedAt ? new Date(p.publishedAt).toISOString() : null,
   };
 }
 

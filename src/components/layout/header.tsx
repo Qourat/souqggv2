@@ -1,8 +1,9 @@
-import { getTranslations } from "next-intl/server";
-import { ShoppingBag, User2, Search } from "lucide-react";
+import { getTranslations, getLocale } from "next-intl/server";
+import { User2, Search } from "lucide-react";
 
 import { Link } from "@/shared/i18n/navigation";
 
+import { CartPill } from "./cart-pill";
 import { LocaleSwitcher } from "./locale-switcher";
 
 /**
@@ -20,6 +21,7 @@ import { LocaleSwitcher } from "./locale-switcher";
  */
 export async function Header() {
   const t = await getTranslations();
+  const locale = await getLocale();
 
   return (
     <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
@@ -38,7 +40,7 @@ export async function Header() {
         </Link>
 
         <div className="flex-1 hidden md:flex">
-          <SearchBar placeholder={t("common.search")} />
+          <SearchBar placeholder={t("common.search")} locale={locale} />
         </div>
 
         <nav className="hidden lg:flex items-center gap-3 label-mono">
@@ -69,9 +71,15 @@ export async function Header() {
   );
 }
 
-function SearchBar({ placeholder }: { placeholder: string }) {
+function SearchBar({
+  placeholder,
+  locale,
+}: {
+  placeholder: string;
+  locale: string;
+}) {
   return (
-    <form action="/products" className="w-full">
+    <form action={`/${locale}/products`} className="w-full">
       <label className="flex items-center gap-2 h-8 px-2.5 bg-input border-hairline rounded-sm focus-within:outline focus-within:outline-1 focus-within:outline-ring">
         <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
         <input
@@ -88,15 +96,3 @@ function SearchBar({ placeholder }: { placeholder: string }) {
   );
 }
 
-function CartPill({ ariaLabel }: { ariaLabel: string }) {
-  return (
-    <Link
-      href="/cart"
-      aria-label={ariaLabel}
-      className="h-7 inline-flex items-center gap-1.5 px-2 text-muted-foreground hover:text-foreground hover:bg-surface-raised rounded-sm border-hairline"
-    >
-      <ShoppingBag className="h-3.5 w-3.5" />
-      <span className="label-mono">0</span>
-    </Link>
-  );
-}

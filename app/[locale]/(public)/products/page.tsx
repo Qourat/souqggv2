@@ -1,10 +1,12 @@
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 
 import { CategoryStrip } from "@/components/layout/category-strip";
+import { Badge } from "@/components/ui/badge";
 import { FilterSidebar } from "@/components/products/filter-sidebar";
 import { ProductTable } from "@/components/products/product-table";
 import { SortBar } from "@/components/products/sort-bar";
 import { StatStrip } from "@/components/products/stat-strip";
+import { Link } from "@/shared/i18n/navigation";
 import { categoriesController } from "@/modules/categories";
 import { productsController } from "@/modules/products";
 
@@ -47,6 +49,8 @@ export default async function ProductsPage({
     categoriesController.list(),
   ]);
 
+  const t = await getTranslations();
+
   const buildSortHref = (s: typeof sort) => {
     const next = new URLSearchParams();
     if (q) next.set("q", q);
@@ -69,10 +73,28 @@ export default async function ProductsPage({
           satisfaction={4.8}
         />
 
+        {q ? (
+          <div className="flex items-center justify-between gap-3 border-hairline rounded-sm bg-surface px-3 py-2">
+            <div className="flex items-center gap-2 truncate">
+              <span className="label-mono">{t("common.search").replace("…", "")}:</span>
+              <Badge variant="terracotta">&ldquo;{q}&rdquo;</Badge>
+              <span className="label-mono">
+                {t("shop.stat.products", { count: page.total })}
+              </span>
+            </div>
+            <Link
+              href="/products"
+              className="label-mono text-terracotta hover:underline shrink-0"
+            >
+              {t("shop.filter.clear")}
+            </Link>
+          </div>
+        ) : null}
+
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-3">
           <FilterSidebar
             categories={categories}
-            active={{ category: categorySlug, type, minPriceCents, maxPriceCents }}
+            active={{ q, category: categorySlug, type, minPriceCents, maxPriceCents }}
           />
           <div className="space-y-2.5">
             <SortBar active={sort} total={page.total} buildHref={buildSortHref} />

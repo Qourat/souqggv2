@@ -19,4 +19,10 @@ export const categoriesController = {
     if (!r.ok) throw r.error;
     return r.value;
   },
+
+  async allSlugs(): Promise<string[]> {
+    const r = await categoriesService.listSlugs();
+    if (!r.ok) throw r.error;
+    return r.value;
+  },
 };

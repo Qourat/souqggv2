@@ -32,6 +32,7 @@ interface FilterSidebarProps {
     type?: string;
     minPriceCents?: number;
     maxPriceCents?: number;
+    q?: string;
   };
 }
 
@@ -169,6 +170,7 @@ function buildHref(
 ): string {
   const merged = { ...current, ...patch };
   const params = new URLSearchParams();
+  if (merged.q) params.set("q", merged.q);
   if (merged.category) params.set("category", merged.category);
   if (merged.type) params.set("type", merged.type);
   if (typeof merged.minPriceCents === "number")
