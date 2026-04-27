@@ -4,7 +4,7 @@
 
 | Property | Value |
 |----------|-------|
-| **Remote URL** | `git@github.com:Qourat/souq.v3.git` |
+| **Remote URL** | `git@github.com:Qourat/souqggv2.git` |
 | **Branch** | `main` |
 | **Local Path** | `/var/www/souq_v3` |
 | **SSH Key** | `/root/.ssh/id_ed25519` |
