@@ -300,6 +300,8 @@ git commit -F .git/COMMIT_MSG.tmp
 # Then delete .git/COMMIT_MSG.tmp
 ```
 
+**Full Git Workflow:** For detailed git setup, SSH authentication, commit conventions, and troubleshooting, see [`docs/git-setup.md`](./docs/git-setup.md).
+
 Never:
 
 - `git push --force` to `main`
