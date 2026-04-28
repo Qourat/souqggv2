@@ -13,11 +13,6 @@ import { publicEnv } from "@/shared/env";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
-export async function generateStaticParams() {
-  const slugs = await categoriesController.allSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
-
 export async function generateMetadata({
   params,
 }: {

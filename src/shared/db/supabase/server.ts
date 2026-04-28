@@ -4,6 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 import { env, publicEnv } from "@/shared/env";
+import { hasSupabase } from "@/shared/db/has-supabase";
 
 import { createStubSupabaseClient } from "./stub";
 
@@ -18,15 +19,17 @@ import { createStubSupabaseClient } from "./stub";
  * client takes over with no code change.
  */
 export async function createSupabaseServerClient() {
-  if (!publicEnv.supabaseUrl || !publicEnv.supabaseAnonKey) {
+  if (!hasSupabase()) {
     return createStubSupabaseClient();
   }
 
+  const supabaseUrl = publicEnv.supabaseUrl as string;
+  const supabaseAnonKey = publicEnv.supabaseAnonKey as string;
   const cookieStore = await cookies();
 
   return createServerClient(
-    publicEnv.supabaseUrl,
-    publicEnv.supabaseAnonKey,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {

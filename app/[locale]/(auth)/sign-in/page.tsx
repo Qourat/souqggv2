@@ -1,6 +1,6 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 
-import { Button, Input } from "@/components/ui";
+import { AuthForm } from "@/components/auth/auth-form";
 import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "@/shared/i18n/navigation";
 
@@ -22,23 +22,17 @@ export default async function SignInPage({
         <p className="text-xs text-muted-foreground">
           {t("auth.signIn.subtitle")}
         </p>
-        <form className="space-y-2.5">
-          <div>
-            <label className="label-mono mb-1 block">
-              {t("auth.signIn.email")}
-            </label>
-            <Input type="email" required />
-          </div>
-          <div>
-            <label className="label-mono mb-1 block">
-              {t("auth.signIn.password")}
-            </label>
-            <Input type="password" required />
-          </div>
-          <Button type="submit" variant="primary" size="lg" className="w-full">
-            {t("auth.signIn.submit")}
-          </Button>
-        </form>
+        <AuthForm
+          mode="sign-in"
+          locale={locale}
+          labels={{
+            email: t("auth.signIn.email"),
+            password: t("auth.signIn.password"),
+            submit: t("auth.signIn.submit"),
+            loading: t("auth.loading"),
+            unavailable: t("auth.unavailable"),
+          }}
+        />
         <div className="flex items-center justify-between">
           <Link
             href="/forgot-password"

@@ -40,77 +40,113 @@
   "shop": {
     "title": "Digital products",
     "subtitle": "Templates, sheets, prompts, code — instant download.",
-    "stat.products": "{count} products",
-    "stat.categories": "{count} categories",
-    "stat.satisfaction": "{rating}/5 satisfaction",
-    "filter.title": "Filters",
-    "filter.category": "Category",
-    "filter.type": "Type",
-    "filter.language": "Language",
-    "filter.price": "Price",
-    "filter.rating": "Rating",
-    "filter.clear": "Clear all",
-    "filter.apply": "Apply",
-    "sort.label": "Sort",
-    "sort.bestSelling": "Best selling",
-    "sort.newest": "Newest",
-    "sort.priceAsc": "Price ↑",
-    "sort.priceDesc": "Price ↓",
-    "sort.rating": "Top rated",
-    "view.list": "List",
-    "view.grid": "Grid",
-    "table.title": "Title",
-    "table.type": "Type",
-    "table.lang": "Lang",
-    "table.price": "Price",
-    "table.sales": "Sales",
-    "table.rating": "Rating",
-    "table.action": "",
-    "empty.title": "No products yet",
-    "empty.body": "Catalogue is being prepared. Check back soon."
+    "stat": {
+      "products": "{count} products",
+      "categories": "{count} categories",
+      "satisfaction": "{rating}/5 satisfaction"
+    },
+    "filter": {
+      "title": "Filters",
+      "category": "Category",
+      "type": "Type",
+      "language": "Language",
+      "price": "Price",
+      "rating": "Rating",
+      "clear": "Clear all",
+      "apply": "Apply"
+    },
+    "sort": {
+      "label": "Sort",
+      "bestSelling": "Best selling",
+      "newest": "Newest",
+      "priceAsc": "Price ↑",
+      "priceDesc": "Price ↓",
+      "rating": "Top rated"
+    },
+    "view": {
+      "list": "List",
+      "grid": "Grid"
+    },
+    "table": {
+      "title": "Title",
+      "type": "Type",
+      "lang": "Lang",
+      "price": "Price",
+      "sales": "Sales",
+      "rating": "Rating",
+      "action": ""
+    },
+    "empty": {
+      "title": "No products yet",
+      "body": "Catalogue is being prepared. Check back soon."
+    }
   },
   "product": {
-    "type.pdf": "PDF",
-    "type.excel": "Excel",
-    "type.word": "Word",
-    "type.notion": "Notion",
-    "type.prompt_pack": "Prompts",
-    "type.template": "Template",
-    "type.course": "Course",
-    "type.code": "Code",
-    "type.dataset": "Dataset",
-    "type.bundle": "Bundle",
-    "type.mixed": "Mixed",
-    "license.personal_use": "Personal use",
-    "license.business_use": "Business use",
-    "license.commercial_use": "Commercial use",
-    "license.resale_rights": "Resale rights",
-    "tabs.overview": "Overview",
-    "tabs.included": "What's included",
-    "tabs.audience": "Who it's for",
-    "tabs.howto": "How to use",
-    "tabs.faq": "FAQ",
-    "trust.instant": "Instant download",
-    "trust.secure": "Secure payment",
-    "trust.updated": "Updated files",
-    "trust.refund": "Refund policy",
-    "license.title": "License terms",
-    "related.title": "Related products",
-    "social.sales": "{count} sold",
-    "social.rating": "{rating}/5 ({count} reviews)",
-    "stock.low": "Only {count} left",
-    "stock.out": "Out of stock",
-    "specs.title": "Specs",
-    "specs.license": "License",
-    "specs.languages": "Languages",
-    "specs.downloadLimit": "Download limit",
-    "specs.format": "Format",
-    "specs.published": "Published",
-    "specs.uses": "{count} uses",
-    "included.title": "What's inside",
-    "audience.empty": "Tailored for solo operators, freelancers, and small teams who want a no-fluff system to ship.",
-    "howto.empty": "Download the file, follow the included quickstart, and adapt to your workflow.",
-    "faq.empty": "Refunds within 30 days. Updates are free for 12 months. Email us with any question."
+    "type": {
+      "pdf": "PDF",
+      "excel": "Excel",
+      "word": "Word",
+      "notion": "Notion",
+      "prompt_pack": "Prompts",
+      "template": "Template",
+      "course": "Course",
+      "code": "Code",
+      "dataset": "Dataset",
+      "bundle": "Bundle",
+      "mixed": "Mixed"
+    },
+    "license": {
+      "personal_use": "Personal use",
+      "business_use": "Business use",
+      "commercial_use": "Commercial use",
+      "resale_rights": "Resale rights",
+      "title": "License terms"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "included": "What's included",
+      "audience": "Who it's for",
+      "howto": "How to use",
+      "faq": "FAQ"
+    },
+    "trust": {
+      "instant": "Instant download",
+      "secure": "Secure payment",
+      "updated": "Updated files",
+      "refund": "Refund policy"
+    },
+    "related": {
+      "title": "Related products"
+    },
+    "social": {
+      "sales": "{count} sold",
+      "rating": "{rating}/5 ({count} reviews)"
+    },
+    "stock": {
+      "low": "Only {count} left",
+      "out": "Out of stock"
+    },
+    "specs": {
+      "title": "Specs",
+      "license": "License",
+      "languages": "Languages",
+      "downloadLimit": "Download limit",
+      "format": "Format",
+      "published": "Published",
+      "uses": "{count} uses"
+    },
+    "included": {
+      "title": "What's inside"
+    },
+    "audience": {
+      "empty": "Tailored for solo operators, freelancers, and small teams who want a no-fluff system to ship."
+    },
+    "howto": {
+      "empty": "Download the file, follow the included quickstart, and adapt to your workflow."
+    },
+    "faq": {
+      "empty": "Refunds within 30 days. Updates are free for 12 months. Email us with any question."
+    }
   },
   "breadcrumb": {
     "shop": "Shop",
@@ -118,59 +154,81 @@
   },
   "footer": {
     "rights": "All rights reserved.",
-    "newsletter.title": "Stay in the loop",
-    "newsletter.body": "Only new products and bundles. No spam.",
-    "newsletter.placeholder": "your@email.com",
-    "newsletter.submit": "Subscribe",
-    "links.legal": "Legal",
-    "links.shop": "Shop",
-    "links.about": "About",
-    "legal.terms": "Terms",
-    "legal.privacy": "Privacy",
-    "legal.refund": "Refund policy",
-    "legal.downloads": "Download policy",
-    "legal.acceptable": "Acceptable use",
-    "legal.dmca": "DMCA"
+    "newsletter": {
+      "title": "Stay in the loop",
+      "body": "Only new products and bundles. No spam.",
+      "placeholder": "your@email.com",
+      "submit": "Subscribe"
+    },
+    "links": {
+      "legal": "Legal",
+      "shop": "Shop",
+      "about": "About"
+    },
+    "legal": {
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "refund": "Refund policy",
+      "downloads": "Download policy",
+      "acceptable": "Acceptable use",
+      "dmca": "DMCA"
+    }
   },
   "auth": {
-    "signIn.title": "Sign in",
-    "signIn.subtitle": "Access your library and orders.",
-    "signIn.email": "Email",
-    "signIn.password": "Password",
-    "signIn.submit": "Sign in",
-    "signIn.forgot": "Forgot password?",
-    "signIn.toRegister": "Create account →",
-    "signUp.title": "Create account",
-    "signUp.subtitle": "Save your purchases and download anytime.",
-    "signUp.name": "Full name",
-    "signUp.submit": "Create account",
-    "signUp.toSignIn": "← Sign in instead",
-    "forgot.title": "Reset password",
-    "forgot.subtitle": "We'll send you a reset link.",
-    "forgot.submit": "Send reset link"
+    "signIn": {
+      "title": "Sign in",
+      "subtitle": "Access your library and orders.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgot": "Forgot password?",
+      "toRegister": "Create account →"
+    },
+    "signUp": {
+      "title": "Create account",
+      "subtitle": "Save your purchases and download anytime.",
+      "name": "Full name",
+      "submit": "Create account",
+      "toSignIn": "← Sign in instead"
+    },
+    "forgot": {
+      "title": "Reset password",
+      "subtitle": "We'll send you a reset link.",
+      "submit": "Send reset link"
+    },
+    "loading": "Please wait…",
+    "unavailable": "Account access is not configured yet. Add a valid Supabase project URL and anon key to enable sign-in."
   },
   "cart": {
     "title": "Cart",
-    "empty.title": "Cart is empty",
-    "empty.body": "Browse the shop and add a product.",
-    "empty.cta": "Open shop",
-    "summary.subtotal": "Subtotal",
-    "summary.discount": "Discount",
-    "summary.coupon": "Coupon",
-    "summary.total": "Total",
-    "coupon.placeholder": "Coupon code",
-    "coupon.apply": "Apply",
-    "coupon.applied": "Applied",
-    "coupon.remove": "Remove coupon",
-    "coupon.invalid": "Coupon not valid",
+    "empty": {
+      "title": "Cart is empty",
+      "body": "Browse the shop and add a product.",
+      "cta": "Open shop"
+    },
+    "summary": {
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "coupon": "Coupon",
+      "total": "Total"
+    },
+    "coupon": {
+      "placeholder": "Coupon code",
+      "apply": "Apply",
+      "applied": "Applied",
+      "remove": "Remove coupon",
+      "invalid": "Coupon not valid"
+    },
     "remove": "Remove"
   },
   "checkout": {
     "title": "Checkout",
     "email": "Email for receipt",
     "pay": "Pay {amount}",
-    "trust.secure": "Secured by Stripe",
-    "trust.refund": "30-day refund window"
+    "trust": {
+      "secure": "Secured by Stripe",
+      "refund": "30-day refund window"
+    }
   },
   "thankYou": {
     "title": "Thank you",
@@ -181,263 +239,367 @@
     "openLibrary": "Open library"
   },
   "order": {
-    "status.pending": "pending",
-    "status.paid": "paid",
-    "status.fulfilled": "fulfilled",
-    "status.refunded": "refunded",
-    "status.failed": "failed",
-    "status.cancelled": "cancelled"
+    "status": {
+      "pending": "pending",
+      "paid": "paid",
+      "fulfilled": "fulfilled",
+      "refunded": "refunded",
+      "failed": "failed",
+      "cancelled": "cancelled"
+    }
   },
   "library": {
     "title": "Your library",
     "subtitle": "Every file you've purchased.",
     "signInPrompt": "Sign in to see the files you've purchased.",
-    "empty.title": "Nothing here yet",
-    "empty.body": "Purchases land here automatically.",
+    "empty": {
+      "title": "Nothing here yet",
+      "body": "Purchases land here automatically."
+    },
     "download": "Download",
-    "col.product": "Product",
-    "col.file": "File",
-    "col.size": "Size",
-    "col.uses": "Uses",
-    "col.price": "Paid",
-    "order.title": "Order {id}",
-    "order.subtitle": "All files included in this purchase.",
-    "order.summary": "Order summary",
-    "order.back": "Back to library",
-    "order.notFound.title": "Order not found",
-    "order.notFound.body": "We couldn't find this order under your account.",
-    "order.empty": "No downloadable files for this order yet."
+    "col": {
+      "product": "Product",
+      "file": "File",
+      "size": "Size",
+      "uses": "Uses",
+      "price": "Paid"
+    },
+    "order": {
+      "title": "Order {id}",
+      "subtitle": "All files included in this purchase.",
+      "summary": "Order summary",
+      "back": "Back to library",
+      "notFound": {
+        "title": "Order not found",
+        "body": "We couldn't find this order under your account."
+      },
+      "empty": "No downloadable files for this order yet."
+    }
   },
   "admin": {
-    "nav.dashboard": "Dashboard",
-    "nav.products": "Products",
-    "nav.orders": "Orders",
-    "nav.users": "Users",
-    "nav.categories": "Categories",
-    "nav.coupons": "Coupons",
-    "nav.reviews": "Reviews",
-    "nav.analytics": "Analytics",
-    "nav.aiTools": "AI tools",
-    "nav.auditLog": "Audit log",
-    "stat.revenueMtd": "Revenue (MTD)",
-    "stat.orders": "Orders",
-    "stat.products": "Products",
-    "stat.draftProducts": "Draft",
-    "stat.topProduct": "Top product",
-    "stat.failedPayments": "Failed payments",
-    "dashboard.title": "Dashboard",
-    "dashboard.subtitle": "Live snapshot of your shop. Numbers come straight from the database.",
-    "dashboard.thisMonth": "this month",
-    "dashboard.openCheckouts": "open checkouts",
-    "dashboard.published": "live",
-    "dashboard.notLive": "not live",
-    "dashboard.pending": "Pending",
-    "dashboard.recentOrders": "Recent orders",
-    "dashboard.noOrders": "No orders yet.",
-    "dashboard.topProduct": "Top product (30d)",
-    "dashboard.units": "Units",
-    "dashboard.revenue": "Revenue",
-    "dashboard.last30": "last 30 days",
-    "dashboard.noTopProduct": "No paid orders yet.",
-    "dashboard.generatedAt": "Refreshed {time}",
-    "banner.dbMissing.title": "Supabase not configured",
-    "banner.dbMissing.body": "Add NEXT_PUBLIC_SUPABASE_URL and key to .env.local to enable writes. Browsing the demo catalogue still works.",
-    "categories.subtitle": "Top-level shop sections shown in the navigation.",
-    "categories.new": "New category",
-    "categories.newSubtitle": "Names are stored per-locale; at least one must be filled.",
-    "categories.edit": "Edit category",
-    "categories.col.name": "Name",
-    "categories.col.slug": "Slug",
-    "categories.col.sort": "Sort",
-    "categories.field.name": "Name",
-    "categories.field.description": "Description",
-    "categories.field.slug": "Slug",
-    "categories.field.icon": "Icon name",
-    "categories.field.sort": "Sort order",
-    "products.subtitle": "Everything in the catalogue. Drafts are hidden from buyers.",
-    "products.new": "New product",
-    "products.newTitle": "New product",
-    "products.newSubtitle": "Slug + at least one localized title is required.",
-    "products.editTitle": "Edit product",
-    "products.edit": "Edit product",
-    "products.col.title": "Title",
-    "products.col.type": "Type",
-    "products.col.price": "Price",
-    "products.col.status": "Status",
-    "products.col.featured": "Featured",
-    "products.col.sales": "Sales",
-    "products.field.slug": "Slug",
-    "products.field.title": "Title",
-    "products.field.descShort": "Short description",
-    "products.field.descLong": "Long description",
-    "products.field.type": "Type",
-    "products.field.status": "Status",
-    "products.field.category": "Category",
-    "products.field.noCategory": "(uncategorized)",
-    "products.field.price": "Price (cents)",
-    "products.field.priceCents": "Price (cents)",
-    "products.field.compareAt": "Compare-at price (cents)",
-    "products.field.compareAtCents": "Compare-at (cents)",
-    "products.field.currency": "Currency",
-    "products.field.contentLanguages": "Content languages",
-    "products.field.license": "License",
-    "products.field.licenseType": "License",
-    "products.field.downloadLimit": "Download limit",
-    "products.field.thumbnailUrl": "Thumbnail URL",
-    "products.field.featured": "Featured",
-    "products.field.isFeatured": "Featured",
-    "products.status.draft": "Draft",
-    "products.status.review": "In review",
-    "products.status.published": "Published",
-    "products.status.archived": "Archived",
-    "products.license.personal_use": "Personal use",
-    "products.license.business_use": "Business use",
-    "products.license.commercial_use": "Commercial use",
-    "products.license.resale_rights": "Resale rights",
-    "orders.subtitle": "Every checkout, paid or not.",
-    "orders.totalCount": "{count} total",
-    "orders.page": "Page {page}/{total}",
-    "orders.filter.all": "All",
-    "orders.filter.pending": "Pending",
-    "orders.filter.paid": "Paid",
-    "orders.filter.failed": "Failed",
-    "orders.filter.refunded": "Refunded",
-    "orders.col.id": "Order",
-    "orders.col.email": "Email",
-    "orders.col.status": "Status",
-    "orders.col.items": "Items",
-    "orders.col.total": "Total",
-    "orders.col.created": "Created",
-    "orders.detail.title": "Order detail",
-    "orders.detail.guest": "Guest checkout",
-    "orders.detail.items": "Items",
-    "orders.detail.summary": "Summary",
-    "orders.detail.unitPrice": "Unit",
-    "orders.detail.status": "Status",
-    "orders.detail.subtotal": "Subtotal",
-    "orders.detail.discount": "Discount",
-    "orders.detail.total": "Total",
-    "orders.detail.created": "Created",
-    "orders.detail.paidAt": "Paid at",
-    "files.manage": "Manage files",
-    "files.subtitle": "Buyers download these via signed URL after purchase. Files never get a public URL.",
-    "files.upload": "Upload",
-    "files.hint": "Up to 500 MB. Filename and mime are stored as-is.",
-    "files.empty": "No files yet. Upload one above.",
-    "files.confirmDelete": "Delete this file? Buyers will lose access immediately.",
-    "files.col.filename": "Filename",
-    "files.col.mime": "MIME",
-    "files.col.size": "Size",
-    "files.col.version": "Version",
-    "coupons.subtitle": "Promo codes for the cart and checkout.",
-    "coupons.new": "New coupon",
-    "coupons.newSubtitle": "Codes are case-insensitive. Letters, digits, dash and underscore only.",
-    "coupons.edit": "Edit coupon",
-    "coupons.active": "Active",
-    "coupons.inactive": "Inactive",
-    "coupons.col.code": "Code",
-    "coupons.col.discount": "Discount",
-    "coupons.col.minOrder": "Min order",
-    "coupons.col.usage": "Used / cap",
-    "coupons.col.window": "Window",
-    "coupons.col.status": "Status",
-    "coupons.field.code": "Code",
-    "coupons.field.codeHint": "Stored uppercase. Buyers see exactly what they type.",
-    "coupons.field.discountType": "Type",
-    "coupons.field.discountValue": "Value",
-    "coupons.field.discountValueHint": "Percent: 1–100. Amount: cents (e.g. 500 = $5.00).",
-    "coupons.field.minOrder": "Minimum order (cents)",
-    "coupons.field.minOrderHint": "Cart must hit this before the coupon applies.",
-    "coupons.field.usageLimit": "Usage limit",
-    "coupons.field.usageLimitHint": "Empty = unlimited.",
-    "coupons.field.startsAt": "Starts at",
-    "coupons.field.expiresAt": "Expires at",
-    "coupons.field.isActive": "Active",
-    "coupons.type.percent": "Percent (%)",
-    "coupons.type.amount": "Fixed amount",
-    "ai.subtitle": "Internal AI agents. Buyers never see this. All runs are logged with cost.",
-    "ai.run": "Run",
-    "ai.done": "Done",
-    "ai.copy": "Copy",
-    "ai.copied": "Copied",
-    "ai.cost": "Cost",
-    "ai.latency": "Latency",
-    "ai.model": "Model",
-    "ai.disabled.title": "AI is in stub mode",
-    "ai.disabled.body": "No OPENAI_API_KEY or ANTHROPIC_API_KEY in env. Agents will return placeholder text instead of real completions.",
-    "ai.history.title": "Recent runs",
-    "ai.history.empty": "No runs yet.",
-    "ai.history.col.agent": "Agent",
-    "ai.history.col.status": "Status",
-    "ai.history.col.cost": "Cost",
-    "ai.history.col.duration": "Latency",
-    "ai.history.col.created": "Created",
-    "ai.status.running": "Running",
-    "ai.status.succeeded": "Ok",
-    "ai.status.failed": "Failed",
-    "ai.agent.listing": "Listing writer",
-    "ai.agent.listing.desc": "Generates product titles and descriptions in EN + AR.",
-    "ai.agent.seo": "SEO copy",
-    "ai.agent.seo.desc": "Meta titles, descriptions, and keyword suggestions.",
-    "ai.agent.marketing": "Marketing copy",
-    "ai.agent.marketing.desc": "Launch posts and short ad copy in EN + AR.",
-    "ai.agent.qa": "Listing QA",
-    "ai.agent.qa.desc": "Reviews drafts for clarity, accuracy and tone.",
-    "ai.agent.compliance": "Compliance check",
-    "ai.agent.compliance.desc": "Flags grey-market or rights-unclear listings before publish.",
-    "audit.subtitle": "Every admin and system action recorded for traceability.",
-    "audit.totalCount": "{count} entries",
-    "audit.page": "Page {page}/{total}",
-    "audit.empty": "No audit entries yet.",
-    "audit.filter.all": "All",
-    "audit.col.when": "When",
-    "audit.col.action": "Action",
-    "audit.col.entity": "Entity",
-    "audit.col.entityId": "Entity ID",
-    "audit.col.actor": "Actor",
-    "audit.col.diff": "Diff",
-    "orders.exportCsv": "Export CSV",
-    "orders.exportHint": "Filtered export of the current view.",
-    "reviews.subtitle": "Approve, hide or delete buyer reviews. Approving recomputes the product rating instantly.",
-    "reviews.totalCount": "{count} entries",
-    "reviews.page": "Page {page}/{total}",
-    "reviews.empty": "Nothing in this queue.",
-    "reviews.confirmDelete": "Delete this review? This is permanent.",
-    "reviews.filter.all": "All",
-    "reviews.filter.pending": "Pending",
-    "reviews.filter.approved": "Approved",
-    "reviews.filter.hidden": "Hidden",
-    "reviews.col.when": "When",
-    "reviews.col.product": "Product",
-    "reviews.col.rating": "Rating",
-    "reviews.col.body": "Body",
-    "reviews.col.reviewer": "Reviewer",
-    "reviews.col.status": "Status",
-    "reviews.action.approve": "Approve",
-    "reviews.action.hide": "Hide",
-    "reviews.action.repend": "Send back to pending"
+    "nav": {
+      "dashboard": "Dashboard",
+      "products": "Products",
+      "orders": "Orders",
+      "users": "Users",
+      "categories": "Categories",
+      "coupons": "Coupons",
+      "reviews": "Reviews",
+      "analytics": "Analytics",
+      "aiTools": "AI tools",
+      "auditLog": "Audit log"
+    },
+    "stat": {
+      "revenueMtd": "Revenue (MTD)",
+      "orders": "Orders",
+      "products": "Products",
+      "draftProducts": "Draft",
+      "topProduct": "Top product",
+      "failedPayments": "Failed payments"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Live snapshot of your shop. Numbers come straight from the database.",
+      "thisMonth": "this month",
+      "openCheckouts": "open checkouts",
+      "published": "live",
+      "notLive": "not live",
+      "pending": "Pending",
+      "recentOrders": "Recent orders",
+      "noOrders": "No orders yet.",
+      "topProduct": "Top product (30d)",
+      "units": "Units",
+      "revenue": "Revenue",
+      "last30": "last 30 days",
+      "noTopProduct": "No paid orders yet.",
+      "generatedAt": "Refreshed {time}"
+    },
+    "banner": {
+      "dbMissing": {
+        "title": "Supabase not configured",
+        "body": "Add NEXT_PUBLIC_SUPABASE_URL and key to .env.local to enable writes. Browsing the demo catalogue still works."
+      }
+    },
+    "categories": {
+      "subtitle": "Top-level shop sections shown in the navigation.",
+      "new": "New category",
+      "newSubtitle": "Names are stored per-locale; at least one must be filled.",
+      "edit": "Edit category",
+      "col": {
+        "name": "Name",
+        "slug": "Slug",
+        "sort": "Sort"
+      },
+      "field": {
+        "name": "Name",
+        "description": "Description",
+        "slug": "Slug",
+        "icon": "Icon name",
+        "sort": "Sort order"
+      }
+    },
+    "products": {
+      "subtitle": "Everything in the catalogue. Drafts are hidden from buyers.",
+      "new": "New product",
+      "newTitle": "New product",
+      "newSubtitle": "Slug + at least one localized title is required.",
+      "editTitle": "Edit product",
+      "edit": "Edit product",
+      "col": {
+        "title": "Title",
+        "type": "Type",
+        "price": "Price",
+        "status": "Status",
+        "featured": "Featured",
+        "sales": "Sales"
+      },
+      "field": {
+        "slug": "Slug",
+        "title": "Title",
+        "descShort": "Short description",
+        "descLong": "Long description",
+        "type": "Type",
+        "status": "Status",
+        "category": "Category",
+        "noCategory": "(uncategorized)",
+        "price": "Price (cents)",
+        "priceCents": "Price (cents)",
+        "compareAt": "Compare-at price (cents)",
+        "compareAtCents": "Compare-at (cents)",
+        "currency": "Currency",
+        "contentLanguages": "Content languages",
+        "license": "License",
+        "licenseType": "License",
+        "downloadLimit": "Download limit",
+        "thumbnailUrl": "Thumbnail URL",
+        "featured": "Featured",
+        "isFeatured": "Featured"
+      },
+      "status": {
+        "draft": "Draft",
+        "review": "In review",
+        "published": "Published",
+        "archived": "Archived"
+      },
+      "license": {
+        "personal_use": "Personal use",
+        "business_use": "Business use",
+        "commercial_use": "Commercial use",
+        "resale_rights": "Resale rights"
+      }
+    },
+    "orders": {
+      "subtitle": "Every checkout, paid or not.",
+      "totalCount": "{count} total",
+      "page": "Page {page}/{total}",
+      "filter": {
+        "all": "All",
+        "pending": "Pending",
+        "paid": "Paid",
+        "failed": "Failed",
+        "refunded": "Refunded"
+      },
+      "col": {
+        "id": "Order",
+        "email": "Email",
+        "status": "Status",
+        "items": "Items",
+        "total": "Total",
+        "created": "Created"
+      },
+      "detail": {
+        "title": "Order detail",
+        "guest": "Guest checkout",
+        "items": "Items",
+        "summary": "Summary",
+        "unitPrice": "Unit",
+        "status": "Status",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "total": "Total",
+        "created": "Created",
+        "paidAt": "Paid at"
+      },
+      "exportCsv": "Export CSV",
+      "exportHint": "Filtered export of the current view."
+    },
+    "files": {
+      "manage": "Manage files",
+      "subtitle": "Buyers download these via signed URL after purchase. Files never get a public URL.",
+      "upload": "Upload",
+      "hint": "Up to 500 MB. Filename and mime are stored as-is.",
+      "empty": "No files yet. Upload one above.",
+      "confirmDelete": "Delete this file? Buyers will lose access immediately.",
+      "col": {
+        "filename": "Filename",
+        "mime": "MIME",
+        "size": "Size",
+        "version": "Version"
+      }
+    },
+    "coupons": {
+      "subtitle": "Promo codes for the cart and checkout.",
+      "new": "New coupon",
+      "newSubtitle": "Codes are case-insensitive. Letters, digits, dash and underscore only.",
+      "edit": "Edit coupon",
+      "active": "Active",
+      "inactive": "Inactive",
+      "col": {
+        "code": "Code",
+        "discount": "Discount",
+        "minOrder": "Min order",
+        "usage": "Used / cap",
+        "window": "Window",
+        "status": "Status"
+      },
+      "field": {
+        "code": "Code",
+        "codeHint": "Stored uppercase. Buyers see exactly what they type.",
+        "discountType": "Type",
+        "discountValue": "Value",
+        "discountValueHint": "Percent: 1–100. Amount: cents (e.g. 500 = $5.00).",
+        "minOrder": "Minimum order (cents)",
+        "minOrderHint": "Cart must hit this before the coupon applies.",
+        "usageLimit": "Usage limit",
+        "usageLimitHint": "Empty = unlimited.",
+        "startsAt": "Starts at",
+        "expiresAt": "Expires at",
+        "isActive": "Active"
+      },
+      "type": {
+        "percent": "Percent (%)",
+        "amount": "Fixed amount"
+      }
+    },
+    "ai": {
+      "subtitle": "Internal AI agents. Buyers never see this. All runs are logged with cost.",
+      "run": "Run",
+      "done": "Done",
+      "copy": "Copy",
+      "copied": "Copied",
+      "cost": "Cost",
+      "latency": "Latency",
+      "model": "Model",
+      "disabled": {
+        "title": "AI is in stub mode",
+        "body": "No OPENAI_API_KEY or ANTHROPIC_API_KEY in env. Agents will return placeholder text instead of real completions."
+      },
+      "history": {
+        "title": "Recent runs",
+        "empty": "No runs yet.",
+        "col": {
+          "agent": "Agent",
+          "status": "Status",
+          "cost": "Cost",
+          "duration": "Latency",
+          "created": "Created"
+        }
+      },
+      "status": {
+        "running": "Running",
+        "succeeded": "Ok",
+        "failed": "Failed"
+      },
+      "agent": {
+        "listing": {
+          "label": "Listing writer",
+          "description": "Generates product titles and descriptions in EN + AR."
+        },
+        "seo": {
+          "label": "SEO copy",
+          "description": "Meta titles, descriptions, and keyword suggestions."
+        },
+        "marketing": {
+          "label": "Marketing copy",
+          "description": "Launch posts and short ad copy in EN + AR."
+        },
+        "qa": {
+          "label": "Listing QA",
+          "description": "Reviews drafts for clarity, accuracy and tone."
+        },
+        "compliance": {
+          "label": "Compliance check",
+          "description": "Flags grey-market or rights-unclear listings before publish."
+        }
+      }
+    },
+    "audit": {
+      "subtitle": "Every admin and system action recorded for traceability.",
+      "totalCount": "{count} entries",
+      "page": "Page {page}/{total}",
+      "empty": "No audit entries yet.",
+      "filter": {
+        "all": "All"
+      },
+      "col": {
+        "when": "When",
+        "action": "Action",
+        "entity": "Entity",
+        "entityId": "Entity ID",
+        "actor": "Actor",
+        "diff": "Diff"
+      }
+    },
+    "reviews": {
+      "subtitle": "Approve, hide or delete buyer reviews. Approving recomputes the product rating instantly.",
+      "totalCount": "{count} entries",
+      "page": "Page {page}/{total}",
+      "empty": "Nothing in this queue.",
+      "confirmDelete": "Delete this review? This is permanent.",
+      "filter": {
+        "all": "All",
+        "pending": "Pending",
+        "approved": "Approved",
+        "hidden": "Hidden"
+      },
+      "col": {
+        "when": "When",
+        "product": "Product",
+        "rating": "Rating",
+        "body": "Body",
+        "reviewer": "Reviewer",
+        "status": "Status"
+      },
+      "action": {
+        "approve": "Approve",
+        "hide": "Hide",
+        "repend": "Send back to pending"
+      }
+    }
   },
   "review": {
-    "section.title": "Reviews",
-    "section.writeTitle": "Write a review",
-    "section.editTitle": "Edit your review",
-    "list.empty": "No reviews yet. Be the first to write one after purchase.",
-    "list.showing": "Showing {shown} of {total}",
-    "form.rating": "Rating",
-    "form.body": "What worked, what didn't",
-    "form.placeholder": "Optional: share what you used it for and how it landed.",
-    "form.submit": "Submit review",
-    "form.update": "Update review",
-    "form.thanks": "Thanks. Your review is queued for moderation.",
-    "form.moderationNote": "Reviews are moderated before going live.",
-    "gate.signIn": "Sign in to leave a review.",
-    "gate.purchaseRequired": "Only buyers of this product can leave a review."
+    "section": {
+      "title": "Reviews",
+      "writeTitle": "Write a review",
+      "editTitle": "Edit your review"
+    },
+    "list": {
+      "empty": "No reviews yet. Be the first to write one after purchase.",
+      "showing": "Showing {shown} of {total}"
+    },
+    "form": {
+      "rating": "Rating",
+      "body": "What worked, what didn't",
+      "placeholder": "Optional: share what you used it for and how it landed.",
+      "submit": "Submit review",
+      "update": "Update review",
+      "thanks": "Thanks. Your review is queued for moderation.",
+      "moderationNote": "Reviews are moderated before going live."
+    },
+    "gate": {
+      "signIn": "Sign in to leave a review.",
+      "purchaseRequired": "Only buyers of this product can leave a review."
+    }
   },
   "errors": {
-    "notFound.title": "Page not found",
-    "notFound.body": "Resource missing or moved.",
-    "notFound.cta": "Back to home",
-    "fatal.title": "Something went wrong",
-    "fatal.cta": "Try again"
+    "notFound": {
+      "title": "Page not found",
+      "body": "Resource missing or moved.",
+      "cta": "Back to home"
+    },
+    "fatal": {
+      "title": "Something went wrong",
+      "cta": "Try again"
+    }
   }
 }

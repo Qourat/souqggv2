@@ -12,9 +12,11 @@ import { ProductTabs, type ProductTab } from "@/components/products/product-tabs
 import { Rating } from "@/components/products/rating";
 import { RelatedProducts } from "@/components/products/related-products";
 import { ProductReviews } from "@/components/reviews/product-reviews";
-import { productsController, productsService } from "@/modules/products";
+import { productsService } from "@/modules/products";
 import { Link } from "@/shared/i18n/navigation";
 import { publicEnv } from "@/shared/env";
+
+export const dynamic = "force-dynamic";
 
 /**
  * Product detail = the most important sales surface in the store.
@@ -38,11 +40,6 @@ import { publicEnv } from "@/shared/env";
  *   - Authority: License, downloadLimit, language listed in Specs to
  *     reassure rights-conscious buyers.
  */
-
-export async function generateStaticParams() {
-  const slugs = await productsController.allSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
 
 export async function generateMetadata({
   params,

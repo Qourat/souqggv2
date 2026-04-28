@@ -45,12 +45,6 @@ export const ordersService = {
   async createCheckout(
     rawInput: unknown,
   ): Promise<Result<CreateCheckoutOk>> {
-    const parsed = createCheckoutSchema.safeParse(rawInput);
-    if (!parsed.success) {
-      return err(AppError.validation("Invalid checkout", parsed.error.format()));
-    }
-    const input = parsed.data;
-
     if (!hasSupabase()) {
       return err(
         AppError.dependencyDown(
@@ -58,6 +52,12 @@ export const ordersService = {
         ),
       );
     }
+
+    const parsed = createCheckoutSchema.safeParse(rawInput);
+    if (!parsed.success) {
+      return err(AppError.validation("Invalid checkout", parsed.error.format()));
+    }
+    const input = parsed.data;
 
     const productIds = input.lines.map((l) => l.productId);
     const products = await tryAsync(

@@ -104,19 +104,26 @@ export const aiJobStatus = pgEnum("ai_job_status", [
 
 // ----- tables -----------------------------------------------------------------
 export const profiles = pgTable("profiles", {
-  id: uuid("id").primaryKey(),
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  email: text("email").notNull(),
+  passwordHash: text("password_hash"),
   fullName: text("full_name"),
   avatarUrl: text("avatar_url"),
   phone: text("phone"),
   preferredLocale: text("preferred_locale").default("en").notNull(),
   role: userRole("role").default("buyer").notNull(),
+  isBanned: boolean("is_banned").default(false).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
-});
+}, (t) => ({
+  emailIdx: uniqueIndex("profiles_email_idx").on(t.email),
+}));
 
 export const categories = pgTable(
   "categories",

@@ -35,7 +35,7 @@ export function ProductGallery({
   const active = allImages[activeIndex] ?? null;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2.5">
       <div className="aspect-[4/3] border-hairline rounded-sm bg-surface relative overflow-hidden">
         {active ? (
           <Image
@@ -43,7 +43,7 @@ export function ProductGallery({
             alt={title}
             fill
             sizes="(min-width: 1024px) 60vw, 100vw"
-            className="object-cover"
+            className="object-cover transition-opacity duration-300"
             priority
           />
         ) : (
@@ -52,19 +52,26 @@ export function ProductGallery({
       </div>
 
       {allImages.length > 1 ? (
-        <div className="grid grid-cols-6 gap-1">
+        <div className="grid grid-cols-6 gap-1.5">
           {allImages.map((src, i) => (
             <button
               key={src}
               type="button"
               onClick={() => setActiveIndex(i)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveIndex(i);
+                }
+              }}
               className={cn(
-                "aspect-square border-hairline rounded-sm relative overflow-hidden bg-surface",
+                "aspect-square border-hairline rounded-sm relative overflow-hidden bg-surface transition-all duration-150",
                 i === activeIndex
-                  ? "ring-1 ring-terracotta border-terracotta"
-                  : "row-hover",
+                  ? "ring-1 ring-terracotta border-terracotta opacity-100"
+                  : "opacity-70 hover:opacity-100 row-hover",
               )}
-              aria-label={`Image ${i + 1}`}
+              aria-label={`Image ${i + 1} of ${allImages.length}`}
+              aria-pressed={i === activeIndex}
             >
               <Image src={src} alt="" fill sizes="80px" className="object-cover" />
             </button>

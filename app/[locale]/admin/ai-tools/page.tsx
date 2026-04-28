@@ -12,19 +12,19 @@ import type { AiAgentDescriptor, AiAgentId, AiJob } from "@/modules/ai";
 export const dynamic = "force-dynamic";
 
 const AGENT_NAME_KEY: Record<AiAgentId, string> = {
-  listing: "admin.ai.agent.listing",
-  seo: "admin.ai.agent.seo",
-  marketing: "admin.ai.agent.marketing",
-  qa: "admin.ai.agent.qa",
-  compliance: "admin.ai.agent.compliance",
+  listing: "admin.ai.agent.listing.label",
+  seo: "admin.ai.agent.seo.label",
+  marketing: "admin.ai.agent.marketing.label",
+  qa: "admin.ai.agent.qa.label",
+  compliance: "admin.ai.agent.compliance.label",
 };
 
 const AGENT_DESC_KEY: Record<AiAgentId, string> = {
-  listing: "admin.ai.agent.listing.desc",
-  seo: "admin.ai.agent.seo.desc",
-  marketing: "admin.ai.agent.marketing.desc",
-  qa: "admin.ai.agent.qa.desc",
-  compliance: "admin.ai.agent.compliance.desc",
+  listing: "admin.ai.agent.listing.description",
+  seo: "admin.ai.agent.seo.description",
+  marketing: "admin.ai.agent.marketing.description",
+  qa: "admin.ai.agent.qa.description",
+  compliance: "admin.ai.agent.compliance.description",
 };
 
 export default async function AdminAiToolsPage({

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import { Card, CardBody } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/shared/i18n/navigation";
-import { selectCart, useCartStore } from "@/modules/cart/cart.store";
+import { useCartStore } from "@/modules/cart/cart.store";
 import { formatPrice } from "@/shared/utils";
 
 export function CheckoutView() {
@@ -17,7 +17,21 @@ export function CheckoutView() {
 
   const lines = useCartStore((s) => s.lines);
   const coupon = useCartStore((s) => s.coupon);
-  const summary = useCartStore(selectCart);
+  const summary = useMemo(() => {
+    const subtotalCents = lines.reduce(
+      (sum, line) => sum + line.unitPriceCents * line.quantity,
+      0,
+    );
+    const compareAtTotalCents = lines.reduce(
+      (sum, line) =>
+        sum + (line.compareAtCents ?? line.unitPriceCents) * line.quantity,
+      0,
+    );
+    return {
+      subtotalCents,
+      savingsCents: Math.max(0, compareAtTotalCents - subtotalCents),
+    };
+  }, [lines]);
 
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);

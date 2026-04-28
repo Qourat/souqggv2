@@ -118,6 +118,34 @@
     @apply transition-colors duration-150 hover:bg-surface-raised;
   }
 
+  /* Smooth hover transition utility */
+  .hover-transition {
+    @apply transition-colors duration-150;
+  }
+
+  /* Focus visible — enhanced for accessibility */
+  .focus-visible-enhanced {
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2;
+  }
+
+  /* Screen reader only — visually hidden but accessible */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Skip to main content link — for keyboard navigation */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-terracotta focus:text-terracotta-foreground focus:rounded-sm;
+  }
+
   /* Smooth focus transition */
   :focus-visible {
     outline: 1px solid hsl(var(--ring));

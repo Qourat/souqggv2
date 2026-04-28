@@ -111,46 +111,25 @@ begin
 end;
 $$;
 
--- ----- profiles -------------------------------------------------------------
+-- ----- profiles (local auth — was Supabase auth.users mirror) ----------------
 create table if not exists profiles (
-  id              uuid primary key references auth.users(id) on delete cascade,
-  full_name       text,
-  avatar_url      text,
-  phone           text,
+  id               uuid primary key default gen_random_uuid(),
+  email            text unique not null,
+  password_hash    text,
+  full_name        text,
+  avatar_url       text,
+  phone            text,
   preferred_locale text not null default 'en',
-  role            user_role not null default 'buyer',
-  created_at      timestamptz not null default now(),
-  updated_at      timestamptz not null default now()
+  role             user_role not null default 'buyer',
+  is_banned        boolean not null default false,
+  created_at       timestamptz not null default now(),
+  updated_at       timestamptz not null default now()
 );
 
 drop trigger if exists profiles_touch on profiles;
 create trigger profiles_touch
   before update on profiles
   for each row execute function touch_updated_at();
-
--- mirror auth.users → profiles
-create or replace function handle_new_user()
-returns trigger
-language plpgsql
-security definer
-set search_path = public
-as $$
-begin
-  insert into public.profiles (id, full_name, avatar_url)
-  values (
-    new.id,
-    coalesce(new.raw_user_meta_data ->> 'full_name', new.email),
-    new.raw_user_meta_data ->> 'avatar_url'
-  )
-  on conflict (id) do nothing;
-  return new;
-end;
-$$;
-
-drop trigger if exists on_auth_user_created on auth.users;
-create trigger on_auth_user_created
-  after insert on auth.users
-  for each row execute function handle_new_user();
 
 -- ----- categories -----------------------------------------------------------
 create table if not exists categories (

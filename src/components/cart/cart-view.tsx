@@ -2,14 +2,14 @@
 
 import { Trash2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardBody } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CartCouponInput } from "@/components/cart/cart-coupon-input";
 import { Link } from "@/shared/i18n/navigation";
-import { selectCart, useCartStore, type CartLine } from "@/modules/cart/cart.store";
+import { useCartStore, type CartLine } from "@/modules/cart/cart.store";
 import { formatPrice } from "@/shared/utils";
 
 /**
@@ -32,7 +32,22 @@ export function CartView() {
   const remove = useCartStore((s) => s.remove);
   const clear = useCartStore((s) => s.clear);
   const coupon = useCartStore((s) => s.coupon);
-  const summary = useCartStore(selectCart);
+  const summary = useMemo(() => {
+    const subtotalCents = lines.reduce(
+      (sum, line) => sum + line.unitPriceCents * line.quantity,
+      0,
+    );
+    const compareAtTotalCents = lines.reduce(
+      (sum, line) =>
+        sum + (line.compareAtCents ?? line.unitPriceCents) * line.quantity,
+      0,
+    );
+    return {
+      itemCount: lines.reduce((sum, line) => sum + line.quantity, 0),
+      subtotalCents,
+      savingsCents: Math.max(0, compareAtTotalCents - subtotalCents),
+    };
+  }, [lines]);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -65,14 +80,14 @@ export function CartView() {
   const finalTotal = Math.max(0, summary.subtotalCents - couponDiscount);
 
   return (
-    <div className="container py-3 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-3 items-start">
-      <section className="space-y-2">
+    <div className="container py-4 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 items-start">
+      <section className="space-y-3">
         <header className="flex items-baseline justify-between">
           <h1 className="font-mono text-lg">{t("cart.title")}</h1>
           <button
             type="button"
             onClick={clear}
-            className="label-mono text-muted-foreground hover:text-danger"
+            className="label-mono text-muted-foreground hover:text-danger transition-colors duration-150"
           >
             {t("common.delete")} {summary.itemCount}
           </button>
@@ -82,14 +97,14 @@ export function CartView() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-border bg-surface-raised">
-                <th className="text-start label-mono px-3 h-7">
+                <th className="text-start label-mono px-3 py-2 text-xs">
                   {t("shop.table.title")}
                 </th>
-                <th className="text-end label-mono px-2 h-7 w-20">qty</th>
-                <th className="text-end label-mono px-2 h-7 w-24">
+                <th className="text-end label-mono px-2 py-2 text-xs w-20">qty</th>
+                <th className="text-end label-mono px-2 py-2 text-xs w-24">
                   {t("shop.table.price")}
                 </th>
-                <th className="px-2 h-7 w-8" aria-label="" />
+                <th className="px-2 py-2 w-8" aria-label="" />
               </tr>
             </thead>
             <tbody>
@@ -110,7 +125,7 @@ export function CartView() {
 
       <aside className="space-y-3 lg:sticky lg:top-12 self-start">
         <Card>
-          <CardBody className="space-y-2">
+          <CardBody className="space-y-3">
             <SummaryRow
               label={t("cart.summary.subtotal")}
               value={formatPrice(summary.subtotalCents, currency, locale)}
@@ -139,10 +154,10 @@ export function CartView() {
               value={formatPrice(finalTotal, currency, locale)}
               strong
             />
-            <Button asChild variant="primary" size="lg" className="w-full mt-2">
+            <Button asChild variant="primary" size="lg" className="w-full mt-3 transition-all duration-150">
               <Link href="/checkout">{t("common.checkout")}</Link>
             </Button>
-            <ul className="space-y-1 label-mono pt-1">
+            <ul className="space-y-1 label-mono pt-2 text-xs">
               <li>· {t("checkout.trust.secure")}</li>
               <li>· {t("checkout.trust.refund")}</li>
             </ul>
@@ -151,7 +166,7 @@ export function CartView() {
 
         <Link
           href="/products"
-          className="block text-center label-mono text-muted-foreground hover:text-foreground"
+          className="block text-center label-mono text-muted-foreground hover:text-foreground transition-colors duration-150"
         >
           ← {t("cart.empty.cta")}
         </Link>
