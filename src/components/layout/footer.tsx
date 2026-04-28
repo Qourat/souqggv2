@@ -9,14 +9,14 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-12 border-t border-border bg-surface">
-      <div className="container py-6 grid gap-6 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <div className="flex items-baseline gap-2 mb-2">
-            <span className="font-mono text-md font-bold">{t("common.brand")}</span>
-            <span className="label-mono">/ {t("common.tagline")}</span>
+    <footer className="mt-16 border-t border-border bg-surface">
+      <div className="container py-8 grid gap-8 md:grid-cols-4">
+        <div className="md:col-span-2 space-y-3">
+          <div className="flex items-baseline gap-2">
+            <span className="font-mono text-lg font-bold">{t("common.brand")}</span>
+            <span className="label-mono text-xs">/ {t("common.tagline")}</span>
           </div>
-          <p className="text-xs text-muted-foreground max-w-sm mb-3">
+          <p className="text-xs text-muted-foreground max-w-md leading-relaxed">
             {t("footer.newsletter.body")}
           </p>
           <NewsletterForm
@@ -41,7 +41,7 @@ export async function Footer() {
         </Column>
       </div>
       <div className="border-t border-border">
-        <div className="container py-3 flex items-center justify-between label-mono">
+        <div className="container py-4 flex items-center justify-between label-mono text-xs">
           <span>© {year} {t("common.brand")}.</span>
           <span>{t("footer.rights")}</span>
         </div>
@@ -52,9 +52,9 @@ export async function Footer() {
 
 function Column({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div>
-      <h4 className="label-mono mb-2">{title}</h4>
-      <ul className="space-y-1">{children}</ul>
+    <div className="space-y-2">
+      <h4 className="label-mono text-xs mb-2">{title}</h4>
+      <ul className="space-y-1.5">{children}</ul>
     </div>
   );
 }
@@ -64,7 +64,7 @@ function FooterLink({ href, label }: { href: string; label: string }) {
     <li>
       <Link
         href={href}
-        className="text-xs text-muted-foreground hover:text-foreground"
+        className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-150"
       >
         {label}
       </Link>

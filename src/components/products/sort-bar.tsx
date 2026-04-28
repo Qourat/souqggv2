@@ -22,18 +22,18 @@ export function SortBar({
 }) {
   const t = useTranslations();
   return (
-    <div className="flex items-center justify-between border-hairline rounded-sm bg-surface px-2 h-8">
-      <div className="label-mono">
+    <div className="flex items-center justify-between border-hairline rounded-sm bg-surface px-3 h-9">
+      <div className="label-mono text-xs">
         {total} {t("nav.shop")}
       </div>
-      <div className="flex items-center gap-1">
-        <span className="label-mono mr-1">{t("shop.sort.label")}:</span>
+      <div className="flex items-center gap-1.5">
+        <span className="label-mono text-xs mr-0.5">{t("shop.sort.label")}:</span>
         {SORTS.map((s) => (
           <Link
             key={s}
             href={buildHref(s)}
             className={cn(
-              "px-1.5 h-6 inline-flex items-center label-mono rounded-sm",
+              "px-2 h-6 inline-flex items-center label-mono text-xs rounded-sm transition-colors duration-150",
               s === active
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:text-foreground hover:bg-surface-raised",

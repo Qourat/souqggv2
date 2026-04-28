@@ -20,7 +20,7 @@ export function NewsletterForm({
         e.preventDefault();
         setSubmitted(true);
       }}
-      className="flex items-stretch gap-1.5 max-w-sm"
+      className="flex items-stretch gap-2 max-w-sm"
     >
       <Input
         type="email"
@@ -28,10 +28,10 @@ export function NewsletterForm({
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={placeholder}
-        className="h-8"
+        className="h-9 text-xs"
         aria-label={placeholder}
       />
-      <Button type="submit" size="md" variant="primary" disabled={submitted}>
+      <Button type="submit" size="md" variant="primary" disabled={submitted} className="transition-all duration-150">
         {submitted ? "✓" : cta}
       </Button>
     </form>

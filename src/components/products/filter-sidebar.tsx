@@ -107,10 +107,10 @@ export function FilterSidebar({ categories, active }: FilterSidebarProps) {
         ))}
       </Group>
 
-      <div className="px-3 py-2">
+      <div className="px-3 py-2.5 border-t border-border">
         <Link
           href="/products"
-          className="label-mono text-terracotta hover:underline"
+          className="label-mono text-xs text-terracotta hover:underline transition-colors duration-150"
         >
           {t("shop.filter.clear")}
         </Link>
@@ -127,9 +127,9 @@ function Group({
   children: React.ReactNode;
 }) {
   return (
-    <div className="px-3 py-2.5">
-      <h3 className="label-mono mb-1.5">{title}</h3>
-      <ul className="flex flex-col">{children}</ul>
+    <div className="px-3 py-3">
+      <h3 className="label-mono text-xs mb-2">{title}</h3>
+      <ul className="flex flex-col gap-0.5">{children}</ul>
     </div>
   );
 }
@@ -148,14 +148,14 @@ function FilterLink({
       <Link
         href={href}
         className={cn(
-          "block py-0.5 text-xs",
+          "block py-1 text-xs transition-colors duration-150",
           active ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground",
         )}
       >
         <span
           className={cn(
-            "inline-block w-1 h-1 mr-1.5 rounded-full align-middle",
-            active ? "bg-terracotta" : "bg-transparent",
+            "inline-block w-1.5 h-1.5 mr-2 rounded-full align-middle",
+            active ? "bg-terracotta" : "bg-muted",
           )}
         />
         {label}

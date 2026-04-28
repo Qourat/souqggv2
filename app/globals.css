@@ -115,6 +115,18 @@
 
   /* Hover row — used in product tables */
   .row-hover {
-    @apply transition-colors duration-75 hover:bg-surface-raised;
+    @apply transition-colors duration-150 hover:bg-surface-raised;
+  }
+
+  /* Smooth focus transition */
+  :focus-visible {
+    outline: 1px solid hsl(var(--ring));
+    outline-offset: 1px;
+    transition: outline-color 150ms ease;
+  }
+
+  /* Button/link hover transition utility */
+  .hover-transition {
+    @apply transition-all duration-150 ease-in-out;
   }
 }
